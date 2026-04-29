@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
@@ -8,6 +8,8 @@ import { useAtomValue, useSetAtom } from 'jotai';
 
 import {
   adjustModeAtom,
+  editingWorkIdAtom,
+  editingWorkNameAtom,
   pieceSettingsAtom,
   resetEditorAtom,
   selectedDesignAtom,
@@ -16,15 +18,23 @@ import {
 } from '@/atoms/editor';
 import { fabricsAtom, loadFabricsAtom } from '@/atoms/fabrics';
 import { canRedoAtom, canUndoAtom, clearHistoryAtom, pushHistoryAtom, redoAtom, undoAtom } from '@/atoms/history';
+import { showToastAtom } from '@/atoms/notification';
+import { saveWorkAtom } from '@/atoms/works';
 import { findDesignById, loadDesigns } from '@/constants/designs';
 import { FabricPicker } from '@/components/fabric/FabricPicker';
 import { Button } from '@/components/ui/Button';
 import { IconButton } from '@/components/ui/IconButton';
+import { PromptDialog } from '@/components/ui/PromptDialog';
 import { AdjustOverlay } from '@/features/editor/AdjustOverlay';
 import { EditorCanvas } from '@/features/editor/EditorCanvas';
+import type { Work } from '@/types/work';
 import type { FabricImage } from '@/types/fabric';
 
 const HORIZONTAL_PADDING = 24;
+
+function generateWorkId(): string {
+  return `work_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+}
 
 export const EditorScreen = () => {
   const { t } = useTranslation();
@@ -46,10 +56,19 @@ export const EditorScreen = () => {
   const redo = useSetAtom(redoAtom);
   const pushHistory = useSetAtom(pushHistoryAtom);
   const clearHistory = useSetAtom(clearHistoryAtom);
+  const editingWorkId = useAtomValue(editingWorkIdAtom);
+  const setEditingWorkId = useSetAtom(editingWorkIdAtom);
+  const editingWorkName = useAtomValue(editingWorkNameAtom);
+  const setEditingWorkName = useSetAtom(editingWorkNameAtom);
+  const saveWork = useSetAtom(saveWorkAtom);
+  const showToast = useSetAtom(showToastAtom);
+  const [savePromptVisible, setSavePromptVisible] = useState(false);
+  const editingWorkCreatedAt = useRef<Date | null>(null);
 
   useEffect(() => {
     resetEditor();
     clearHistory();
+    editingWorkCreatedAt.current = null;
     if (params.id === 'new' && params.designId) {
       const designs = loadDesigns();
       const target = findDesignById(designs, params.designId);
@@ -76,6 +95,50 @@ export const EditorScreen = () => {
     if (!selectedPolygonId) return null;
     return pieceSettings.find((s) => s.polygonId === selectedPolygonId)?.fabricImageId ?? null;
   }, [pieceSettings, selectedPolygonId]);
+
+  const handleSave = useCallback(
+    async (name: string) => {
+      if (!design) return;
+      const trimmedName = name.trim() || t('common.untitled');
+      const now = new Date();
+      const work: Work = {
+        id: editingWorkId ?? generateWorkId(),
+        name: trimmedName,
+        designId: design.id,
+        createdAt: editingWorkId ? (editingWorkCreatedAt.current ?? now) : now,
+        updatedAt: now,
+        pieceSettings,
+      };
+      try {
+        await saveWork(work);
+        setEditingWorkId(work.id);
+        setEditingWorkName(work.name);
+        editingWorkCreatedAt.current = work.createdAt;
+        clearHistory();
+        showToast({ message: t('editor.saveSuccess'), variant: 'success' });
+        setSavePromptVisible(false);
+      } catch {
+        showToast({
+          message: t('error.workSaveFailed'),
+          variant: 'error',
+          actionLabel: t('common.retry'),
+          onAction: () => setSavePromptVisible(true),
+        });
+        setSavePromptVisible(false);
+      }
+    },
+    [
+      clearHistory,
+      design,
+      editingWorkId,
+      pieceSettings,
+      saveWork,
+      setEditingWorkId,
+      setEditingWorkName,
+      showToast,
+      t,
+    ],
+  );
 
   const handleSelectFabric = useCallback(
     (fabric: FabricImage) => {
@@ -117,6 +180,11 @@ export const EditorScreen = () => {
             disabled={!canRedo}
             onPress={() => redo()}
           />
+          <IconButton
+            icon="💾"
+            accessibilityLabel={t('editor.saveWork')}
+            onPress={() => setSavePromptVisible(true)}
+          />
         </View>
         <Text style={styles.label}>{selectedLabel}</Text>
         <EditorCanvas design={design} size={canvasSize} />
@@ -129,6 +197,23 @@ export const EditorScreen = () => {
         )}
       </View>
       <AdjustOverlay size={canvasSize} />
+      <PromptDialog
+        visible={savePromptVisible}
+        title={t('editor.saveWork')}
+        fields={[
+          {
+            key: 'name',
+            placeholder: t('editor.workName'),
+            initialValue: editingWorkName,
+            autoFocus: true,
+          },
+        ]}
+        submitLabel={t('common.save')}
+        onSubmit={(values) => {
+          void handleSave(values.name ?? '');
+        }}
+        onCancel={() => setSavePromptVisible(false)}
+      />
       <FabricPicker
         fabrics={fabrics}
         selectedFabricId={selectedFabricId}
