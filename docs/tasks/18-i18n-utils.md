@@ -1,6 +1,6 @@
 # #18 言語切替フック・ユーティリティ
 
-- **ステータス**: `[ ]` 未着手
+- **ステータス**: `[x]` 完了
 - **フェーズ**: 4. 多言語化（i18n）
 - **前提**: #16, #17
 
@@ -10,8 +10,8 @@
 
 ## 受け入れ条件 (AC)
 
-- [ ] `useDesignName(design)` がロケールに応じて `nameJa` / `name` を返す
-- [ ] `formatDate(date)` が `ja`: `yyyy/MM/dd`、`en`: `yyyy-MM-dd` で返す
+- [x] `useDesignName(design)` がロケールに応じて `nameJa` / `name` を返す
+- [x] `formatDate(date)` が `ja`: `yyyy/MM/dd`、`en`: `yyyy-MM-dd` で返す
 
 ## メモ
 
