@@ -11,6 +11,7 @@ import { PromptDialog } from '@/components/ui/PromptDialog';
 import { FabricListItem } from '@/features/fabrics/FabricListItem';
 import { useFabricRegister } from '@/features/fabrics/useFabricRegister';
 import type { FabricImage } from '@/types/fabric';
+import { logger } from '@/utils/logger';
 
 interface Section {
   title: string;
@@ -28,7 +29,8 @@ export const FabricsScreen = () => {
   const register = useFabricRegister();
 
   useEffect(() => {
-    loadFabrics().catch(() => {
+    loadFabrics().catch((error) => {
+      logger.error('fabrics', 'failed to load fabrics', error);
       showToast({ message: t('error.workLoadFailed'), variant: 'error' });
     });
   }, [loadFabrics, showToast, t]);
@@ -80,7 +82,8 @@ export const FabricsScreen = () => {
             dismissOnBackdrop: true,
           });
         }
-      } catch {
+      } catch (error) {
+        logger.error('fabrics', 'failed to delete fabric', error, { fabricId: fabric.id, force });
         showToast({ message: t('fabrics.deleteFailed'), variant: 'error' });
       }
     },

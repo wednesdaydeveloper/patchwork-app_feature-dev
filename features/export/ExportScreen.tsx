@@ -19,6 +19,7 @@ import { WorkCanvas } from '@/features/export/WorkCanvas';
 import type { Design } from '@/types/design';
 import type { Work } from '@/types/work';
 import { findWorkById } from '@/utils/db';
+import { logger } from '@/utils/logger';
 
 const HORIZONTAL_PADDING = 24;
 const EXPORT_RESOLUTION = 1080;
@@ -55,8 +56,9 @@ export const ExportScreen = () => {
         }
         setWork(loaded);
         setDesign(target);
-      } catch {
+      } catch (error) {
         if (cancelled) return;
+        logger.error('export', 'failed to load work for export', error, { id });
         showDialog({
           title: t('common.confirm'),
           message: t('exportScreen.notFound'),
@@ -95,7 +97,8 @@ export const ExportScreen = () => {
       });
       await MediaLibrary.saveToLibraryAsync(uri);
       showToast({ message: t('exportScreen.saved'), variant: 'success' });
-    } catch {
+    } catch (error) {
+      logger.error('export', 'failed to export image', error);
       showToast({
         message: t('error.exportImageFailed'),
         variant: 'error',
@@ -123,6 +126,7 @@ export const ExportScreen = () => {
       const paper = PAPER_SIZES[paperSize];
       await Print.printAsync({ html, width: paper.widthPt, height: paper.heightPt });
     } catch (error) {
+      logger.error('export', 'failed to export pdf', error, { paperSize });
       const detail = error instanceof Error ? error.message : '';
       showDialog({
         title: t('common.confirm'),

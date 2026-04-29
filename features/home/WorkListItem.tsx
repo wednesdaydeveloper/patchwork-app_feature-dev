@@ -9,6 +9,7 @@ import { showDialogAtom, showToastAtom } from '@/atoms/notification';
 import { languagePreferenceAtom } from '@/atoms/settings';
 import { removeWorkAtom } from '@/atoms/works';
 import type { Work } from '@/types/work';
+import { logger } from '@/utils/logger';
 import { resolveLanguage } from '@/utils/i18n';
 import { formatDate } from '@/utils/format';
 
@@ -43,7 +44,8 @@ export const WorkListItem = ({ work }: WorkListItemProps) => {
           onPress: async () => {
             try {
               await removeWork(work.id);
-            } catch {
+            } catch (error) {
+              logger.error('home', 'failed to delete work', error, { workId: work.id });
               showToast({ message: t('home.deleteFailed'), variant: 'error' });
             }
           },

@@ -12,6 +12,7 @@ import { loadDesigns } from '@/constants/designs';
 import { DesignThumbnail } from '@/features/design-select/DesignThumbnail';
 import { useDesignName } from '@/hooks/useDesignName';
 import type { Design } from '@/types/design';
+import { logger } from '@/utils/logger';
 
 interface Section {
   title: string;
@@ -28,7 +29,8 @@ export const DesignSelectScreen = () => {
   const designs = useMemo(() => {
     try {
       return loadDesigns();
-    } catch {
+    } catch (error) {
+      logger.error('designs', 'failed to load designs', error);
       // 起動時にも検証されるが、念のためダイアログで通知
       showDialog({
         title: t('common.confirm'),

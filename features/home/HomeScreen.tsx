@@ -11,6 +11,7 @@ import { loadWorksAtom, worksAtom, worksLoadedAtom } from '@/atoms/works';
 import { Button } from '@/components/ui/Button';
 import { WorkListItem } from '@/features/home/WorkListItem';
 import type { Work } from '@/types/work';
+import { logger } from '@/utils/logger';
 
 export const HomeScreen = () => {
   const { t } = useTranslation();
@@ -21,7 +22,8 @@ export const HomeScreen = () => {
   const showToast = useSetAtom(showToastAtom);
 
   useEffect(() => {
-    loadWorks().catch(() => {
+    loadWorks().catch((error) => {
+      logger.error('home', 'failed to load works', error);
       showToast({ message: t('error.workLoadFailed'), variant: 'error' });
     });
   }, [loadWorks, showToast, t]);

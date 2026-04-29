@@ -9,6 +9,7 @@ import { showToastAtom } from '@/atoms/notification';
 import { addFabricAtom } from '@/atoms/fabrics';
 import type { FabricImage } from '@/types/fabric';
 import { saveFabricImage } from '@/utils/fileSystem';
+import { logger } from '@/utils/logger';
 
 export type RegisterSource = 'camera' | 'library';
 
@@ -81,7 +82,8 @@ export function useFabricRegister(): UseFabricRegisterResult {
         }
         const asset = result.assets[0];
         setPending({ uri: asset.uri });
-      } catch {
+      } catch (error) {
+        logger.error('fabrics', 'failed to pick image', error, { source });
         showToast({ message: t('fabrics.registerFailed'), variant: 'error' });
       }
     },
@@ -106,8 +108,9 @@ export function useFabricRegister(): UseFabricRegisterResult {
         await addFabric(fabric);
         setPending(null);
         showToast({ message: t('fabrics.registerSuccess'), variant: 'success' });
-      } catch {
+      } catch (error) {
         setPending(null);
+        logger.error('fabrics', 'failed to register fabric', error);
         showToast({ message: t('fabrics.registerFailed'), variant: 'error' });
       }
     },

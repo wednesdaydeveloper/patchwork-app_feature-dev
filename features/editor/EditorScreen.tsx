@@ -22,6 +22,7 @@ import { showDialogAtom, showToastAtom } from '@/atoms/notification';
 import { saveWorkAtom } from '@/atoms/works';
 import { findDesignById, loadDesigns } from '@/constants/designs';
 import { findWorkById } from '@/utils/db';
+import { logger } from '@/utils/logger';
 import { FabricPicker } from '@/components/fabric/FabricPicker';
 import { Button } from '@/components/ui/Button';
 import { IconButton } from '@/components/ui/IconButton';
@@ -106,8 +107,9 @@ export const EditorScreen = () => {
         setEditingWorkId(work.id);
         setEditingWorkName(work.name);
         editingWorkCreatedAt.current = work.createdAt;
-      } catch {
+      } catch (error) {
         if (cancelled) return;
+        logger.error('editor', 'failed to load work', error, { id: params.id });
         showDialog({
           title: t('common.confirm'),
           message: t('error.workLoadFailed'),
@@ -176,7 +178,8 @@ export const EditorScreen = () => {
         clearHistory();
         showToast({ message: t('editor.saveSuccess'), variant: 'success' });
         setSavePromptVisible(false);
-      } catch {
+      } catch (error) {
+        logger.error('editor', 'failed to save work', error, { workId: editingWorkId });
         showToast({
           message: t('error.workSaveFailed'),
           variant: 'error',
