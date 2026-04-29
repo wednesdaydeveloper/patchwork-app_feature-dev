@@ -16,6 +16,7 @@ CLAUDE.md「技術スタック」記載のライブラリを追加する。
   - `react-native-svg`
   - `react-native-gesture-handler`
   - `react-native-reanimated`
+  - `react-native-worklets`（Reanimated v4+ で必須）
   - `expo-sqlite`
   - `expo-image-picker`
   - `expo-file-system`

@@ -20,7 +20,7 @@
 | ナビゲーション   | Expo Router                  | ファイルベースルーティング                             |
 | 描画・キャンバス | react-native-svg             | ピースの描画に使用                                     |
 | ジェスチャー     | react-native-gesture-handler | パン・ピンチ操作（位置・拡大縮小）                     |
-| アニメーション   | react-native-reanimated      | スムーズな UI 更新                                     |
+| アニメーション   | react-native-reanimated + react-native-worklets | スムーズな UI 更新（v4+ は worklets 機能が別パッケージに分離） |
 | 永続化ストレージ | expo-sqlite                  | パッチワークデータ・布地画像メタデータの保存           |
 | 画像取得         | expo-image-picker            | カメラ撮影・カメラロール選択                           |
 | ファイル保存     | expo-file-system             | 布地画像のローカル保存（File / Directory / Paths API） |
@@ -712,6 +712,28 @@ export { EditorScreen as default } from '@/features/editor/EditorScreen';
 - 描画コストの高い操作は `react-native-reanimated` の **`useSharedValue`** と **`useAnimatedStyle`** を使い、UIスレッドで処理する
 - `react-native-svg` のピースは再描画を最小化するため `React.memo` で包む
 - 開発時は **Performance Monitor** を有効にしてフレームレートを常時確認する
+
+#### Babel 設定（Reanimated v4+ 必須）
+
+`babel.config.js` のプラグイン末尾に **`react-native-worklets/plugin`** を配置する:
+
+```js
+// babel.config.js
+module.exports = function (api) {
+  api.cache(true);
+  return {
+    presets: ['babel-preset-expo'],
+    plugins: [
+      // 必ず最後に置く
+      'react-native-worklets/plugin',
+    ],
+  };
+};
+```
+
+- Reanimated v3 までは `react-native-reanimated/plugin` だったが、v4 で worklets 機能が `react-native-worklets` パッケージに分離された
+- パッケージとして `react-native-worklets` を別途 `npx expo install` でインストール必須
+- プラグイン変更時は `npx expo start --clear` でキャッシュクリア必須
 
 ---
 
