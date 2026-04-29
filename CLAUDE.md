@@ -450,7 +450,19 @@ constants/
       { "id": "corner-tl", "label": "cornerTopLeft",     "path": "M 0.00 0.00 L 0.25 0.00 L 0.00 0.25 Z" },
       { "id": "corner-tr", "label": "cornerTopRight",    "path": "M 0.75 0.00 L 1.00 0.00 L 1.00 0.25 Z" },
       { "id": "corner-bl", "label": "cornerBottomLeft",  "path": "M 0.00 0.75 L 0.25 1.00 L 0.00 1.00 Z" },
-      { "id": "corner-br", "label": "cornerBottomRight", "path": "M 0.75 1.00 L 1.00 0.75 L 1.00 1.00 Z" }
+      { "id": "corner-br", "label": "cornerBottomRight", "path": "M 0.75 1.00 L 1.00 0.75 L 1.00 1.00 Z" },
+      { "id": "corner-tl-inner", "label": "cornerTopLeftInner",     "path": "M 0.25 0.00 L 0.25 0.25 L 0.00 0.25 Z" },
+      { "id": "corner-tr-inner", "label": "cornerTopRightInner",    "path": "M 0.75 0.00 L 1.00 0.25 L 0.75 0.25 Z" },
+      { "id": "corner-bl-inner", "label": "cornerBottomLeftInner",  "path": "M 0.00 0.75 L 0.25 0.75 L 0.25 1.00 Z" },
+      { "id": "corner-br-inner", "label": "cornerBottomRightInner", "path": "M 0.75 0.75 L 1.00 0.75 L 0.75 1.00 Z" },
+      { "id": "top-left-flank",     "label": "topLeftFlank",     "path": "M 0.25 0.00 L 0.50 0.25 L 0.25 0.25 Z" },
+      { "id": "top-right-flank",    "label": "topRightFlank",    "path": "M 0.75 0.00 L 0.75 0.25 L 0.50 0.25 Z" },
+      { "id": "bottom-left-flank",  "label": "bottomLeftFlank",  "path": "M 0.25 1.00 L 0.25 0.75 L 0.50 0.75 Z" },
+      { "id": "bottom-right-flank", "label": "bottomRightFlank", "path": "M 0.75 1.00 L 0.50 0.75 L 0.75 0.75 Z" },
+      { "id": "left-top-flank",     "label": "leftTopFlank",     "path": "M 0.00 0.25 L 0.25 0.25 L 0.25 0.50 Z" },
+      { "id": "left-bottom-flank",  "label": "leftBottomFlank",  "path": "M 0.00 0.75 L 0.25 0.50 L 0.25 0.75 Z" },
+      { "id": "right-top-flank",    "label": "rightTopFlank",    "path": "M 1.00 0.25 L 0.75 0.25 L 0.75 0.50 Z" },
+      { "id": "right-bottom-flank", "label": "rightBottomFlank", "path": "M 1.00 0.75 L 0.75 0.50 L 0.75 0.75 Z" }
     ]
   }
 }
@@ -717,6 +729,9 @@ npm run test            # （導入時）テスト実行
 - 新しい機能を実装する前に、Claude Code に**実装計画を立てさせて確認**してから実装に進む
 - 実装中に発見したパターンや制約は CLAUDE.md に追記して、将来の参照に残す
 - 大きなリファクタリングは**段階的に進め**、各段階で動作確認する
+- git のコメントを含め、日本語を使う。
+- 許可なく git にpush しない。
+
 
 ---
 
