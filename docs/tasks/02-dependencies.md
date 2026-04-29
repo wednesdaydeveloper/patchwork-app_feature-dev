@@ -23,6 +23,7 @@ CLAUDE.md「技術スタック」記載のライブラリを追加する。
   - `react-i18next`
   - `expo-localization`
   - `react-native-view-shot`
+  - `expo-media-library`
   - `expo-print`
   - `@react-native-async-storage/async-storage`
 - [ ] 型定義が解決され `tsc --noEmit` がエラーなしで通る

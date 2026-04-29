@@ -12,9 +12,10 @@
 
 - [ ] `locales/ja.ts` に主要画面のキーが定義済み
 - [ ] `locales/en.ts` で同一スキーマを満たす
-- [ ] ピースラベル `piece.<key>` を含む
+- [ ] ピースラベル `piece.<key>` を含む（`topLeft`, `center`, `topTriangle` など）
+- [ ] パターンカテゴリ `category.<key>` を含む（`threeGrid`, `fourGrid` など）
 - [ ] `Translations` 型で型エラーなく両言語のキーが一致
 
 ## メモ
 
-- ネームスペース: `home.*`, `editor.*`, `fabrics.*`, `export.*`, `settings.*`, `common.*`, `piece.*`, `error.*`。
+- ネームスペース: `home.*`, `editor.*`, `fabrics.*`, `export.*`, `settings.*`, `common.*`, `piece.*`, `category.*`, `error.*`。
