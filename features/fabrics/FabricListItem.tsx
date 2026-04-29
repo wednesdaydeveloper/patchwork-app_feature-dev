@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import type { FabricImage } from '@/types/fabric';
@@ -7,7 +8,7 @@ export interface FabricListItemProps {
   onLongPress: (fabric: FabricImage) => void;
 }
 
-export const FabricListItem = ({ fabric, onLongPress }: FabricListItemProps) => {
+const FabricListItemImpl = ({ fabric, onLongPress }: FabricListItemProps) => {
   return (
     <Pressable
       accessibilityRole="button"
@@ -29,6 +30,9 @@ export const FabricListItem = ({ fabric, onLongPress }: FabricListItemProps) => 
     </Pressable>
   );
 };
+
+export const FabricListItem = memo(FabricListItemImpl);
+FabricListItem.displayName = 'FabricListItem';
 
 const styles = StyleSheet.create({
   container: {

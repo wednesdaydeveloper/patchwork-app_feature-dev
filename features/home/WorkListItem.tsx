@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
@@ -17,7 +18,7 @@ export interface WorkListItemProps {
   work: Work;
 }
 
-export const WorkListItem = ({ work }: WorkListItemProps) => {
+const WorkListItemImpl = ({ work }: WorkListItemProps) => {
   const { t } = useTranslation();
   const router = useRouter();
   const preference = useAtomValue(languagePreferenceAtom);
@@ -79,6 +80,9 @@ export const WorkListItem = ({ work }: WorkListItemProps) => {
     </Pressable>
   );
 };
+
+export const WorkListItem = memo(WorkListItemImpl);
+WorkListItem.displayName = 'WorkListItem';
 
 const styles = StyleSheet.create({
   container: {
