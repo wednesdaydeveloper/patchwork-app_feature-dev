@@ -15,9 +15,11 @@ import {
   upsertPieceSettingAtom,
 } from '@/atoms/editor';
 import { fabricsAtom, loadFabricsAtom } from '@/atoms/fabrics';
+import { canRedoAtom, canUndoAtom, clearHistoryAtom, pushHistoryAtom, redoAtom, undoAtom } from '@/atoms/history';
 import { findDesignById, loadDesigns } from '@/constants/designs';
 import { FabricPicker } from '@/components/fabric/FabricPicker';
 import { Button } from '@/components/ui/Button';
+import { IconButton } from '@/components/ui/IconButton';
 import { AdjustOverlay } from '@/features/editor/AdjustOverlay';
 import { EditorCanvas } from '@/features/editor/EditorCanvas';
 import type { FabricImage } from '@/types/fabric';
@@ -38,9 +40,16 @@ export const EditorScreen = () => {
   const fabrics = useAtomValue(fabricsAtom);
   const adjustMode = useAtomValue(adjustModeAtom);
   const setAdjustMode = useSetAtom(adjustModeAtom);
+  const canUndo = useAtomValue(canUndoAtom);
+  const canRedo = useAtomValue(canRedoAtom);
+  const undo = useSetAtom(undoAtom);
+  const redo = useSetAtom(redoAtom);
+  const pushHistory = useSetAtom(pushHistoryAtom);
+  const clearHistory = useSetAtom(clearHistoryAtom);
 
   useEffect(() => {
     resetEditor();
+    clearHistory();
     if (params.id === 'new' && params.designId) {
       const designs = loadDesigns();
       const target = findDesignById(designs, params.designId);
@@ -50,7 +59,7 @@ export const EditorScreen = () => {
     }
     void loadFabrics();
     // 既存 Work の読み込み（id が UUID）は #36 で実装する
-  }, [params.id, params.designId, resetEditor, setDesign, loadFabrics]);
+  }, [params.id, params.designId, resetEditor, clearHistory, setDesign, loadFabrics]);
 
   const screenWidth = Dimensions.get('window').width;
   const canvasSize = Math.min(screenWidth - HORIZONTAL_PADDING * 2, 480);
@@ -72,6 +81,7 @@ export const EditorScreen = () => {
     (fabric: FabricImage) => {
       if (!selectedPolygonId) return;
       const existing = pieceSettings.find((s) => s.polygonId === selectedPolygonId);
+      pushHistory();
       upsertPieceSetting({
         polygonId: selectedPolygonId,
         fabricImageId: fabric.id,
@@ -80,7 +90,7 @@ export const EditorScreen = () => {
         scale: existing?.scale ?? 1,
       });
     },
-    [pieceSettings, selectedPolygonId, upsertPieceSetting],
+    [pieceSettings, pushHistory, selectedPolygonId, upsertPieceSetting],
   );
 
   if (!design) {
@@ -94,6 +104,20 @@ export const EditorScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.canvasArea}>
+        <View style={styles.toolbar}>
+          <IconButton
+            icon="↶"
+            accessibilityLabel={t('editor.undo')}
+            disabled={!canUndo}
+            onPress={() => undo()}
+          />
+          <IconButton
+            icon="↷"
+            accessibilityLabel={t('editor.redo')}
+            disabled={!canRedo}
+            onPress={() => redo()}
+          />
+        </View>
         <Text style={styles.label}>{selectedLabel}</Text>
         <EditorCanvas design={design} size={canvasSize} />
         {selectedFabricId && !adjustMode && (
@@ -141,5 +165,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
     color: '#374151',
+  },
+  toolbar: {
+    flexDirection: 'row',
+    gap: 12,
+    alignSelf: 'flex-end',
   },
 });

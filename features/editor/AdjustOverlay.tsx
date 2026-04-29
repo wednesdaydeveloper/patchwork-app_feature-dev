@@ -19,6 +19,7 @@ import {
   upsertPieceSettingAtom,
 } from '@/atoms/editor';
 import { fabricsAtom } from '@/atoms/fabrics';
+import { pushHistoryAtom } from '@/atoms/history';
 import { Button } from '@/components/ui/Button';
 import { useImageSize } from '@/hooks/useImageSize';
 import { useSampledPolygons } from '@/features/editor/useSampledPolygons';
@@ -49,6 +50,7 @@ export const AdjustOverlay = ({ size }: AdjustOverlayProps) => {
   const settings = useAtomValue(pieceSettingsAtom);
   const fabrics = useAtomValue(fabricsAtom);
   const upsertPieceSetting = useSetAtom(upsertPieceSettingAtom);
+  const pushHistory = useSetAtom(pushHistoryAtom);
   const sampled = useSampledPolygons(design);
 
   // Hooks must run unconditionally; resolve nullable values below.
@@ -81,7 +83,10 @@ export const AdjustOverlay = ({ size }: AdjustOverlayProps) => {
   const commit = useCallback(
     (deltaX: number, deltaY: number, scaleMul: number) => {
       if (!selectedId || !setting || !bbox) return;
+      const noChange = deltaX === 0 && deltaY === 0 && scaleMul === 1;
+      if (noChange) return;
       const nextScale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, setting.scale * scaleMul));
+      pushHistory();
       upsertPieceSetting({
         polygonId: selectedId,
         fabricImageId: setting.fabricImageId,
@@ -90,7 +95,7 @@ export const AdjustOverlay = ({ size }: AdjustOverlayProps) => {
         scale: nextScale,
       });
     },
-    [bbox, selectedId, setting, upsertPieceSetting],
+    [bbox, pushHistory, selectedId, setting, upsertPieceSetting],
   );
 
   const panGesture = useMemo(
@@ -185,6 +190,8 @@ export const AdjustOverlay = ({ size }: AdjustOverlayProps) => {
           variant="secondary"
           onPress={() => {
             if (!setting) return;
+            if (setting.offsetX === 0 && setting.offsetY === 0 && setting.scale === 1) return;
+            pushHistory();
             upsertPieceSetting({
               polygonId: setting.polygonId,
               fabricImageId: setting.fabricImageId,
