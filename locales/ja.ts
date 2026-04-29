@@ -55,9 +55,16 @@ export const ja = {
     category: 'カテゴリ',
     uncategorized: '未分類',
     deleteConfirm: 'この布地を削除しますか？',
+    deleteConfirmTitle: '布地を削除',
     deleteWarnReferenced:
       'この布地は既存のパッチワークで使用中です。強制削除すると該当ピースは未割り当て状態に戻ります。',
     forceDelete: '強制削除',
+    deleteFailed: '布地の削除に失敗しました。',
+    registerSuccess: '布地を登録しました。',
+    registerFailed: '布地の登録に失敗しました。',
+    registerTitle: '布地を登録',
+    namePlaceholder: '布地名を入力',
+    categoryPlaceholder: 'カテゴリを入力（任意）',
   },
   exportScreen: {
     title: 'エクスポート',

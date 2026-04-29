@@ -57,9 +57,16 @@ export const en: Translations = {
     category: 'Category',
     uncategorized: 'Uncategorized',
     deleteConfirm: 'Delete this fabric?',
+    deleteConfirmTitle: 'Delete fabric',
     deleteWarnReferenced:
       'This fabric is used by existing works. Forcing delete will detach matching pieces.',
     forceDelete: 'Force delete',
+    deleteFailed: 'Failed to delete the fabric.',
+    registerSuccess: 'Fabric added.',
+    registerFailed: 'Failed to register the fabric.',
+    registerTitle: 'Add fabric',
+    namePlaceholder: 'Fabric name',
+    categoryPlaceholder: 'Category (optional)',
   },
   exportScreen: {
     title: 'Export',
