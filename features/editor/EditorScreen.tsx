@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Dimensions, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router';
 
 import { useAtomValue, useSetAtom } from 'jotai';
 
@@ -11,6 +11,7 @@ import {
   editingWorkIdAtom,
   editingWorkNameAtom,
   pieceSettingsAtom,
+  removePieceSettingAtom,
   resetEditorAtom,
   selectedDesignAtom,
   selectedPolygonIdAtom,
@@ -26,6 +27,7 @@ import { logger } from '@/utils/logger';
 import { FabricPicker } from '@/components/fabric/FabricPicker';
 import { Button } from '@/components/ui/Button';
 import { IconButton } from '@/components/ui/IconButton';
+import { LoadingView } from '@/components/ui/LoadingView';
 import { PromptDialog } from '@/components/ui/PromptDialog';
 import { useStorageGuard } from '@/hooks/useStorageGuard';
 import { AdjustOverlay } from '@/features/editor/AdjustOverlay';
@@ -42,10 +44,12 @@ function generateWorkId(): string {
 export const EditorScreen = () => {
   const { t } = useTranslation();
   const router = useRouter();
+  const navigation = useNavigation();
   const params = useLocalSearchParams<{ id: string; designId?: string }>();
   const setDesign = useSetAtom(selectedDesignAtom);
   const resetEditor = useSetAtom(resetEditorAtom);
   const upsertPieceSetting = useSetAtom(upsertPieceSettingAtom);
+  const removePieceSetting = useSetAtom(removePieceSettingAtom);
   const setPieceSettings = useSetAtom(pieceSettingsAtom);
   const showDialog = useSetAtom(showDialogAtom);
   const loadFabrics = useSetAtom(loadFabricsAtom);
@@ -68,6 +72,8 @@ export const EditorScreen = () => {
   const saveWork = useSetAtom(saveWorkAtom);
   const showToast = useSetAtom(showToastAtom);
   const [savePromptVisible, setSavePromptVisible] = useState(false);
+  const [renamePromptVisible, setRenamePromptVisible] = useState(false);
+  const [isLoadingWork, setIsLoadingWork] = useState(false);
   const editingWorkCreatedAt = useRef<Date | null>(null);
   const checkStorage = useStorageGuard();
 
@@ -92,6 +98,7 @@ export const EditorScreen = () => {
     }
 
     // 既存 Work の読み込み
+    setIsLoadingWork(true);
     void (async () => {
       try {
         const work = await findWorkById(params.id);
@@ -122,6 +129,8 @@ export const EditorScreen = () => {
             },
           ],
         });
+      } finally {
+        if (!cancelled) setIsLoadingWork(false);
       }
     })();
 
@@ -226,6 +235,67 @@ export const EditorScreen = () => {
     [pieceSettings, pushHistory, selectedPolygonId, upsertPieceSetting],
   );
 
+  // 未保存変更ガード: canUndo が true の場合、戻る/遷移時に確認。
+  useEffect(() => {
+    type BeforeRemoveEvent = {
+      preventDefault: () => void;
+      data: { action: unknown };
+    };
+    const nav = navigation as unknown as {
+      addListener: (event: 'beforeRemove', cb: (e: BeforeRemoveEvent) => void) => () => void;
+      dispatch: (action: unknown) => void;
+    };
+    const unsubscribe = nav.addListener('beforeRemove', (e) => {
+      if (!canUndo) return;
+      e.preventDefault();
+      showDialog({
+        title: t('editor.unsavedTitle'),
+        message: t('editor.unsavedMessage'),
+        actions: [
+          {
+            label: t('common.cancel'),
+            variant: 'secondary',
+            onPress: () => {},
+          },
+          {
+            label: t('editor.discardLeave'),
+            variant: 'danger',
+            onPress: () => {
+              clearHistory();
+              nav.dispatch(e.data.action);
+            },
+          },
+          {
+            label: t('editor.saveLeave'),
+            variant: 'primary',
+            onPress: () => {
+              if (editingWorkId) {
+                void (async () => {
+                  await handleSave(editingWorkName);
+                  nav.dispatch(e.data.action);
+                })();
+              } else {
+                // 新規(未命名)は名前入力プロンプトを開く。保存完了後に再度戻る操作を要求する。
+                setSavePromptVisible(true);
+              }
+            },
+          },
+        ],
+      });
+    });
+    return unsubscribe;
+  }, [navigation, canUndo, showDialog, t, clearHistory, editingWorkId, editingWorkName, handleSave]);
+
+  const handleUnassign = useCallback(() => {
+    if (!selectedPolygonId) return;
+    pushHistory();
+    removePieceSetting(selectedPolygonId);
+  }, [pushHistory, removePieceSetting, selectedPolygonId]);
+
+  if (isLoadingWork) {
+    return <LoadingView label={t('common.loading')} />;
+  }
+
   if (!design) {
     return (
       <View style={styles.placeholderContainer}>
@@ -237,6 +307,17 @@ export const EditorScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.canvasArea}>
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={t('editor.renameWork')}
+          onPress={() => setRenamePromptVisible(true)}
+          style={styles.workNameRow}
+        >
+          <Text style={styles.workName}>
+            {editingWorkName.trim() || t('common.untitled')}
+          </Text>
+          <Text style={styles.workNameHint}>✎</Text>
+        </Pressable>
         <View style={styles.toolbar}>
           <IconButton
             icon="↶"
@@ -255,18 +336,53 @@ export const EditorScreen = () => {
             accessibilityLabel={t('editor.saveWork')}
             onPress={() => setSavePromptVisible(true)}
           />
+          <IconButton
+            icon="📤"
+            accessibilityLabel={t('editor.export')}
+            disabled={!editingWorkId}
+            onPress={() => {
+              if (!editingWorkId) return;
+              router.push(`/export/${editingWorkId}`);
+            }}
+          />
         </View>
         <Text style={styles.label}>{selectedLabel}</Text>
         <EditorCanvas design={design} size={canvasSize} />
         {selectedFabricId && !adjustMode && (
-          <Button
-            label={t('editor.adjust')}
-            variant="secondary"
-            onPress={() => setAdjustMode(true)}
-          />
+          <View style={styles.actionRow}>
+            <Button
+              label={t('editor.adjust')}
+              variant="secondary"
+              onPress={() => setAdjustMode(true)}
+            />
+            <Button
+              label={t('editor.unassign')}
+              variant="secondary"
+              onPress={handleUnassign}
+            />
+          </View>
         )}
       </View>
       <AdjustOverlay size={canvasSize} />
+      <PromptDialog
+        visible={renamePromptVisible}
+        title={t('editor.renameWork')}
+        fields={[
+          {
+            key: 'name',
+            placeholder: t('editor.workName'),
+            initialValue: editingWorkName,
+            autoFocus: true,
+          },
+        ]}
+        submitLabel={t('common.save')}
+        onSubmit={(values) => {
+          const next = (values.name ?? '').trim();
+          setEditingWorkName(next || t('common.untitled'));
+          setRenamePromptVisible(false);
+        }}
+        onCancel={() => setRenamePromptVisible(false)}
+      />
       <PromptDialog
         visible={savePromptVisible}
         title={t('editor.saveWork')}
@@ -284,12 +400,14 @@ export const EditorScreen = () => {
         }}
         onCancel={() => setSavePromptVisible(false)}
       />
-      <FabricPicker
-        fabrics={fabrics}
-        selectedFabricId={selectedFabricId}
-        onSelect={handleSelectFabric}
-        onAddFabric={() => router.push('/fabrics')}
-      />
+      {!adjustMode && (
+        <FabricPicker
+          fabrics={fabrics}
+          selectedFabricId={selectedFabricId}
+          onSelect={handleSelectFabric}
+          onAddFabric={() => router.push('/fabrics')}
+        />
+      )}
     </View>
   );
 };
@@ -325,5 +443,24 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 12,
     alignSelf: 'flex-end',
+  },
+  actionRow: {
+    flexDirection: 'row',
+    gap: 12,
+  },
+  workNameRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    alignSelf: 'flex-start',
+  },
+  workName: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: '#111827',
+  },
+  workNameHint: {
+    fontSize: 14,
+    color: '#6b7280',
   },
 });

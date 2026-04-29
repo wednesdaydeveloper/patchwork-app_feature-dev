@@ -9,6 +9,7 @@ import { useAtomValue, useSetAtom } from 'jotai';
 import { showToastAtom } from '@/atoms/notification';
 import { loadWorksAtom, worksAtom, worksLoadedAtom } from '@/atoms/works';
 import { Button } from '@/components/ui/Button';
+import { LoadingView } from '@/components/ui/LoadingView';
 import { WorkListItem } from '@/features/home/WorkListItem';
 import type { Work } from '@/types/work';
 import { logger } from '@/utils/logger';
@@ -51,7 +52,9 @@ export const HomeScreen = () => {
 
       <Text style={styles.sectionTitle}>{t('home.savedWorks')}</Text>
 
-      {loaded && works.length === 0 ? (
+      {!loaded ? (
+        <LoadingView label={t('common.loading')} />
+      ) : works.length === 0 ? (
         <EmptyState
           message={t('home.empty')}
           ctaLabel={t('home.newWork')}

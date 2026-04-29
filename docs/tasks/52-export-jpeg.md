@@ -1,6 +1,6 @@
 # #52 JPEG エクスポートオプション
 
-- **ステータス**: `[ ]` 未着手
+- **ステータス**: `[x]` 完了
 - **フェーズ**: 13. UX 追加機能
 - **前提**: #38
 
@@ -10,10 +10,10 @@
 
 ## 受け入れ条件 (AC)
 
-- [ ] エクスポート画面の「画像として保存」セクションに形式選択（PNG / JPEG）を追加
-- [ ] JPEG 選択時は `captureRef` の `format: 'jpg'` と `quality` を 0.9 程度で実行
-- [ ] 透明背景は PNG のみ（JPEG では白背景でラップ）
-- [ ] 翻訳キーを追加（`exportScreen.format` / `exportScreen.formatPng` / `exportScreen.formatJpeg`）
+- [x] エクスポート画面の「画像として保存」セクションに形式選択（PNG / JPEG）を追加
+- [x] JPEG 選択時は `captureRef` の `format: 'jpg'` と `quality` を 0.9 程度で実行
+- [x] 透明背景は PNG のみ（JPEG では白背景でラップ）
+- [x] 翻訳キーを追加（`exportScreen.format` / `exportScreen.formatPng` / `exportScreen.formatJpeg`）
 
 ## メモ
 

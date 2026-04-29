@@ -5,14 +5,16 @@ import type { FabricImage } from '@/types/fabric';
 
 export interface FabricListItemProps {
   fabric: FabricImage;
+  onPress?: (fabric: FabricImage) => void;
   onLongPress: (fabric: FabricImage) => void;
 }
 
-const FabricListItemImpl = ({ fabric, onLongPress }: FabricListItemProps) => {
+const FabricListItemImpl = ({ fabric, onPress, onLongPress }: FabricListItemProps) => {
   return (
     <Pressable
       accessibilityRole="button"
       accessibilityLabel={fabric.name}
+      onPress={onPress ? () => onPress(fabric) : undefined}
       onLongPress={() => onLongPress(fabric)}
       style={({ pressed }) => [styles.container, pressed && styles.pressed]}
     >

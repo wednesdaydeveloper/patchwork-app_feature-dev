@@ -13,6 +13,7 @@ import { useAtomValue, useSetAtom } from 'jotai';
 import { fabricsAtom, loadFabricsAtom } from '@/atoms/fabrics';
 import { showDialogAtom, showToastAtom } from '@/atoms/notification';
 import { Button } from '@/components/ui/Button';
+import { LoadingView } from '@/components/ui/LoadingView';
 import { findDesignById, loadDesigns } from '@/constants/designs';
 import { PAPER_SIZES, type PaperSize, buildPdfHtml } from '@/features/export/buildPdfHtml';
 import { WorkCanvas } from '@/features/export/WorkCanvas';
@@ -38,6 +39,7 @@ export const ExportScreen = () => {
   const [design, setDesign] = useState<Design | null>(null);
   const [isExporting, setIsExporting] = useState(false);
   const [paperSize, setPaperSize] = useState<PaperSize>('A4');
+  const [imageFormat, setImageFormat] = useState<'png' | 'jpg'>('png');
   const offscreenRef = useRef<View>(null);
   const checkStorage = useStorageGuard();
 
@@ -92,8 +94,8 @@ export const ExportScreen = () => {
         return;
       }
       const uri = await captureRef(offscreenRef, {
-        format: 'png',
-        quality: 1,
+        format: imageFormat,
+        quality: imageFormat === 'jpg' ? 0.9 : 1,
         result: 'tmpfile',
         width: EXPORT_RESOLUTION,
         height: EXPORT_RESOLUTION,
@@ -145,7 +147,7 @@ export const ExportScreen = () => {
   };
 
   if (!work || !design) {
-    return <View style={styles.placeholder} />;
+    return <LoadingView label={t('common.loading')} />;
   }
 
   return (
@@ -164,6 +166,27 @@ export const ExportScreen = () => {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>{t('exportScreen.image')}</Text>
           <Text style={styles.sectionDescription}>{t('exportScreen.imageDescription')}</Text>
+          <Text style={styles.fieldLabel}>{t('exportScreen.format')}</Text>
+          <View style={styles.paperRow}>
+            {(['png', 'jpg'] as const).map((fmt) => {
+              const selected = fmt === imageFormat;
+              return (
+                <Pressable
+                  key={fmt}
+                  accessibilityRole="button"
+                  accessibilityState={{ selected }}
+                  onPress={() => setImageFormat(fmt)}
+                  style={[styles.paperOption, selected && styles.paperOptionSelected]}
+                >
+                  <Text
+                    style={[styles.paperOptionLabel, selected && styles.paperOptionLabelSelected]}
+                  >
+                    {fmt === 'png' ? t('exportScreen.formatPng') : t('exportScreen.formatJpeg')}
+                  </Text>
+                </Pressable>
+              );
+            })}
+          </View>
           <Button
             label={t('exportScreen.image')}
             disabled={isExporting}

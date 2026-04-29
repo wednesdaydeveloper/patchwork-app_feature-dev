@@ -1,7 +1,13 @@
 import { atom } from 'jotai';
 
 import type { FabricImage } from '@/types/fabric';
-import { deleteFabric, insertFabric, isFabricReferenced, listFabrics } from '@/utils/db';
+import {
+  deleteFabric,
+  insertFabric,
+  isFabricReferenced,
+  listFabrics,
+  updateFabric,
+} from '@/utils/db';
 import { deleteFabricImage } from '@/utils/fileSystem';
 
 /**
@@ -50,6 +56,25 @@ export const addFabricAtom = atom(null, async (get, set, fabric: FabricImage) =>
   set(fabricsAtom, [fabric, ...get(fabricsAtom)]);
 });
 addFabricAtom.debugLabel = 'addFabric';
+
+/**
+ * 布地のメタ情報（名前 / カテゴリ）を更新する write-only atom。
+ */
+export const updateFabricAtom = atom(
+  null,
+  async (get, set, args: { id: string; name: string; category: string }) => {
+    const fabrics = get(fabricsAtom);
+    const target = fabrics.find((f) => f.id === args.id);
+    if (!target) return;
+    const next: FabricImage = { ...target, name: args.name, category: args.category };
+    await updateFabric(next);
+    set(
+      fabricsAtom,
+      fabrics.map((f) => (f.id === args.id ? next : f)),
+    );
+  },
+);
+updateFabricAtom.debugLabel = 'updateFabric';
 
 /**
  * 布地を削除する write-only atom。

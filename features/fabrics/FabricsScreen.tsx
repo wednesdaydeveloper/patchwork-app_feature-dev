@@ -1,12 +1,19 @@
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { SectionList, StyleSheet, Text, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 import { useAtomValue, useSetAtom } from 'jotai';
 
-import { fabricsAtom, fabricsLoadedAtom, loadFabricsAtom, removeFabricAtom } from '@/atoms/fabrics';
+import {
+  fabricsAtom,
+  fabricsLoadedAtom,
+  loadFabricsAtom,
+  removeFabricAtom,
+  updateFabricAtom,
+} from '@/atoms/fabrics';
 import { showDialogAtom, showToastAtom } from '@/atoms/notification';
 import { Button } from '@/components/ui/Button';
+import { LoadingView } from '@/components/ui/LoadingView';
 import { PromptDialog } from '@/components/ui/PromptDialog';
 import { FabricListItem } from '@/features/fabrics/FabricListItem';
 import { useFabricRegister } from '@/features/fabrics/useFabricRegister';
@@ -24,6 +31,8 @@ export const FabricsScreen = () => {
   const loaded = useAtomValue(fabricsLoadedAtom);
   const loadFabrics = useSetAtom(loadFabricsAtom);
   const removeFabric = useSetAtom(removeFabricAtom);
+  const updateFabricMeta = useSetAtom(updateFabricAtom);
+  const [editingFabric, setEditingFabric] = useState<FabricImage | null>(null);
   const showDialog = useSetAtom(showDialogAtom);
   const showToast = useSetAtom(showToastAtom);
   const register = useFabricRegister();
@@ -126,7 +135,9 @@ export const FabricsScreen = () => {
         />
       </View>
 
-      {loaded && fabrics.length === 0 ? (
+      {!loaded ? (
+        <LoadingView label={t('common.loading')} />
+      ) : fabrics.length === 0 ? (
         <View style={styles.empty}>
           <Text style={styles.emptyMessage}>{t('fabrics.empty')}</Text>
         </View>
@@ -135,7 +146,11 @@ export const FabricsScreen = () => {
           sections={sections}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <FabricListItem fabric={item} onLongPress={handleLongPress} />
+            <FabricListItem
+              fabric={item}
+              onPress={setEditingFabric}
+              onLongPress={handleLongPress}
+            />
           )}
           renderSectionHeader={({ section }) => (
             <Text style={styles.sectionHeader}>{section.title}</Text>
@@ -145,6 +160,42 @@ export const FabricsScreen = () => {
         />
       )}
 
+      <PromptDialog
+        visible={editingFabric !== null}
+        title={t('fabrics.editTitle')}
+        fields={[
+          {
+            key: 'name',
+            placeholder: t('fabrics.namePlaceholder'),
+            initialValue: editingFabric?.name ?? '',
+            autoFocus: true,
+          },
+          {
+            key: 'category',
+            placeholder: t('fabrics.categoryPlaceholder'),
+            initialValue: editingFabric?.category ?? '',
+          },
+        ]}
+        submitLabel={t('common.save')}
+        onSubmit={(values) => {
+          if (!editingFabric) return;
+          const name = (values.name ?? '').trim() || t('common.untitledFabric');
+          const category = (values.category ?? '').trim();
+          void (async () => {
+            try {
+              await updateFabricMeta({ id: editingFabric.id, name, category });
+            } catch (error) {
+              logger.error('fabrics', 'failed to update fabric', error, {
+                fabricId: editingFabric.id,
+              });
+              showToast({ message: t('fabrics.updateFailed'), variant: 'error' });
+            } finally {
+              setEditingFabric(null);
+            }
+          })();
+        }}
+        onCancel={() => setEditingFabric(null)}
+      />
       <PromptDialog
         visible={register.pending !== null}
         title={t('fabrics.registerTitle')}

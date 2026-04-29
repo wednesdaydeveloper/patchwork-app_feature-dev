@@ -103,6 +103,14 @@ export async function insertFabric(fabric: FabricImage): Promise<void> {
   );
 }
 
+export async function updateFabric(fabric: FabricImage): Promise<void> {
+  const db = await getDatabase();
+  await db.runAsync(
+    'UPDATE fabric_images SET name = ?, category = ? WHERE id = ?;',
+    [fabric.name, fabric.category, fabric.id],
+  );
+}
+
 export async function listFabrics(): Promise<FabricImage[]> {
   const db = await getDatabase();
   const rows = await db.getAllAsync<FabricImageRow>(
