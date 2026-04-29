@@ -7,6 +7,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useAtomValue, useSetAtom } from 'jotai';
 
 import {
+  adjustModeAtom,
   pieceSettingsAtom,
   resetEditorAtom,
   selectedDesignAtom,
@@ -16,6 +17,8 @@ import {
 import { fabricsAtom, loadFabricsAtom } from '@/atoms/fabrics';
 import { findDesignById, loadDesigns } from '@/constants/designs';
 import { FabricPicker } from '@/components/fabric/FabricPicker';
+import { Button } from '@/components/ui/Button';
+import { AdjustOverlay } from '@/features/editor/AdjustOverlay';
 import { EditorCanvas } from '@/features/editor/EditorCanvas';
 import type { FabricImage } from '@/types/fabric';
 
@@ -33,6 +36,8 @@ export const EditorScreen = () => {
   const selectedPolygonId = useAtomValue(selectedPolygonIdAtom);
   const pieceSettings = useAtomValue(pieceSettingsAtom);
   const fabrics = useAtomValue(fabricsAtom);
+  const adjustMode = useAtomValue(adjustModeAtom);
+  const setAdjustMode = useSetAtom(adjustModeAtom);
 
   useEffect(() => {
     resetEditor();
@@ -91,7 +96,15 @@ export const EditorScreen = () => {
       <View style={styles.canvasArea}>
         <Text style={styles.label}>{selectedLabel}</Text>
         <EditorCanvas design={design} size={canvasSize} />
+        {selectedFabricId && !adjustMode && (
+          <Button
+            label={t('editor.adjust')}
+            variant="secondary"
+            onPress={() => setAdjustMode(true)}
+          />
+        )}
       </View>
+      <AdjustOverlay size={canvasSize} />
       <FabricPicker
         fabrics={fabrics}
         selectedFabricId={selectedFabricId}
