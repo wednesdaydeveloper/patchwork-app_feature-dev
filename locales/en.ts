@@ -71,9 +71,12 @@ export const en: Translations = {
   exportScreen: {
     title: 'Export',
     image: 'Save as image',
+    imageDescription: 'Save a high-resolution PNG image to your photo library.',
     pdf: 'Printable PDF',
+    pdfDescription: 'Generate a printable PDF sized for the selected paper.',
     paperSize: 'Paper size',
     saved: 'Saved.',
+    notFound: 'Patchwork not found.',
   },
   settings: {
     title: 'Settings',

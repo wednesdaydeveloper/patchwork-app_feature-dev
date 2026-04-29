@@ -69,9 +69,12 @@ export const ja = {
   exportScreen: {
     title: 'エクスポート',
     image: '画像として保存',
+    imageDescription: 'カメラロールに高解像度の画像（PNG）として保存します。',
     pdf: '印刷用 PDF',
+    pdfDescription: '指定の用紙サイズに合わせた印刷用 PDF を出力します。',
     paperSize: '用紙サイズ',
     saved: '保存しました',
+    notFound: 'パッチワークが見つかりません。',
   },
   settings: {
     title: '設定',
