@@ -18,9 +18,10 @@ import {
 } from '@/atoms/editor';
 import { fabricsAtom, loadFabricsAtom } from '@/atoms/fabrics';
 import { canRedoAtom, canUndoAtom, clearHistoryAtom, pushHistoryAtom, redoAtom, undoAtom } from '@/atoms/history';
-import { showToastAtom } from '@/atoms/notification';
+import { showDialogAtom, showToastAtom } from '@/atoms/notification';
 import { saveWorkAtom } from '@/atoms/works';
 import { findDesignById, loadDesigns } from '@/constants/designs';
+import { findWorkById } from '@/utils/db';
 import { FabricPicker } from '@/components/fabric/FabricPicker';
 import { Button } from '@/components/ui/Button';
 import { IconButton } from '@/components/ui/IconButton';
@@ -43,6 +44,8 @@ export const EditorScreen = () => {
   const setDesign = useSetAtom(selectedDesignAtom);
   const resetEditor = useSetAtom(resetEditorAtom);
   const upsertPieceSetting = useSetAtom(upsertPieceSettingAtom);
+  const setPieceSettings = useSetAtom(pieceSettingsAtom);
+  const showDialog = useSetAtom(showDialogAtom);
   const loadFabrics = useSetAtom(loadFabricsAtom);
   const design = useAtomValue(selectedDesignAtom);
   const selectedPolygonId = useAtomValue(selectedPolygonIdAtom);
@@ -66,19 +69,75 @@ export const EditorScreen = () => {
   const editingWorkCreatedAt = useRef<Date | null>(null);
 
   useEffect(() => {
+    let cancelled = false;
     resetEditor();
     clearHistory();
     editingWorkCreatedAt.current = null;
-    if (params.id === 'new' && params.designId) {
-      const designs = loadDesigns();
-      const target = findDesignById(designs, params.designId);
-      if (target) {
-        setDesign(target);
-      }
-    }
     void loadFabrics();
-    // 既存 Work の読み込み（id が UUID）は #36 で実装する
-  }, [params.id, params.designId, resetEditor, clearHistory, setDesign, loadFabrics]);
+
+    if (params.id === 'new') {
+      if (params.designId) {
+        const designs = loadDesigns();
+        const target = findDesignById(designs, params.designId);
+        if (target) {
+          setDesign(target);
+        }
+      }
+      return () => {
+        cancelled = true;
+      };
+    }
+
+    // 既存 Work の読み込み
+    void (async () => {
+      try {
+        const work = await findWorkById(params.id);
+        if (cancelled) return;
+        if (!work) {
+          throw new Error('work not found');
+        }
+        const designs = loadDesigns();
+        const target = findDesignById(designs, work.designId);
+        if (!target) {
+          throw new Error('design not found');
+        }
+        setDesign(target);
+        setPieceSettings(work.pieceSettings);
+        setEditingWorkId(work.id);
+        setEditingWorkName(work.name);
+        editingWorkCreatedAt.current = work.createdAt;
+      } catch {
+        if (cancelled) return;
+        showDialog({
+          title: t('common.confirm'),
+          message: t('error.workLoadFailed'),
+          actions: [
+            {
+              label: t('common.back'),
+              onPress: () => router.replace('/'),
+            },
+          ],
+        });
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [
+    params.id,
+    params.designId,
+    resetEditor,
+    clearHistory,
+    setDesign,
+    setPieceSettings,
+    setEditingWorkId,
+    setEditingWorkName,
+    showDialog,
+    router,
+    loadFabrics,
+    t,
+  ]);
 
   const screenWidth = Dimensions.get('window').width;
   const canvasSize = Math.min(screenWidth - HORIZONTAL_PADDING * 2, 480);
