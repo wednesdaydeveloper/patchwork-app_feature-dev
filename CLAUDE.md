@@ -12,23 +12,23 @@
 
 ## 技術スタック
 
-| カテゴリ         | 採用技術                     | 備考                                                   |
-| ---------------- | ---------------------------- | ------------------------------------------------------ |
-| フレームワーク   | Expo（React Native）         | iOS / Android 両対応                                   |
-| 言語             | TypeScript                   |                                                        |
-| 状態管理         | Jotai（atom）                | グローバル状態を atom 単位で管理                       |
-| ナビゲーション   | Expo Router                  | ファイルベースルーティング                             |
-| 描画・キャンバス | react-native-svg             | ピースの描画に使用                                     |
-| ジェスチャー     | react-native-gesture-handler | パン・ピンチ操作（位置・拡大縮小）                     |
+| カテゴリ         | 採用技術                                        | 備考                                                           |
+| ---------------- | ----------------------------------------------- | -------------------------------------------------------------- |
+| フレームワーク   | Expo（React Native）                            | iOS / Android 両対応                                           |
+| 言語             | TypeScript                                      |                                                                |
+| 状態管理         | Jotai（atom）                                   | グローバル状態を atom 単位で管理                               |
+| ナビゲーション   | Expo Router                                     | ファイルベースルーティング                                     |
+| 描画・キャンバス | react-native-svg                                | ピースの描画に使用                                             |
+| ジェスチャー     | react-native-gesture-handler                    | パン・ピンチ操作（位置・拡大縮小）                             |
 | アニメーション   | react-native-reanimated + react-native-worklets | スムーズな UI 更新（v4+ は worklets 機能が別パッケージに分離） |
-| 永続化ストレージ | expo-sqlite                  | パッチワークデータ・布地画像メタデータの保存           |
-| 画像取得         | expo-image-picker            | カメラ撮影・カメラロール選択                           |
-| ファイル保存     | expo-file-system             | 布地画像のローカル保存（File / Directory / Paths API） |
-| 多言語化         | i18next + react-i18next      | UI 文言の翻訳                                          |
-| ロケール検出     | expo-localization            | 端末ロケールの取得                                     |
-| 画像エクスポート | react-native-view-shot       | キャンバスを画像として出力                             |
-| カメラロール保存 | expo-media-library           | 出力画像をフォトライブラリへ保存                       |
-| 印刷出力         | expo-print                   | PDF 生成                                               |
+| 永続化ストレージ | expo-sqlite                                     | パッチワークデータ・布地画像メタデータの保存                   |
+| 画像取得         | expo-image-picker                               | カメラ撮影・カメラロール選択                                   |
+| ファイル保存     | expo-file-system                                | 布地画像のローカル保存（File / Directory / Paths API）         |
+| 多言語化         | i18next + react-i18next                         | UI 文言の翻訳                                                  |
+| ロケール検出     | expo-localization                               | 端末ロケールの取得                                             |
+| 画像エクスポート | react-native-view-shot                          | キャンバスを画像として出力                                     |
+| カメラロール保存 | expo-media-library                              | 出力画像をフォトライブラリへ保存                               |
+| 印刷出力         | expo-print                                      | PDF 生成                                                       |
 
 ### 状態管理方針（Jotai）
 
