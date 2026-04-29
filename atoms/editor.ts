@@ -16,6 +16,13 @@ export const editingWorkNameAtom = atom<string>('');
 editingWorkNameAtom.debugLabel = 'editingWorkName';
 
 /**
+ * 名前が変更されてから未保存である場合に true。
+ * 履歴(canUndo)とは独立した「未保存変更」フラグ。
+ */
+export const editingWorkNameDirtyAtom = atom<boolean>(false);
+editingWorkNameDirtyAtom.debugLabel = 'editingWorkNameDirty';
+
+/**
  * 編集中のパターン（Design）。
  */
 export const selectedDesignAtom = atom<Design | null>(null);
@@ -80,6 +87,7 @@ removePieceSettingAtom.debugLabel = 'removePieceSetting';
 export const resetEditorAtom = atom(null, (_get, set) => {
   set(editingWorkIdAtom, null);
   set(editingWorkNameAtom, '');
+  set(editingWorkNameDirtyAtom, false);
   set(selectedDesignAtom, null);
   set(selectedPolygonIdAtom, null);
   set(pieceSettingsAtom, []);

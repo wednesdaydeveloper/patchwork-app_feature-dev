@@ -3,6 +3,7 @@ import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router';
+import type { EventArg, NavigationAction } from '@react-navigation/native';
 
 import { useAtomValue, useSetAtom } from 'jotai';
 
@@ -10,6 +11,7 @@ import {
   adjustModeAtom,
   editingWorkIdAtom,
   editingWorkNameAtom,
+  editingWorkNameDirtyAtom,
   pieceSettingsAtom,
   removePieceSettingAtom,
   resetEditorAtom,
@@ -69,12 +71,15 @@ export const EditorScreen = () => {
   const setEditingWorkId = useSetAtom(editingWorkIdAtom);
   const editingWorkName = useAtomValue(editingWorkNameAtom);
   const setEditingWorkName = useSetAtom(editingWorkNameAtom);
+  const nameDirty = useAtomValue(editingWorkNameDirtyAtom);
+  const setNameDirty = useSetAtom(editingWorkNameDirtyAtom);
   const saveWork = useSetAtom(saveWorkAtom);
   const showToast = useSetAtom(showToastAtom);
   const [savePromptVisible, setSavePromptVisible] = useState(false);
   const [renamePromptVisible, setRenamePromptVisible] = useState(false);
   const [isLoadingWork, setIsLoadingWork] = useState(false);
   const editingWorkCreatedAt = useRef<Date | null>(null);
+  const pendingLeaveActionRef = useRef<NavigationAction | null>(null);
   const checkStorage = useStorageGuard();
 
   useEffect(() => {
@@ -190,10 +195,17 @@ export const EditorScreen = () => {
         await saveWork(work);
         setEditingWorkId(work.id);
         setEditingWorkName(work.name);
+        setNameDirty(false);
         editingWorkCreatedAt.current = work.createdAt;
         clearHistory();
         showToast({ message: t('editor.saveSuccess'), variant: 'success' });
         setSavePromptVisible(false);
+        // 保留中の離脱アクションがあれば実行
+        const pending = pendingLeaveActionRef.current;
+        if (pending) {
+          pendingLeaveActionRef.current = null;
+          (navigation as unknown as { dispatch: (a: NavigationAction) => void }).dispatch(pending);
+        }
       } catch (error) {
         logger.error('editor', 'failed to save work', error, { workId: editingWorkId });
         showToast({
@@ -210,10 +222,12 @@ export const EditorScreen = () => {
       clearHistory,
       design,
       editingWorkId,
+      navigation,
       pieceSettings,
       saveWork,
       setEditingWorkId,
       setEditingWorkName,
+      setNameDirty,
       showToast,
       t,
     ],
@@ -235,56 +249,66 @@ export const EditorScreen = () => {
     [pieceSettings, pushHistory, selectedPolygonId, upsertPieceSetting],
   );
 
-  // 未保存変更ガード: canUndo が true の場合、戻る/遷移時に確認。
+  // 未保存変更ガード: 履歴あり or 名前変更ありの場合、戻る/遷移時に確認。
   useEffect(() => {
-    type BeforeRemoveEvent = {
-      preventDefault: () => void;
-      data: { action: unknown };
-    };
-    const nav = navigation as unknown as {
-      addListener: (event: 'beforeRemove', cb: (e: BeforeRemoveEvent) => void) => () => void;
-      dispatch: (action: unknown) => void;
-    };
-    const unsubscribe = nav.addListener('beforeRemove', (e) => {
-      if (!canUndo) return;
-      e.preventDefault();
-      showDialog({
-        title: t('editor.unsavedTitle'),
-        message: t('editor.unsavedMessage'),
-        actions: [
-          {
-            label: t('common.cancel'),
-            variant: 'secondary',
-            onPress: () => {},
-          },
-          {
-            label: t('editor.discardLeave'),
-            variant: 'danger',
-            onPress: () => {
-              clearHistory();
-              nav.dispatch(e.data.action);
+    const unsubscribe = navigation.addListener(
+      'beforeRemove' as never,
+      ((
+        e: EventArg<'beforeRemove', true, { action: NavigationAction }>,
+      ) => {
+        if (!canUndo && !nameDirty) return;
+        e.preventDefault();
+        showDialog({
+          title: t('editor.unsavedTitle'),
+          message: t('editor.unsavedMessage'),
+          actions: [
+            {
+              label: t('editor.saveLeave'),
+              variant: 'primary',
+              onPress: () => {
+                if (editingWorkId) {
+                  void (async () => {
+                    await handleSave(editingWorkName);
+                    navigation.dispatch(e.data.action);
+                  })();
+                } else {
+                  // 新規(未命名): 保存ダイアログを開き、保存完了時に保留アクションを dispatch
+                  pendingLeaveActionRef.current = e.data.action;
+                  setSavePromptVisible(true);
+                }
+              },
             },
-          },
-          {
-            label: t('editor.saveLeave'),
-            variant: 'primary',
-            onPress: () => {
-              if (editingWorkId) {
-                void (async () => {
-                  await handleSave(editingWorkName);
-                  nav.dispatch(e.data.action);
-                })();
-              } else {
-                // 新規(未命名)は名前入力プロンプトを開く。保存完了後に再度戻る操作を要求する。
-                setSavePromptVisible(true);
-              }
+            {
+              label: t('editor.discardLeave'),
+              variant: 'danger',
+              onPress: () => {
+                clearHistory();
+                setNameDirty(false);
+                navigation.dispatch(e.data.action);
+              },
             },
-          },
-        ],
-      });
-    });
+            {
+              label: t('common.cancel'),
+              variant: 'secondary',
+              onPress: () => {},
+            },
+          ],
+        });
+      }) as never,
+    );
     return unsubscribe;
-  }, [navigation, canUndo, showDialog, t, clearHistory, editingWorkId, editingWorkName, handleSave]);
+  }, [
+    navigation,
+    canUndo,
+    nameDirty,
+    showDialog,
+    t,
+    clearHistory,
+    setNameDirty,
+    editingWorkId,
+    editingWorkName,
+    handleSave,
+  ]);
 
   const handleUnassign = useCallback(() => {
     if (!selectedPolygonId) return;
@@ -338,7 +362,7 @@ export const EditorScreen = () => {
           />
           <IconButton
             icon="📤"
-            accessibilityLabel={t('editor.export')}
+            accessibilityLabel={t('editor.exportAction')}
             disabled={!editingWorkId}
             onPress={() => {
               if (!editingWorkId) return;
@@ -378,7 +402,11 @@ export const EditorScreen = () => {
         submitLabel={t('common.save')}
         onSubmit={(values) => {
           const next = (values.name ?? '').trim();
-          setEditingWorkName(next || t('common.untitled'));
+          const resolved = next || t('common.untitled');
+          if (resolved !== editingWorkName) {
+            setEditingWorkName(resolved);
+            setNameDirty(true);
+          }
           setRenamePromptVisible(false);
         }}
         onCancel={() => setRenamePromptVisible(false)}
@@ -398,7 +426,10 @@ export const EditorScreen = () => {
         onSubmit={(values) => {
           void handleSave(values.name ?? '');
         }}
-        onCancel={() => setSavePromptVisible(false)}
+        onCancel={() => {
+          pendingLeaveActionRef.current = null;
+          setSavePromptVisible(false);
+        }}
       />
       {!adjustMode && (
         <FabricPicker

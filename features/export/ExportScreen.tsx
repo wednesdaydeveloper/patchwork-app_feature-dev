@@ -240,6 +240,7 @@ export const ExportScreen = () => {
             fabrics={fabrics}
             size={EXPORT_RESOLUTION}
             showBorders={false}
+            backgroundFill={imageFormat === 'jpg' ? '#ffffff' : undefined}
           />
         </View>
       </View>

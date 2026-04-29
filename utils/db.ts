@@ -95,11 +95,24 @@ function rowToFabric(row: FabricImageRow): FabricImage {
   };
 }
 
+const FABRIC_NAME_FALLBACK = 'Fabric';
+
+function normalizeFabricName(name: string): string {
+  const trimmed = name.trim();
+  return trimmed.length > 0 ? trimmed : FABRIC_NAME_FALLBACK;
+}
+
 export async function insertFabric(fabric: FabricImage): Promise<void> {
   const db = await getDatabase();
   await db.runAsync(
     'INSERT INTO fabric_images (id, name, category, image_path, created_at) VALUES (?, ?, ?, ?, ?);',
-    [fabric.id, fabric.name, fabric.category, fabric.imagePath, fabric.createdAt.getTime()],
+    [
+      fabric.id,
+      normalizeFabricName(fabric.name),
+      fabric.category,
+      fabric.imagePath,
+      fabric.createdAt.getTime(),
+    ],
   );
 }
 
@@ -107,7 +120,7 @@ export async function updateFabric(fabric: FabricImage): Promise<void> {
   const db = await getDatabase();
   await db.runAsync(
     'UPDATE fabric_images SET name = ?, category = ? WHERE id = ?;',
-    [fabric.name, fabric.category, fabric.id],
+    [normalizeFabricName(fabric.name), fabric.category, fabric.id],
   );
 }
 

@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
-import Svg, { ClipPath, Defs, G, Path } from 'react-native-svg';
+import Svg, { ClipPath, Defs, G, Path, Rect } from 'react-native-svg';
 
 import { PieceImage } from '@/components/canvas/PieceImage';
 import type { Design } from '@/types/design';
@@ -15,6 +15,8 @@ export interface WorkCanvasProps {
   size: number;
   /** 境界線を描くか（エクスポート画像では非表示にしたい場合 false） */
   showBorders?: boolean;
+  /** SVG 内部に描く全面背景色。JPEG エクスポートで黒塗りを避けるために指定する。 */
+  backgroundFill?: string;
 }
 
 /**
@@ -27,6 +29,7 @@ export const WorkCanvas = ({
   fabrics,
   size,
   showBorders = true,
+  backgroundFill,
 }: WorkCanvasProps) => {
   const bboxById = useMemo(() => {
     const map = new Map<string, ReturnType<typeof computeBbox>>();
@@ -51,6 +54,7 @@ export const WorkCanvas = ({
   return (
     <View collapsable={false} style={[styles.container, { width: size, height: size }]}>
       <Svg width={size} height={size} viewBox="0 0 1 1">
+        {backgroundFill && <Rect x={0} y={0} width={1} height={1} fill={backgroundFill} />}
         <Defs>
           {design.polygons.map((p) => (
             <ClipPath key={`clip-${p.id}`} id={`clip-${p.id}`}>

@@ -42,9 +42,13 @@ fabricsByCategoryAtom.debugLabel = 'fabricsByCategory';
  * DB から布地一覧を読み込む write-only atom。
  */
 export const loadFabricsAtom = atom(null, async (_get, set) => {
-  const fabrics = await listFabrics();
-  set(fabricsAtom, fabrics);
-  set(fabricsLoadedAtom, true);
+  try {
+    const fabrics = await listFabrics();
+    set(fabricsAtom, fabrics);
+  } finally {
+    // 失敗時もスピナー無限ループを避けるため必ず loaded を立てる
+    set(fabricsLoadedAtom, true);
+  }
 });
 loadFabricsAtom.debugLabel = 'loadFabrics';
 

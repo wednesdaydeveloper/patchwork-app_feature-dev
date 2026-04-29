@@ -19,9 +19,12 @@ worksLoadedAtom.debugLabel = 'worksLoaded';
  * DB から Work 一覧を読み込む write-only atom。
  */
 export const loadWorksAtom = atom(null, async (_get, set) => {
-  const works = await listWorks();
-  set(worksAtom, works);
-  set(worksLoadedAtom, true);
+  try {
+    const works = await listWorks();
+    set(worksAtom, works);
+  } finally {
+    set(worksLoadedAtom, true);
+  }
 });
 loadWorksAtom.debugLabel = 'loadWorks';
 
