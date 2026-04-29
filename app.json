@@ -2,6 +2,7 @@
   "expo": {
     "name": "Patchwork",
     "slug": "patchwork-app",
+    "scheme": "patchwork",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
