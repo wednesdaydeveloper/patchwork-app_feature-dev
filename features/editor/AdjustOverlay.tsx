@@ -180,6 +180,20 @@ export const AdjustOverlay = ({ size }: AdjustOverlayProps) => {
         <Text style={styles.hint}>
           {t(`piece.${polygon.label}`, { defaultValue: polygon.label })}
         </Text>
+        <Button
+          label={t('editor.reset')}
+          variant="secondary"
+          onPress={() => {
+            if (!setting) return;
+            upsertPieceSetting({
+              polygonId: setting.polygonId,
+              fabricImageId: setting.fabricImageId,
+              offsetX: 0,
+              offsetY: 0,
+              scale: 1,
+            });
+          }}
+        />
         <Button label={t('editor.finishAdjust')} onPress={() => setAdjustMode(false)} />
       </View>
     </View>
