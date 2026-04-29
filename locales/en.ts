@@ -137,6 +137,8 @@ export const en: Translations = {
     exportImageFailed: 'Image export failed.',
     exportPdfFailed: 'PDF generation failed.',
     storageFull: 'Storage is full. Please delete unused works.',
+    storageLow: 'Storage is running low. Continue anyway?',
+    storageFullTitle: 'Storage low',
     designParseFailed: 'Failed to load pattern data.',
     permissionCamera: 'Please grant camera access.',
     permissionLibrary: 'Please grant photo library access.',

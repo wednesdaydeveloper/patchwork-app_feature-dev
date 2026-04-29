@@ -135,6 +135,8 @@ export const ja = {
     exportImageFailed: '画像エクスポートに失敗しました。',
     exportPdfFailed: '印刷データの生成に失敗しました。',
     storageFull: 'ストレージ容量が不足しています。不要な作品を削除してください。',
+    storageLow: 'ストレージ残量が少なくなっています。続行しますか？',
+    storageFullTitle: 'ストレージ容量不足',
     designParseFailed: 'パターンデータの読み込みに失敗しました。',
     permissionCamera: 'カメラへのアクセスを許可してください。',
     permissionLibrary: 'フォトライブラリへのアクセスを許可してください。',

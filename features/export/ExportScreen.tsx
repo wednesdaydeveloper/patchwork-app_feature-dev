@@ -20,6 +20,7 @@ import type { Design } from '@/types/design';
 import type { Work } from '@/types/work';
 import { findWorkById } from '@/utils/db';
 import { logger } from '@/utils/logger';
+import { useStorageGuard } from '@/hooks/useStorageGuard';
 
 const HORIZONTAL_PADDING = 24;
 const EXPORT_RESOLUTION = 1080;
@@ -38,6 +39,7 @@ export const ExportScreen = () => {
   const [isExporting, setIsExporting] = useState(false);
   const [paperSize, setPaperSize] = useState<PaperSize>('A4');
   const offscreenRef = useRef<View>(null);
+  const checkStorage = useStorageGuard();
 
   useEffect(() => {
     let cancelled = false;
@@ -81,6 +83,7 @@ export const ExportScreen = () => {
 
   const handleExportImage = async () => {
     if (isExporting || !offscreenRef.current) return;
+    if (!(await checkStorage())) return;
     setIsExporting(true);
     try {
       const permission = await MediaLibrary.requestPermissionsAsync();
@@ -114,6 +117,7 @@ export const ExportScreen = () => {
 
   const handleExportPdf = async () => {
     if (isExporting || !work || !design) return;
+    if (!(await checkStorage())) return;
     setIsExporting(true);
     try {
       const html = await buildPdfHtml({

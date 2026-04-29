@@ -27,6 +27,7 @@ import { FabricPicker } from '@/components/fabric/FabricPicker';
 import { Button } from '@/components/ui/Button';
 import { IconButton } from '@/components/ui/IconButton';
 import { PromptDialog } from '@/components/ui/PromptDialog';
+import { useStorageGuard } from '@/hooks/useStorageGuard';
 import { AdjustOverlay } from '@/features/editor/AdjustOverlay';
 import { EditorCanvas } from '@/features/editor/EditorCanvas';
 import type { Work } from '@/types/work';
@@ -68,6 +69,7 @@ export const EditorScreen = () => {
   const showToast = useSetAtom(showToastAtom);
   const [savePromptVisible, setSavePromptVisible] = useState(false);
   const editingWorkCreatedAt = useRef<Date | null>(null);
+  const checkStorage = useStorageGuard();
 
   useEffect(() => {
     let cancelled = false;
@@ -160,6 +162,11 @@ export const EditorScreen = () => {
   const handleSave = useCallback(
     async (name: string) => {
       if (!design) return;
+      const ok = await checkStorage();
+      if (!ok) {
+        setSavePromptVisible(false);
+        return;
+      }
       const trimmedName = name.trim() || t('common.untitled');
       const now = new Date();
       const work: Work = {
@@ -190,6 +197,7 @@ export const EditorScreen = () => {
       }
     },
     [
+      checkStorage,
       clearHistory,
       design,
       editingWorkId,
