@@ -1,6 +1,6 @@
 # #10 パターン初期データ（JSON）作成
 
-- **ステータス**: `[ ]` 未着手
+- **ステータス**: `[x]` 完了
 - **フェーズ**: 2. 型定義・データ層
 - **前提**: #07
 
@@ -10,13 +10,13 @@
 
 ## 受け入れ条件 (AC)
 
-- [ ] 最低 3 種類の初期パターンが提供される
-- [ ] **1 ファイル 1 デザイン** とし、トップ階層は `{ version, design }` 形式
-- [ ] `Polygon.path` は SVG path data（正規化座標 0.0〜1.0、`Z` で閉じる）
-- [ ] `Polygon.label` / `Design.category` は翻訳キー（例: `topLeft`, `threeGrid`）
-- [ ] `constants/designs/index.ts` でパターン読み込みローダを実装
-- [ ] サムネイルは `assets/designs/<id>.png` に配置し、`require()` で静的解決
-- [ ] パース失敗時にエラー画面が表示される（開発時のみ）
+- [x] 最低 3 種類の初期パターンが提供される
+- [x] **1 ファイル 1 デザイン** とし、トップ階層は `{ version, design }` 形式
+- [x] `Polygon.path` は SVG path data（正規化座標 0.0〜1.0、`Z` で閉じる）
+- [x] `Polygon.label` / `Design.category` は翻訳キー（例: `topLeft`, `threeGrid`）
+- [x] `constants/designs/index.ts` でパターン読み込みローダを実装
+- [x] サムネイルは `assets/designs/<id>.png` に配置し、`require()` で静的解決
+- [x] パース失敗時にエラー画面が表示される（開発時のみ）
 
 ## メモ
 
