@@ -1,6 +1,6 @@
 # #13 エディタ atom
 
-- **ステータス**: `[ ]` 未着手
+- **ステータス**: `[x]` 完了
 - **フェーズ**: 3. 状態管理（Jotai atom）
 - **前提**: #07
 
@@ -10,12 +10,12 @@
 
 ## 受け入れ条件 (AC)
 
-- [ ] `selectedDesignAtom`
-- [ ] `selectedPolygonIdAtom`
-- [ ] `pieceSettingsAtom`
-- [ ] 派生 atom: `selectedPieceSettingAtom`
-- [ ] atom 粒度は CLAUDE.md「atom の粒度」に準拠（小さく分割）
-- [ ] すべて `debugLabel` を設定
+- [x] `selectedDesignAtom`
+- [x] `selectedPolygonIdAtom`
+- [x] `pieceSettingsAtom`
+- [x] 派生 atom: `selectedPieceSettingAtom`
+- [x] atom 粒度は CLAUDE.md「atom の粒度」に準拠（小さく分割）
+- [x] すべて `debugLabel` を設定
 
 ## メモ
 
