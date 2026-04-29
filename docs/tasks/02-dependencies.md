@@ -1,6 +1,6 @@
 # #02 依存パッケージ導入
 
-- **ステータス**: `[ ]` 未着手
+- **ステータス**: `[x]` 完了
 - **フェーズ**: 1. プロジェクト基盤セットアップ
 - **前提**: #01
 
@@ -10,7 +10,7 @@ CLAUDE.md「技術スタック」記載のライブラリを追加する。
 
 ## 受け入れ条件 (AC)
 
-- [ ] 以下が `package.json` に含まれる
+- [x] 以下が `package.json` に含まれる
   - `jotai`
   - `expo-router`
   - `react-native-svg`
@@ -26,7 +26,7 @@ CLAUDE.md「技術スタック」記載のライブラリを追加する。
   - `expo-media-library`
   - `expo-print`
   - `@react-native-async-storage/async-storage`
-- [ ] 型定義が解決され `tsc --noEmit` がエラーなしで通る
+- [x] 型定義が解決され `tsc --noEmit` がエラーなしで通る
 
 ## メモ
 
