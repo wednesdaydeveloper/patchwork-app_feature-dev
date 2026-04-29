@@ -24,6 +24,10 @@ export const en: Translations = {
     settings: 'Settings',
     savedWorks: 'Saved works',
     empty: 'No saved works yet. Tap "Create new patchwork" to start.',
+    deleteConfirmTitle: 'Delete work',
+    deleteConfirm: 'Delete this work? This cannot be undone.',
+    deleteFailed: 'Failed to delete the work.',
+    updatedAt: 'Updated',
   },
   designSelect: {
     title: 'Choose a pattern',

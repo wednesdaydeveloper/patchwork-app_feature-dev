@@ -22,6 +22,10 @@ export const ja = {
     settings: '設定',
     savedWorks: '保存済み作品',
     empty: 'まだ作品がありません。新規作成から始めましょう。',
+    deleteConfirmTitle: '作品を削除',
+    deleteConfirm: 'この作品を削除しますか？この操作は取り消せません。',
+    deleteFailed: '作品の削除に失敗しました。',
+    updatedAt: '更新日',
   },
   designSelect: {
     title: 'パターン選択',
