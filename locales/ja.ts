@@ -76,6 +76,7 @@ export const ja = {
     saved: '保存しました',
     notFound: 'パッチワークが見つかりません。',
     permissionDeniedLibrary: 'フォトライブラリへのアクセスが許可されていません。',
+    scaleNote: 'パターン全体を 1×1 として描画しています。実寸で印刷するには印刷ダイアログでスケール 100% を指定してください。',
   },
   settings: {
     title: '設定',

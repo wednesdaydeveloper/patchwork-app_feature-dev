@@ -78,6 +78,7 @@ export const en: Translations = {
     saved: 'Saved.',
     notFound: 'Patchwork not found.',
     permissionDeniedLibrary: 'Photo library access is not granted.',
+    scaleNote: 'The pattern is rendered as a 1x1 unit square. To print at actual size, choose 100% scale in the print dialog.',
   },
   settings: {
     title: 'Settings',

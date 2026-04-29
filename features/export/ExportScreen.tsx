@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
-import { Dimensions, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { captureRef } from 'react-native-view-shot';
 import { useTranslation } from 'react-i18next';
 
 import { useLocalSearchParams, useRouter } from 'expo-router';
 
 import * as MediaLibrary from 'expo-media-library';
+import * as Print from 'expo-print';
 
 import { useAtomValue, useSetAtom } from 'jotai';
 
@@ -13,6 +14,7 @@ import { fabricsAtom, loadFabricsAtom } from '@/atoms/fabrics';
 import { showDialogAtom, showToastAtom } from '@/atoms/notification';
 import { Button } from '@/components/ui/Button';
 import { findDesignById, loadDesigns } from '@/constants/designs';
+import { PAPER_SIZES, type PaperSize, buildPdfHtml } from '@/features/export/buildPdfHtml';
 import { WorkCanvas } from '@/features/export/WorkCanvas';
 import type { Design } from '@/types/design';
 import type { Work } from '@/types/work';
@@ -33,6 +35,7 @@ export const ExportScreen = () => {
   const [work, setWork] = useState<Work | null>(null);
   const [design, setDesign] = useState<Design | null>(null);
   const [isExporting, setIsExporting] = useState(false);
+  const [paperSize, setPaperSize] = useState<PaperSize>('A4');
   const offscreenRef = useRef<View>(null);
 
   useEffect(() => {
@@ -106,6 +109,33 @@ export const ExportScreen = () => {
     }
   };
 
+  const handleExportPdf = async () => {
+    if (isExporting || !work || !design) return;
+    setIsExporting(true);
+    try {
+      const html = await buildPdfHtml({
+        work,
+        design,
+        fabrics,
+        paperSize,
+        scaleNote: t('exportScreen.scaleNote'),
+      });
+      const paper = PAPER_SIZES[paperSize];
+      await Print.printAsync({ html, width: paper.widthPt, height: paper.heightPt });
+    } catch (error) {
+      const detail = error instanceof Error ? error.message : '';
+      showDialog({
+        title: t('common.confirm'),
+        message: detail
+          ? `${t('error.exportPdfFailed')}\n${detail}`
+          : t('error.exportPdfFailed'),
+        actions: [{ label: t('common.ok'), onPress: () => undefined }],
+      });
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
   if (!work || !design) {
     return <View style={styles.placeholder} />;
   }
@@ -138,7 +168,35 @@ export const ExportScreen = () => {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>{t('exportScreen.pdf')}</Text>
           <Text style={styles.sectionDescription}>{t('exportScreen.pdfDescription')}</Text>
-          <Button label={t('exportScreen.pdf')} variant="secondary" onPress={() => undefined} disabled />
+          <Text style={styles.fieldLabel}>{t('exportScreen.paperSize')}</Text>
+          <View style={styles.paperRow}>
+            {(Object.keys(PAPER_SIZES) as PaperSize[]).map((size) => {
+              const selected = size === paperSize;
+              return (
+                <Pressable
+                  key={size}
+                  accessibilityRole="button"
+                  accessibilityState={{ selected }}
+                  onPress={() => setPaperSize(size)}
+                  style={[styles.paperOption, selected && styles.paperOptionSelected]}
+                >
+                  <Text
+                    style={[styles.paperOptionLabel, selected && styles.paperOptionLabelSelected]}
+                  >
+                    {size}
+                  </Text>
+                </Pressable>
+              );
+            })}
+          </View>
+          <Button
+            label={t('exportScreen.pdf')}
+            variant="secondary"
+            disabled={isExporting}
+            onPress={() => {
+              void handleExportPdf();
+            }}
+          />
         </View>
       </ScrollView>
 
@@ -196,6 +254,37 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: '#6b7280',
     lineHeight: 18,
+  },
+  fieldLabel: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: '#374151',
+    marginTop: 8,
+  },
+  paperRow: {
+    flexDirection: 'row',
+    gap: 8,
+  },
+  paperOption: {
+    flex: 1,
+    paddingVertical: 10,
+    borderWidth: 1,
+    borderColor: '#d1d5db',
+    borderRadius: 8,
+    alignItems: 'center',
+    backgroundColor: '#fff',
+  },
+  paperOptionSelected: {
+    borderColor: '#2563eb',
+    backgroundColor: '#eff6ff',
+  },
+  paperOptionLabel: {
+    fontSize: 14,
+    color: '#374151',
+    fontWeight: '600',
+  },
+  paperOptionLabelSelected: {
+    color: '#2563eb',
   },
   offscreen: {
     position: 'absolute',
