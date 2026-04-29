@@ -75,6 +75,7 @@ export const ja = {
     paperSize: '用紙サイズ',
     saved: '保存しました',
     notFound: 'パッチワークが見つかりません。',
+    permissionDeniedLibrary: 'フォトライブラリへのアクセスが許可されていません。',
   },
   settings: {
     title: '設定',

@@ -77,6 +77,7 @@ export const en: Translations = {
     paperSize: 'Paper size',
     saved: 'Saved.',
     notFound: 'Patchwork not found.',
+    permissionDeniedLibrary: 'Photo library access is not granted.',
   },
   settings: {
     title: 'Settings',
