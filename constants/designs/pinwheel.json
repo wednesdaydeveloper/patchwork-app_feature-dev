@@ -8,14 +8,46 @@
     "gridSize": 2,
     "thumbnail": "pinwheel.png",
     "polygons": [
-      { "id": "tl-outer", "label": "topLeftOuter", "path": "M 0.00 0.00 L 0.50 0.00 L 0.00 0.50 Z" },
-      { "id": "tl-inner", "label": "topLeftInner", "path": "M 0.50 0.00 L 0.50 0.50 L 0.00 0.50 Z" },
-      { "id": "tr-outer", "label": "topRightOuter", "path": "M 0.50 0.00 L 1.00 0.00 L 1.00 0.50 Z" },
-      { "id": "tr-inner", "label": "topRightInner", "path": "M 0.50 0.00 L 1.00 0.50 L 0.50 0.50 Z" },
-      { "id": "br-outer", "label": "bottomRightOuter", "path": "M 1.00 0.50 L 1.00 1.00 L 0.50 1.00 Z" },
-      { "id": "br-inner", "label": "bottomRightInner", "path": "M 0.50 0.50 L 1.00 0.50 L 0.50 1.00 Z" },
-      { "id": "bl-outer", "label": "bottomLeftOuter", "path": "M 0.00 0.50 L 0.50 1.00 L 0.00 1.00 Z" },
-      { "id": "bl-inner", "label": "bottomLeftInner", "path": "M 0.00 0.50 L 0.50 0.50 L 0.50 1.00 Z" }
+      {
+        "id": "tl-outer",
+        "label": "topLeftOuter",
+        "path": "M 0.00 0.00 L 0.50 0.00 L 0.00 0.50 Z"
+      },
+      {
+        "id": "tl-inner",
+        "label": "topLeftInner",
+        "path": "M 0.50 0.00 L 0.50 0.50 L 0.00 0.50 Z"
+      },
+      {
+        "id": "tr-outer",
+        "label": "topRightOuter",
+        "path": "M 0.50 0.00 L 1.00 0.00 L 1.00 0.50 Z"
+      },
+      {
+        "id": "tr-inner",
+        "label": "topRightInner",
+        "path": "M 0.50 0.00 L 1.00 0.50 L 0.50 0.50 Z"
+      },
+      {
+        "id": "br-outer",
+        "label": "bottomRightOuter",
+        "path": "M 1.00 0.50 L 1.00 1.00 L 0.50 1.00 Z"
+      },
+      {
+        "id": "br-inner",
+        "label": "bottomRightInner",
+        "path": "M 0.50 0.50 L 1.00 0.50 L 0.50 1.00 Z"
+      },
+      {
+        "id": "bl-outer",
+        "label": "bottomLeftOuter",
+        "path": "M 0.00 0.50 L 0.50 1.00 L 0.00 1.00 Z"
+      },
+      {
+        "id": "bl-inner",
+        "label": "bottomLeftInner",
+        "path": "M 0.00 0.50 L 0.50 0.50 L 0.50 1.00 Z"
+      }
     ]
   }
 }
