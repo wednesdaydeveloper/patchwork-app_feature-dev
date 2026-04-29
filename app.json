@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "_init_temp",
-    "slug": "_init_temp",
+    "name": "Patchwork",
+    "slug": "patchwork-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
