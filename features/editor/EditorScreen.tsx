@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
+import { Pressable, StyleSheet, Text, View, type LayoutChangeEvent } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router';
@@ -182,14 +182,12 @@ export const EditorScreen = () => {
     t,
   ]);
 
-  const { width: screenWidth, height: screenHeight } = useWindowDimensions();
-  // 縦方向の予約領域: ヘッダ・ツールバー・ラベル・アクション行・布地ピッカー・各種余白
-  // 数値は実機計測ベースのおおよその値。
-  const VERTICAL_RESERVED = 360;
-  const canvasSize = Math.max(
-    240,
-    Math.min(screenWidth - HORIZONTAL_PADDING * 2, screenHeight - VERTICAL_RESERVED, 480),
-  );
+  // キャンバスサイズは onLayout で実測した利用可能領域から決める。
+  // 利用可能領域の短辺(width / height の小さい方)を採用することで、
+  // 画面幅・画面高さ・端末種別に依らずアクション行や布地ピッカーが
+  // 押し出されない正方形キャンバスになる。
+  const [canvasArea, setCanvasArea] = useState<{ width: number; height: number } | null>(null);
+  const canvasSize = canvasArea ? Math.min(canvasArea.width, canvasArea.height) : 0;
 
   const selectedLabel = useMemo(() => {
     if (!design || !selectedPolygonId) {
@@ -405,7 +403,15 @@ export const EditorScreen = () => {
           />
         </View>
         <Text style={styles.label}>{selectedLabel}</Text>
-        <EditorCanvas design={design} size={canvasSize} />
+        <View
+          style={styles.canvasSlot}
+          onLayout={(e: LayoutChangeEvent) => {
+            const { width, height } = e.nativeEvent.layout;
+            setCanvasArea({ width, height });
+          }}
+        >
+          {canvasSize > 0 && <EditorCanvas design={design} size={canvasSize} />}
+        </View>
         {selectedFabricId && !adjustMode && (
           <View style={styles.actionRow}>
             <Button
@@ -526,6 +532,13 @@ const styles = StyleSheet.create({
     paddingTop: 24,
     paddingHorizontal: HORIZONTAL_PADDING,
     gap: 16,
+  },
+  canvasSlot: {
+    flex: 1,
+    alignSelf: 'stretch',
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: 0,
   },
   placeholderContainer: {
     flex: 1,
