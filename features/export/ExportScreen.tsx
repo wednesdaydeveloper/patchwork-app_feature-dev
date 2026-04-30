@@ -160,6 +160,7 @@ export const ExportScreen = () => {
             pieceSettings={work.pieceSettings}
             fabrics={fabrics}
             size={previewSize}
+            sizeMm={work.sizeMm}
           />
         </View>
 
@@ -241,6 +242,7 @@ export const ExportScreen = () => {
             size={EXPORT_RESOLUTION}
             showBorders={false}
             backgroundFill={imageFormat === 'jpg' ? '#ffffff' : undefined}
+            sizeMm={work.sizeMm}
           />
         </View>
       </View>

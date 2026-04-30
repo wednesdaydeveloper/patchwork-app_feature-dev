@@ -13,6 +13,7 @@ import { useAtomValue, useSetAtom } from 'jotai';
 
 import {
   adjustModeAtom,
+  editingWorkSizeMmAtom,
   pieceSettingsAtom,
   selectedDesignAtom,
   selectedPolygonIdAtom,
@@ -49,6 +50,7 @@ export const AdjustOverlay = ({ size }: AdjustOverlayProps) => {
   const selectedId = useAtomValue(selectedPolygonIdAtom);
   const settings = useAtomValue(pieceSettingsAtom);
   const fabrics = useAtomValue(fabricsAtom);
+  const sizeMm = useAtomValue(editingWorkSizeMmAtom);
   const upsertPieceSetting = useSetAtom(upsertPieceSettingAtom);
   const pushHistory = useSetAtom(pushHistoryAtom);
   const sampled = useSampledPolygons(design);
@@ -75,10 +77,16 @@ export const AdjustOverlay = ({ size }: AdjustOverlayProps) => {
   const viewBox = `${vbMinX} ${vbMinY} ${vbSize} ${vbSize}`;
   const vbPerPx = vbSize / size;
 
+  // 実寸モード（pxPerMm 設定済み）: drawScale_per_px = 1 / (pxPerMm * sizeMm)
+  // フォールバック（未キャリブレーション）: drawScale_per_px = max(bbox.w/img.w, bbox.h/img.h)（cover）
+  const useRealScale =
+    !!fabric && fabric.pxPerMm != null && fabric.pxPerMm > 0 && sizeMm > 0;
   const fitScale =
-    bbox && imgSize && imgSize.width > 0 && imgSize.height > 0
-      ? Math.max(bbox.width / imgSize.width, bbox.height / imgSize.height)
-      : 0;
+    useRealScale && fabric && fabric.pxPerMm
+      ? 1 / (fabric.pxPerMm * sizeMm)
+      : bbox && imgSize && imgSize.width > 0 && imgSize.height > 0
+        ? Math.max(bbox.width / imgSize.width, bbox.height / imgSize.height)
+        : 0;
 
   const commit = useCallback(
     (deltaX: number, deltaY: number, scaleMul: number) => {
@@ -172,7 +180,7 @@ export const AdjustOverlay = ({ size }: AdjustOverlayProps) => {
               <G clipPath={`url(#adjust-clip-${polygon.id})`}>
                 <AnimatedSvgImage
                   href={fabric.imagePath}
-                  preserveAspectRatio="none"
+                  preserveAspectRatio="xMidYMid slice"
                   animatedProps={animatedProps}
                 />
               </G>

@@ -17,6 +17,8 @@ export interface WorkCanvasProps {
   showBorders?: boolean;
   /** SVG 内部に描く全面背景色。JPEG エクスポートで黒塗りを避けるために指定する。 */
   backgroundFill?: string;
+  /** Work の物理サイズ（mm）。実寸描画に使用。未指定時はフォールバック描画。 */
+  sizeMm?: number;
 }
 
 /**
@@ -30,6 +32,7 @@ export const WorkCanvas = ({
   size,
   showBorders = true,
   backgroundFill,
+  sizeMm,
 }: WorkCanvasProps) => {
   const bboxById = useMemo(() => {
     const map = new Map<string, ReturnType<typeof computeBbox>>();
@@ -89,6 +92,8 @@ export const WorkCanvas = ({
                 offsetX={setting.offsetX}
                 offsetY={setting.offsetY}
                 scale={setting.scale}
+                sizeMm={sizeMm}
+                pxPerMm={fabric.pxPerMm}
               />
             </G>
           );

@@ -4,7 +4,11 @@ import Svg, { ClipPath, Defs, G, Path } from 'react-native-svg';
 
 import { useAtom, useAtomValue } from 'jotai';
 
-import { pieceSettingsAtom, selectedPolygonIdAtom } from '@/atoms/editor';
+import {
+  editingWorkSizeMmAtom,
+  pieceSettingsAtom,
+  selectedPolygonIdAtom,
+} from '@/atoms/editor';
 import { fabricsAtom } from '@/atoms/fabrics';
 import { PieceImage } from '@/components/canvas/PieceImage';
 import { useSampledPolygons } from '@/features/editor/useSampledPolygons';
@@ -28,6 +32,7 @@ export const EditorCanvas = ({ design, size }: EditorCanvasProps) => {
   const [selectedId, setSelectedId] = useAtom(selectedPolygonIdAtom);
   const settings = useAtomValue(pieceSettingsAtom);
   const fabrics = useAtomValue(fabricsAtom);
+  const sizeMm = useAtomValue(editingWorkSizeMmAtom);
   const sampled = useSampledPolygons(design);
 
   const settingsByPolygon = useMemo(() => {
@@ -109,6 +114,8 @@ export const EditorCanvas = ({ design, size }: EditorCanvasProps) => {
                   offsetX={setting.offsetX}
                   offsetY={setting.offsetY}
                   scale={setting.scale}
+                  sizeMm={sizeMm}
+                  pxPerMm={fabric.pxPerMm}
                 />
               </G>
             );
