@@ -13,32 +13,56 @@
     "test": "jest"
   },
   "jest": {
-    "testEnvironment": "node",
-    "transform": {
-      "^.+\\.(ts|tsx|js|jsx)$": [
-        "babel-jest",
-        {
-          "presets": [
-            [
-              "@babel/preset-env",
-              {
-                "targets": {
-                  "node": "current"
-                }
-              }
-            ],
-            "@babel/preset-typescript"
+    "projects": [
+      {
+        "displayName": "node",
+        "testEnvironment": "node",
+        "transform": {
+          "^.+\\.(ts|tsx|js|jsx)$": [
+            "babel-jest",
+            {
+              "presets": [
+                [
+                  "@babel/preset-env",
+                  {
+                    "targets": {
+                      "node": "current"
+                    }
+                  }
+                ],
+                "@babel/preset-typescript"
+              ]
+            }
           ]
-        }
-      ]
-    },
-    "moduleNameMapper": {
-      "^@/(.*)$": "<rootDir>/$1"
-    },
-    "testPathIgnorePatterns": [
-      "/node_modules/",
-      "/.expo/",
-      "/dist/"
+        },
+        "moduleNameMapper": {
+          "^@/(.*)$": "<rootDir>/$1"
+        },
+        "testMatch": [
+          "<rootDir>/__tests__/**/*.test.ts"
+        ],
+        "testPathIgnorePatterns": [
+          "/node_modules/",
+          "/.expo/",
+          "/dist/"
+        ]
+      },
+      {
+        "displayName": "rn",
+        "preset": "jest-expo",
+        "setupFiles": [
+          "<rootDir>/jest.setup.js"
+        ],
+        "moduleNameMapper": {
+          "^@/(.*)$": "<rootDir>/$1"
+        },
+        "testMatch": [
+          "<rootDir>/__tests__/**/*.test.tsx"
+        ],
+        "transformIgnorePatterns": [
+          "node_modules/(?!((jest-)?react-native|@react-native(-community)?|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg|react-native-reanimated|react-native-worklets|@react-native-async-storage|jotai))"
+        ]
+      }
     ]
   },
   "dependencies": {
@@ -75,6 +99,7 @@
   "devDependencies": {
     "@babel/preset-env": "^7.29.2",
     "@babel/preset-typescript": "^7.28.5",
+    "@testing-library/react-native": "^13.3.3",
     "@trivago/prettier-plugin-sort-imports": "^6.0.2",
     "@types/jest": "^30.0.0",
     "@types/react": "~19.1.0",
@@ -87,7 +112,9 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.5",
     "jest": "^30.3.0",
+    "jest-expo": "~54.0.17",
     "prettier": "^3.8.3",
+    "react-test-renderer": "^19.1.0",
     "typescript": "~5.9.2"
   },
   "private": true

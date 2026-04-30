@@ -48,7 +48,7 @@ export const Dialog = ({
       >
         <Pressable
           accessibilityRole="none"
-          onPress={(e) => e.stopPropagation()}
+          onPress={(e) => e?.stopPropagation?.()}
           style={styles.card}
         >
           {title && <Text style={styles.title}>{title}</Text>}

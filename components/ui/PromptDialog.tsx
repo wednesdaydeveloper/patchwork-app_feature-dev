@@ -84,7 +84,7 @@ export const PromptDialog = ({
         style={styles.flex}
       >
         <Pressable accessibilityRole="none" style={styles.backdrop} onPress={onCancel}>
-          <Pressable accessibilityRole="none" onPress={(e) => e.stopPropagation()} style={styles.card}>
+          <Pressable accessibilityRole="none" onPress={(e) => e?.stopPropagation?.()} style={styles.card}>
             <Text style={styles.title}>{title}</Text>
             {message && <Text style={styles.message}>{message}</Text>}
             {fields.map((field) => (
