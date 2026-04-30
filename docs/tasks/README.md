@@ -146,6 +146,7 @@
 | #65 | [翻訳キー editor.export のリネーム](./65-i18n-export-key-rename.md)             | #49      | 🟢     |
 | #66 | [Stack ヘッダータイトルの多言語化](./66-stack-title-i18n.md)                     | #16-#18  | 🔴     |
 | #67 | [作品一覧のスワイプ削除 UI](./67-work-swipe-to-delete.md)                       | #21, #22 | 🟡     |
+| #68 | [布地一覧のスワイプ削除 UI](./68-fabric-swipe-to-delete.md)                     | #50, #67 | 🟡     |
 
 ---
 

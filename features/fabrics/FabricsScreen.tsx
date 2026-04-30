@@ -124,33 +124,6 @@ export const FabricsScreen = () => {
     [showDialog, performDelete, t],
   );
 
-  const handleOpenMenu = useCallback(
-    (fabric: FabricImage) => {
-      showDialog({
-        title: fabric.name,
-        message: t('fabrics.menuPrompt'),
-        actions: [
-          {
-            label: t('fabrics.edit'),
-            variant: 'primary',
-            onPress: () => setEditingFabric(fabric),
-          },
-          {
-            label: t('common.delete'),
-            variant: 'danger',
-            onPress: () => handleDeleteRequest(fabric),
-          },
-          {
-            label: t('common.cancel'),
-            variant: 'secondary',
-            onPress: () => undefined,
-          },
-        ],
-        dismissOnBackdrop: true,
-      });
-    },
-    [showDialog, t, handleDeleteRequest],
-  );
 
   return (
     <View style={styles.container}>
@@ -177,8 +150,8 @@ export const FabricsScreen = () => {
             <FabricListItem
               fabric={item}
               onPress={setEditingFabric}
-              onMenu={handleOpenMenu}
-              menuAccessibilityLabel={t('fabrics.menu')}
+              onDelete={handleDeleteRequest}
+              deleteAccessibilityLabel={t('common.delete')}
             />
           )}
           renderSectionHeader={({ section }) => (

@@ -1,5 +1,6 @@
-import { memo } from 'react';
+import { memo, useRef } from 'react';
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Swipeable } from 'react-native-gesture-handler';
 
 import type { FabricImage } from '@/types/fabric';
 
@@ -7,24 +8,48 @@ export interface FabricListItemProps {
   fabric: FabricImage;
   /** タップ時(編集ダイアログを開く想定) */
   onPress?: (fabric: FabricImage) => void;
-  /** ︙ メニューボタン押下時 */
-  onMenu?: (fabric: FabricImage) => void;
-  menuAccessibilityLabel?: string;
+  /** スワイプ削除ボタン押下時 */
+  onDelete?: (fabric: FabricImage) => void;
+  deleteAccessibilityLabel?: string;
 }
 
 const FabricListItemImpl = ({
   fabric,
   onPress,
-  onMenu,
-  menuAccessibilityLabel,
+  onDelete,
+  deleteAccessibilityLabel,
 }: FabricListItemProps) => {
+  const swipeableRef = useRef<Swipeable>(null);
+
+  const renderRightActions = onDelete
+    ? () => (
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={deleteAccessibilityLabel}
+          onPress={() => {
+            swipeableRef.current?.close();
+            onDelete(fabric);
+          }}
+          style={({ pressed }) => [styles.deleteAction, pressed && styles.deleteActionPressed]}
+        >
+          <Text style={styles.deleteActionLabel}>{deleteAccessibilityLabel}</Text>
+        </Pressable>
+      )
+    : undefined;
+
   return (
-    <View style={styles.container}>
+    <Swipeable
+      ref={swipeableRef}
+      renderRightActions={renderRightActions}
+      overshootRight={false}
+      friction={2}
+      rightThreshold={40}
+    >
       <Pressable
         accessibilityRole="button"
         accessibilityLabel={fabric.name}
         onPress={onPress ? () => onPress(fabric) : undefined}
-        style={({ pressed }) => [styles.body, pressed && styles.pressed]}
+        style={({ pressed }) => [styles.container, pressed && styles.pressed]}
       >
         <Image source={{ uri: fabric.imagePath }} style={styles.thumbnail} />
         <View style={styles.text}>
@@ -38,17 +63,7 @@ const FabricListItemImpl = ({
           )}
         </View>
       </Pressable>
-      {onMenu && (
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel={menuAccessibilityLabel}
-          onPress={() => onMenu(fabric)}
-          style={({ pressed }) => [styles.menu, pressed && styles.pressed]}
-        >
-          <Text style={styles.menuIcon}>⋮</Text>
-        </Pressable>
-      )}
-    </View>
+    </Swipeable>
   );
 };
 
@@ -59,16 +74,11 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
+    paddingVertical: 10,
+    paddingHorizontal: 12,
     backgroundColor: '#fff',
     borderRadius: 10,
     marginBottom: 6,
-  },
-  body: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 10,
-    paddingHorizontal: 12,
     gap: 12,
   },
   pressed: {
@@ -93,13 +103,20 @@ const styles = StyleSheet.create({
     color: '#6b7280',
     marginTop: 4,
   },
-  menu: {
-    paddingVertical: 12,
-    paddingHorizontal: 14,
+  deleteAction: {
+    backgroundColor: '#dc2626',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 24,
+    marginBottom: 6,
+    borderRadius: 10,
   },
-  menuIcon: {
-    fontSize: 20,
-    color: '#6b7280',
+  deleteActionPressed: {
+    opacity: 0.8,
+  },
+  deleteActionLabel: {
+    color: '#fff',
+    fontSize: 15,
     fontWeight: '700',
   },
 });
