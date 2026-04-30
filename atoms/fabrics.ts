@@ -62,15 +62,25 @@ export const addFabricAtom = atom(null, async (get, set, fabric: FabricImage) =>
 addFabricAtom.debugLabel = 'addFabric';
 
 /**
- * 布地のメタ情報（名前 / カテゴリ）を更新する write-only atom。
+ * 布地のメタ情報（名前 / カテゴリ / pxPerMm）を更新する write-only atom。
+ * `pxPerMm` を省略した場合は既存値を維持する。
  */
 export const updateFabricAtom = atom(
   null,
-  async (get, set, args: { id: string; name: string; category: string }) => {
+  async (
+    get,
+    set,
+    args: { id: string; name: string; category: string; pxPerMm?: number | null },
+  ) => {
     const fabrics = get(fabricsAtom);
     const target = fabrics.find((f) => f.id === args.id);
     if (!target) return;
-    const next: FabricImage = { ...target, name: args.name, category: args.category };
+    const next: FabricImage = {
+      ...target,
+      name: args.name,
+      category: args.category,
+      pxPerMm: args.pxPerMm !== undefined ? args.pxPerMm : target.pxPerMm,
+    };
     await updateFabric(next);
     set(
       fabricsAtom,

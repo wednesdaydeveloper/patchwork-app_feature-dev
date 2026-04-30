@@ -76,6 +76,15 @@ async function migrate(db: SQLite.SQLiteDatabase): Promise<void> {
       PRAGMA user_version = 2;
     `);
   }
+
+  if (current < 3) {
+    // FabricImage にキャリブレーション値（画像 1mm あたりの px 数）を追加。
+    // 既存行は NULL（未キャリブレーション）として扱う。
+    await db.execAsync(`
+      ALTER TABLE fabric_images ADD COLUMN px_per_mm REAL;
+      PRAGMA user_version = 3;
+    `);
+  }
 }
 
 // ----------------------------------------------------------------------------
@@ -87,6 +96,7 @@ interface FabricImageRow {
   name: string;
   category: string;
   image_path: string;
+  px_per_mm: number | null;
   created_at: number;
 }
 
@@ -96,6 +106,7 @@ function rowToFabric(row: FabricImageRow): FabricImage {
     name: row.name,
     category: row.category,
     imagePath: row.image_path,
+    pxPerMm: row.px_per_mm,
     createdAt: new Date(row.created_at),
   };
 }
@@ -110,12 +121,13 @@ function normalizeFabricName(name: string): string {
 export async function insertFabric(fabric: FabricImage): Promise<void> {
   const db = await getDatabase();
   await db.runAsync(
-    'INSERT INTO fabric_images (id, name, category, image_path, created_at) VALUES (?, ?, ?, ?, ?);',
+    'INSERT INTO fabric_images (id, name, category, image_path, px_per_mm, created_at) VALUES (?, ?, ?, ?, ?, ?);',
     [
       fabric.id,
       normalizeFabricName(fabric.name),
       fabric.category,
       fabric.imagePath,
+      fabric.pxPerMm,
       fabric.createdAt.getTime(),
     ],
   );
@@ -124,15 +136,15 @@ export async function insertFabric(fabric: FabricImage): Promise<void> {
 export async function updateFabric(fabric: FabricImage): Promise<void> {
   const db = await getDatabase();
   await db.runAsync(
-    'UPDATE fabric_images SET name = ?, category = ? WHERE id = ?;',
-    [normalizeFabricName(fabric.name), fabric.category, fabric.id],
+    'UPDATE fabric_images SET name = ?, category = ?, px_per_mm = ? WHERE id = ?;',
+    [normalizeFabricName(fabric.name), fabric.category, fabric.pxPerMm, fabric.id],
   );
 }
 
 export async function listFabrics(): Promise<FabricImage[]> {
   const db = await getDatabase();
   const rows = await db.getAllAsync<FabricImageRow>(
-    'SELECT id, name, category, image_path, created_at FROM fabric_images ORDER BY created_at DESC;',
+    'SELECT id, name, category, image_path, px_per_mm, created_at FROM fabric_images ORDER BY created_at DESC;',
   );
   return rows.map(rowToFabric);
 }
@@ -140,7 +152,7 @@ export async function listFabrics(): Promise<FabricImage[]> {
 export async function findFabricById(id: string): Promise<FabricImage | null> {
   const db = await getDatabase();
   const row = await db.getFirstAsync<FabricImageRow>(
-    'SELECT id, name, category, image_path, created_at FROM fabric_images WHERE id = ?;',
+    'SELECT id, name, category, image_path, px_per_mm, created_at FROM fabric_images WHERE id = ?;',
     [id],
   );
   return row ? rowToFabric(row) : null;

@@ -15,6 +15,7 @@ import { showDialogAtom, showToastAtom } from '@/atoms/notification';
 import { Button } from '@/components/ui/Button';
 import { LoadingView } from '@/components/ui/LoadingView';
 import { PromptDialog } from '@/components/ui/PromptDialog';
+import { CalibrationScreen } from '@/features/fabrics/CalibrationScreen';
 import { FabricListItem } from '@/features/fabrics/FabricListItem';
 import { useFabricRegister } from '@/features/fabrics/useFabricRegister';
 import type { FabricImage } from '@/types/fabric';
@@ -33,6 +34,7 @@ export const FabricsScreen = () => {
   const removeFabric = useSetAtom(removeFabricAtom);
   const updateFabricMeta = useSetAtom(updateFabricAtom);
   const [editingFabric, setEditingFabric] = useState<FabricImage | null>(null);
+  const [recalibrateTarget, setRecalibrateTarget] = useState<FabricImage | null>(null);
   const showDialog = useSetAtom(showDialogAtom);
   const showToast = useSetAtom(showToastAtom);
   const register = useFabricRegister();
@@ -125,6 +127,11 @@ export const FabricsScreen = () => {
   );
 
 
+  const hasUncalibrated = useMemo(
+    () => fabrics.some((f) => f.pxPerMm == null),
+    [fabrics],
+  );
+
   return (
     <View style={styles.container}>
       <View style={styles.actions}>
@@ -135,6 +142,12 @@ export const FabricsScreen = () => {
           onPress={() => void register.pick('library')}
         />
       </View>
+
+      {hasUncalibrated && (
+        <View style={styles.warningBanner}>
+          <Text style={styles.warningText}>{t('fabrics.uncalibratedWarning')}</Text>
+        </View>
+      )}
 
       {!loaded ? (
         <LoadingView label={t('common.loading')} />
@@ -183,16 +196,21 @@ export const FabricsScreen = () => {
           if (!editingFabric) return;
           const name = (values.name ?? '').trim() || t('common.untitledFabric');
           const category = (values.category ?? '').trim();
+          const target = editingFabric;
           void (async () => {
             try {
-              await updateFabricMeta({ id: editingFabric.id, name, category });
+              await updateFabricMeta({ id: target.id, name, category });
             } catch (error) {
               logger.error('fabrics', 'failed to update fabric', error, {
-                fabricId: editingFabric.id,
+                fabricId: target.id,
               });
               showToast({ message: t('fabrics.updateFailed'), variant: 'error' });
             } finally {
               setEditingFabric(null);
+              // 未キャリブレーションの布地のみ自動でキャリブレーション画面を開く
+              if (target.pxPerMm == null) {
+                setRecalibrateTarget(target);
+              }
             }
           })();
         }}
@@ -213,10 +231,51 @@ export const FabricsScreen = () => {
           },
         ]}
         onSubmit={(values) => {
-          void register.confirm(values.name ?? '', values.category ?? '');
+          register.confirmMeta(values.name ?? '', values.category ?? '');
         }}
         onCancel={register.cancel}
       />
+
+      {/* 新規登録のキャリブレーション */}
+      {register.pendingCalibration && (
+        <CalibrationScreen
+          visible={true}
+          imageUri={register.pendingCalibration.uri}
+          onConfirm={(pxPerMm) => {
+            void register.confirmCalibration(pxPerMm);
+          }}
+          onCancel={register.cancel}
+        />
+      )}
+
+      {/* 既存布地の再キャリブレーション */}
+      {recalibrateTarget && (
+        <CalibrationScreen
+          visible={true}
+          imageUri={recalibrateTarget.imagePath}
+          onConfirm={(pxPerMm) => {
+            const target = recalibrateTarget;
+            setRecalibrateTarget(null);
+            void (async () => {
+              try {
+                await updateFabricMeta({
+                  id: target.id,
+                  name: target.name,
+                  category: target.category,
+                  pxPerMm,
+                });
+                showToast({ message: t('fabrics.calibrationSaved'), variant: 'success' });
+              } catch (error) {
+                logger.error('fabrics', 'failed to save calibration', error, {
+                  fabricId: target.id,
+                });
+                showToast({ message: t('fabrics.updateFailed'), variant: 'error' });
+              }
+            })();
+          }}
+          onCancel={() => setRecalibrateTarget(null)}
+        />
+      )}
     </View>
   );
 };
@@ -254,5 +313,18 @@ const styles = StyleSheet.create({
     color: '#6b7280',
     textAlign: 'center',
     lineHeight: 20,
+  },
+  warningBanner: {
+    backgroundColor: '#fef3c7',
+    borderColor: '#f59e0b',
+    borderWidth: 1,
+    borderRadius: 8,
+    padding: 10,
+    marginBottom: 12,
+  },
+  warningText: {
+    fontSize: 12,
+    color: '#92400e',
+    lineHeight: 18,
   },
 });

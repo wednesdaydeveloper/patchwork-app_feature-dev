@@ -17,10 +17,22 @@ interface PendingPick {
   uri: string;
 }
 
+interface PendingCalibration {
+  uri: string;
+  name: string;
+  category: string;
+}
+
 interface UseFabricRegisterResult {
+  /** 名前/カテゴリ入力待ち */
   pending: PendingPick | null;
+  /** キャリブレーション待ち */
+  pendingCalibration: PendingCalibration | null;
   pick: (source: RegisterSource) => Promise<void>;
-  confirm: (name: string, category: string) => Promise<void>;
+  /** 名前/カテゴリを確定し、キャリブレーション段階へ進める */
+  confirmMeta: (name: string, category: string) => void;
+  /** キャリブレーション結果(pxPerMm)を確定し、DB 登録 */
+  confirmCalibration: (pxPerMm: number) => Promise<void>;
   cancel: () => void;
 }
 
@@ -45,6 +57,7 @@ function defaultName(): string {
 export function useFabricRegister(): UseFabricRegisterResult {
   const { t } = useTranslation();
   const [pending, setPending] = useState<PendingPick | null>(null);
+  const [pendingCalibration, setPendingCalibration] = useState<PendingCalibration | null>(null);
   const showToast = useSetAtom(showToastAtom);
   const addFabric = useSetAtom(addFabricAtom);
 
@@ -90,36 +103,49 @@ export function useFabricRegister(): UseFabricRegisterResult {
     [showToast, t],
   );
 
-  const confirm = useCallback(
-    async (name: string, category: string) => {
-      if (!pending) {
-        return;
-      }
+  const confirmMeta = useCallback(
+    (name: string, category: string) => {
+      if (!pending) return;
+      setPendingCalibration({
+        uri: pending.uri,
+        name: name.trim() || defaultName(),
+        category: category.trim(),
+      });
+      setPending(null);
+    },
+    [pending],
+  );
+
+  const confirmCalibration = useCallback(
+    async (pxPerMm: number) => {
+      if (!pendingCalibration) return;
       try {
         const id = generateFabricId();
-        const localUri = saveFabricImage(pending.uri, id);
+        const localUri = saveFabricImage(pendingCalibration.uri, id);
         const fabric: FabricImage = {
           id,
-          name: name.trim() || defaultName(),
-          category: category.trim(),
+          name: pendingCalibration.name,
+          category: pendingCalibration.category,
           imagePath: localUri,
+          pxPerMm,
           createdAt: new Date(),
         };
         await addFabric(fabric);
-        setPending(null);
+        setPendingCalibration(null);
         showToast({ message: t('fabrics.registerSuccess'), variant: 'success' });
       } catch (error) {
-        setPending(null);
+        setPendingCalibration(null);
         logger.error('fabrics', 'failed to register fabric', error);
         showToast({ message: t('fabrics.registerFailed'), variant: 'error' });
       }
     },
-    [pending, addFabric, showToast, t],
+    [pendingCalibration, addFabric, showToast, t],
   );
 
   const cancel = useCallback(() => {
     setPending(null);
+    setPendingCalibration(null);
   }, []);
 
-  return { pending, pick, confirm, cancel };
+  return { pending, pendingCalibration, pick, confirmMeta, confirmCalibration, cancel };
 }
