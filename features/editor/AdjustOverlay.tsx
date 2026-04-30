@@ -145,22 +145,34 @@ export const AdjustOverlay = ({ size }: AdjustOverlayProps) => {
     [panGesture, rotationGesture],
   );
 
-  // 画像中心まわりの回転 + パターン座標系への配置を transform で表現
+  // 画像中心まわりの回転 + パターン座標系への配置を SVG `matrix(a,b,c,d,e,f)` で表現する。
+  // `translate(...) rotate(...) scale(...) translate(...)` のチェーンを animatedProps の
+  // 文字列で渡すと、reanimated/react-native-svg のパーサ次第で transform が壊れる場合があり、
+  // matrix 形式なら確実に伝わる。
+  //
+  // 合成した変換を行列で書くと:
+  //   x' = s*cos*x  - s*sin*y + (cx - s*cos*w/2 + s*sin*h/2)
+  //   y' = s*sin*x  + s*cos*y + (cy - s*sin*w/2 - s*cos*h/2)
+  //   matrix(a, b, c, d, e, f) は
+  //     a = s*cos, b = s*sin, c = -s*sin, d = s*cos
+  //     e = cx - a*w/2 - c*h/2
+  //     f = cy - b*w/2 - d*h/2
   const animatedProps = useAnimatedProps(() => {
     if (!setting || !bbox || !imgSize || drawScalePerPx === 0) {
-      return { transform: 'scale(0)' };
+      return { transform: 'matrix(0 0 0 0 0 0)' };
     }
     const cx = bbox.minX + bbox.width * (0.5 + setting.offsetX) + liveOffsetX.value;
     const cy = bbox.minY + bbox.height * (0.5 + setting.offsetY) + liveOffsetY.value;
-    const totalRotationRad = setting.rotation + liveRotation.value;
-    const rotationDeg = (totalRotationRad * 180) / Math.PI;
-    return {
-      transform:
-        `translate(${cx}, ${cy}) ` +
-        `rotate(${rotationDeg}) ` +
-        `scale(${drawScalePerPx}) ` +
-        `translate(${-imgSize.width / 2}, ${-imgSize.height / 2})`,
-    };
+    const theta = setting.rotation + liveRotation.value;
+    const cos = Math.cos(theta);
+    const sin = Math.sin(theta);
+    const a = drawScalePerPx * cos;
+    const b = drawScalePerPx * sin;
+    const c = -drawScalePerPx * sin;
+    const d = drawScalePerPx * cos;
+    const e = cx - (a * imgSize.width) / 2 - (c * imgSize.height) / 2;
+    const f = cy - (b * imgSize.width) / 2 - (d * imgSize.height) / 2;
+    return { transform: `matrix(${a} ${b} ${c} ${d} ${e} ${f})` };
   });
 
   if (!adjustMode || !design || !selectedId || !polygon || !bbox) {
