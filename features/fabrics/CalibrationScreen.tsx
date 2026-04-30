@@ -13,6 +13,7 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 
 import { Button } from '@/components/ui/Button';
@@ -39,6 +40,8 @@ const MAX_SCALE = 20;
 export interface CalibrationScreenProps {
   visible: boolean;
   imageUri: string;
+  /** 既存値(再キャリブ時)。指定があれば、開いた直後に画像が saved 値を反映した倍率で表示される。 */
+  initialPxPerMm?: number | null;
   /** 「保存」確定時。`pxPerMm` を渡す。 */
   onConfirm: (pxPerMm: number) => void;
   onCancel: () => void;
@@ -55,6 +58,7 @@ export interface CalibrationScreenProps {
 export const CalibrationScreen = ({
   visible,
   imageUri,
+  initialPxPerMm,
   onConfirm,
   onCancel,
 }: CalibrationScreenProps) => {
@@ -62,6 +66,7 @@ export const CalibrationScreen = ({
   const { width: screenWidth } = useWindowDimensions();
   const imageSize = useImageSize(imageUri);
   const { kind: deviceKind } = useDeviceSize();
+  const insets = useSafeAreaInsets();
   const rulerMaxMm = deviceKind === 'tablet' ? RULER_MAX_MM_TABLET : RULER_MAX_MM_PHONE;
 
   const initialDisplayWidth = useMemo(
@@ -71,8 +76,12 @@ export const CalibrationScreen = ({
 
   const initialScale = useMemo(() => {
     if (!imageSize || imageSize.width === 0) return 1;
+    // 既存 pxPerMm が指定されていればそれを反映: 画像 1mm が DP_PER_MM DP 分だけ表示される倍率。
+    if (initialPxPerMm != null && initialPxPerMm > 0) {
+      return DP_PER_MM / initialPxPerMm;
+    }
     return initialDisplayWidth / imageSize.width;
-  }, [imageSize, initialDisplayWidth]);
+  }, [imageSize, initialDisplayWidth, initialPxPerMm]);
 
   const scale = useSharedValue(1);
   const savedScale = useSharedValue(1);
@@ -157,28 +166,37 @@ export const CalibrationScreen = ({
   return (
     <Modal visible={visible} animationType="slide" onRequestClose={onCancel}>
       <View style={styles.container}>
-        <View style={styles.header}>
+        <View style={[styles.header, { paddingTop: insets.top + 16 }]}>
           <Text style={styles.title}>{t('fabrics.calibrationTitle')}</Text>
           <Text style={styles.hint}>{t('fabrics.calibrationHint')}</Text>
         </View>
 
-        <Ruler maxMm={rulerMaxMm} />
-
-        <View style={styles.imageArea}>
-          <GestureDetector gesture={composed}>
-            <Animated.View style={[styles.imageWrapper, animatedStyle]}>
-              {imageSize && (
-                <RNImage
-                  source={{ uri: imageUri }}
-                  style={{ width: imageSize.width, height: imageSize.height }}
-                  resizeMode="contain"
-                />
-              )}
-            </Animated.View>
-          </GestureDetector>
+        {/* 上ルーラ(横) */}
+        <View style={styles.topRulerRow}>
+          {/* 左ルーラとの交差マスを揃えるためのスペーサ */}
+          <View style={styles.rulerCorner} />
+          <Ruler maxMm={rulerMaxMm} orientation="horizontal" />
         </View>
 
-        <View style={styles.footer}>
+        {/* メイン: 左ルーラ(縦) + 画像エリア */}
+        <View style={styles.mainRow}>
+          <Ruler maxMm={rulerMaxMm} orientation="vertical" />
+          <View style={styles.imageArea}>
+            <GestureDetector gesture={composed}>
+              <Animated.View style={[styles.imageWrapper, animatedStyle]}>
+                {imageSize && (
+                  <RNImage
+                    source={{ uri: imageUri }}
+                    style={{ width: imageSize.width, height: imageSize.height }}
+                    resizeMode="contain"
+                  />
+                )}
+              </Animated.View>
+            </GestureDetector>
+          </View>
+        </View>
+
+        <View style={[styles.footer, { paddingBottom: insets.bottom + 16 }]}>
           <Text style={styles.live}>
             {t('fabrics.imageWidthMm', { mm: displayMmW.toFixed(1) })}
           </Text>
@@ -195,40 +213,76 @@ export const CalibrationScreen = ({
 /**
  * 物理 mm ベースの目盛りを描画する。
  * 0..maxMm、大目盛 RULER_MAJOR_MM、小目盛 RULER_MINOR_MM。
+ *
+ * orientation:
+ *  - 'horizontal': 上端に水平配置(目盛りは下向き)
+ *  - 'vertical': 左端に垂直配置(目盛りは右向き)
  */
-const Ruler = ({ maxMm }: { maxMm: number }) => {
+const Ruler = ({
+  maxMm,
+  orientation,
+}: {
+  maxMm: number;
+  orientation: 'horizontal' | 'vertical';
+}) => {
   const items = useMemo(() => {
-    const ticks: { x: number; major: boolean; label?: number }[] = [];
+    const ticks: { pos: number; major: boolean; label?: number }[] = [];
     for (let mm = 0; mm <= maxMm; mm += RULER_MINOR_MM) {
       const major = mm % RULER_MAJOR_MM === 0;
-      ticks.push({ x: mm * DP_PER_MM, major, label: major ? mm : undefined });
+      ticks.push({ pos: mm * DP_PER_MM, major, label: major ? mm : undefined });
     }
     return ticks;
   }, [maxMm]);
 
+  const isHorizontal = orientation === 'horizontal';
+
   return (
-    <View style={styles.rulerWrap}>
-      <View style={[styles.rulerBar, { width: maxMm * DP_PER_MM }]}>
-        {items.map((tick, i) => (
+    <View
+      style={[
+        styles.rulerBar,
+        isHorizontal
+          ? { width: maxMm * DP_PER_MM, height: 28 }
+          : { width: 28, height: maxMm * DP_PER_MM },
+      ]}
+    >
+      {items.map((tick, i) =>
+        isHorizontal ? (
           <View
             key={i}
             style={[
-              styles.tick,
-              { left: tick.x, height: tick.major ? 16 : 8 },
+              styles.tickHorizontal,
+              { left: tick.pos, height: tick.major ? 16 : 8 },
             ]}
           />
-        ))}
-        {items
-          .filter((t) => t.label !== undefined && t.label % RULER_MAJOR_MM === 0)
-          .map((t) => (
+        ) : (
+          <View
+            key={i}
+            style={[
+              styles.tickVertical,
+              { top: tick.pos, width: tick.major ? 16 : 8 },
+            ]}
+          />
+        ),
+      )}
+      {items
+        .filter((tk) => tk.label !== undefined && tk.label % RULER_MAJOR_MM === 0)
+        .map((tk) =>
+          isHorizontal ? (
             <Text
-              key={`l-${t.label}`}
-              style={[styles.tickLabel, { left: t.x - 8 }]}
+              key={`l-${tk.label}`}
+              style={[styles.tickLabelHorizontal, { left: tk.pos - 8 }]}
             >
-              {t.label}
+              {tk.label}
             </Text>
-          ))}
-      </View>
+          ) : (
+            <Text
+              key={`l-${tk.label}`}
+              style={[styles.tickLabelVertical, { top: tk.pos - 6 }]}
+            >
+              {tk.label}
+            </Text>
+          ),
+        )}
     </View>
   );
 };
@@ -245,7 +299,6 @@ const styles = StyleSheet.create({
   },
   header: {
     paddingHorizontal: 24,
-    paddingTop: 24,
     paddingBottom: 12,
     gap: 4,
   },
@@ -259,25 +312,42 @@ const styles = StyleSheet.create({
     color: '#d1d5db',
     lineHeight: 18,
   },
-  rulerWrap: {
-    paddingHorizontal: 24,
-    paddingVertical: 12,
-    alignItems: 'flex-start',
+  topRulerRow: {
+    flexDirection: 'row',
+    paddingLeft: 24,
+    paddingTop: 12,
+    paddingBottom: 4,
+    alignItems: 'flex-end',
+  },
+  rulerCorner: {
+    width: 28, // 左ルーラの幅と一致させて目盛り原点を揃える
+    height: 28,
+  },
+  mainRow: {
+    flex: 1,
+    flexDirection: 'row',
+    paddingLeft: 24,
+    overflow: 'hidden',
   },
   rulerBar: {
-    height: 28,
     backgroundColor: '#fef3c7',
     borderRadius: 4,
     overflow: 'hidden',
     position: 'relative',
   },
-  tick: {
+  tickHorizontal: {
     position: 'absolute',
     bottom: 0,
     width: 1,
     backgroundColor: '#374151',
   },
-  tickLabel: {
+  tickVertical: {
+    position: 'absolute',
+    right: 0,
+    height: 1,
+    backgroundColor: '#374151',
+  },
+  tickLabelHorizontal: {
     position: 'absolute',
     top: -2,
     fontSize: 10,
@@ -286,11 +356,21 @@ const styles = StyleSheet.create({
     width: 16,
     textAlign: 'center',
   },
+  tickLabelVertical: {
+    position: 'absolute',
+    left: -22,
+    fontSize: 10,
+    color: '#374151',
+    fontWeight: '600',
+    width: 20,
+    textAlign: 'right',
+  },
   imageArea: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     overflow: 'hidden',
+    marginLeft: 8,
   },
   imageWrapper: {
     alignItems: 'center',

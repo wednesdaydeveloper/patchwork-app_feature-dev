@@ -290,6 +290,7 @@ export const FabricsScreen = () => {
         <CalibrationScreen
           visible={true}
           imageUri={recalibrateTarget.imagePath}
+          initialPxPerMm={recalibrateTarget.pxPerMm}
           onConfirm={(pxPerMm) => {
             const target = recalibrateTarget;
             setRecalibrateTarget(null);
