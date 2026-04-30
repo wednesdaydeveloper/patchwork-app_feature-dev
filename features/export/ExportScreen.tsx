@@ -15,7 +15,12 @@ import { showDialogAtom, showToastAtom } from '@/atoms/notification';
 import { Button } from '@/components/ui/Button';
 import { LoadingView } from '@/components/ui/LoadingView';
 import { findDesignById, loadDesigns } from '@/constants/designs';
-import { PAPER_SIZES, type PaperSize, buildPdfHtml } from '@/features/export/buildPdfHtml';
+import {
+  PAPER_SIZES,
+  buildPdfHtml,
+  getPaperPrintableSquareMm,
+  type PaperSize,
+} from '@/features/export/buildPdfHtml';
 import { WorkCanvas } from '@/features/export/WorkCanvas';
 import type { Design } from '@/types/design';
 import type { Work } from '@/types/work';
@@ -117,9 +122,8 @@ export const ExportScreen = () => {
     }
   };
 
-  const handleExportPdf = async () => {
-    if (isExporting || !work || !design) return;
-    if (!(await checkStorage())) return;
+  const runPdfExport = async (effectiveSizeMm: number) => {
+    if (!work || !design) return;
     setIsExporting(true);
     try {
       const html = await buildPdfHtml({
@@ -128,6 +132,7 @@ export const ExportScreen = () => {
         fabrics,
         paperSize,
         scaleNote: t('exportScreen.scaleNote'),
+        effectiveSizeMm,
       });
       const paper = PAPER_SIZES[paperSize];
       await Print.printAsync({ html, width: paper.widthPt, height: paper.heightPt });
@@ -144,6 +149,39 @@ export const ExportScreen = () => {
     } finally {
       setIsExporting(false);
     }
+  };
+
+  const handleExportPdf = async () => {
+    if (isExporting || !work || !design) return;
+    if (!(await checkStorage())) return;
+    const printableMm = getPaperPrintableSquareMm(paperSize);
+    if (work.sizeMm > printableMm) {
+      // 用紙印刷可能領域を超えるサイズ → 縮小印刷の確認
+      showDialog({
+        title: t('exportScreen.tooLargeTitle'),
+        message: t('exportScreen.tooLargeMessage', {
+          sizeMm: work.sizeMm,
+          maxMm: Math.floor(printableMm),
+          paperSize,
+        }),
+        actions: [
+          {
+            label: t('exportScreen.shrinkToFit'),
+            variant: 'primary',
+            onPress: () => {
+              void runPdfExport(printableMm);
+            },
+          },
+          {
+            label: t('common.cancel'),
+            variant: 'secondary',
+            onPress: () => undefined,
+          },
+        ],
+      });
+      return;
+    }
+    await runPdfExport(work.sizeMm);
   };
 
   if (!work || !design) {

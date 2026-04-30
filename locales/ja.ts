@@ -103,7 +103,10 @@ export const ja = {
     saved: '保存しました',
     notFound: 'パッチワークが見つかりません。',
     permissionDeniedLibrary: 'フォトライブラリへのアクセスが許可されていません。',
-    scaleNote: 'パターン全体を 1×1 として描画しています。実寸で印刷するには印刷ダイアログでスケール 100% を指定してください。',
+    scaleNote: 'PDF は実寸（mm）で生成されています。印刷ダイアログで「実際のサイズ」または「スケール 100%」を指定してください。',
+    tooLargeTitle: '用紙サイズに収まりません',
+    tooLargeMessage: '指定サイズ {{sizeMm}}mm は {{paperSize}} の印刷可能領域（最大 {{maxMm}}mm）を超えています。縮小して印刷しますか？',
+    shrinkToFit: '縮小して印刷',
   },
   settings: {
     title: '設定',

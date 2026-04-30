@@ -105,7 +105,10 @@ export const en: Translations = {
     saved: 'Saved.',
     notFound: 'Patchwork not found.',
     permissionDeniedLibrary: 'Photo library access is not granted.',
-    scaleNote: 'The pattern is rendered as a 1x1 unit square. To print at actual size, choose 100% scale in the print dialog.',
+    scaleNote: 'PDF is generated at actual size (mm). Choose "Actual size" or 100% scale in the print dialog.',
+    tooLargeTitle: 'Larger than printable area',
+    tooLargeMessage: 'Size {{sizeMm}}mm exceeds the printable area of {{paperSize}} (max {{maxMm}}mm). Shrink to fit?',
+    shrinkToFit: 'Shrink to fit',
   },
   settings: {
     title: 'Settings',

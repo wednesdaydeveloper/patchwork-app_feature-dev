@@ -7,20 +7,14 @@ import type { FabricImage } from '@/types/fabric';
 import type { PieceSetting, Work } from '@/types/work';
 import { computeBbox, samplePath } from '@/utils/path';
 
-export type PaperSize = 'A4' | 'A3' | 'Letter';
+import { PAPER_SIZES, type PaperSize } from './paperSize';
 
-export interface PaperDimensions {
-  /** 幅（PostScript point = 1/72 inch） */
-  widthPt: number;
-  /** 高さ（PostScript point = 1/72 inch） */
-  heightPt: number;
-}
-
-export const PAPER_SIZES: Record<PaperSize, PaperDimensions> = {
-  A4: { widthPt: 595, heightPt: 842 },
-  A3: { widthPt: 842, heightPt: 1191 },
-  Letter: { widthPt: 612, heightPt: 792 },
-};
+export {
+  PAPER_SIZES,
+  getPaperPrintableSquareMm,
+  type PaperDimensions,
+  type PaperSize,
+} from './paperSize';
 
 const MARGIN_PT = 36;
 
@@ -63,6 +57,11 @@ export interface BuildPdfHtmlInput {
   fabrics: readonly FabricImage[];
   paperSize: PaperSize;
   scaleNote: string;
+  /**
+   * 描画に使用する一辺サイズ（mm）。`work.sizeMm` をそのまま使うと印刷可能領域に
+   * 収まらないケースで、呼び出し側が縮小値を渡すために使う。省略時は `work.sizeMm`。
+   */
+  effectiveSizeMm?: number;
 }
 
 /**
@@ -75,6 +74,7 @@ export interface BuildPdfHtmlInput {
 export async function buildPdfHtml(input: BuildPdfHtmlInput): Promise<string> {
   const { work, design, fabrics, paperSize, scaleNote } = input;
   const paper = PAPER_SIZES[paperSize];
+  const sizeMm = input.effectiveSizeMm ?? work.sizeMm;
 
   const fabricsById = new Map<string, FabricImage>();
   for (const f of fabrics) fabricsById.set(f.id, f);
@@ -103,9 +103,6 @@ export async function buildPdfHtml(input: BuildPdfHtmlInput): Promise<string> {
     bboxById.set(polygon.id, computeBbox(samplePath(polygon.path)));
   }
 
-  // 描画キャンバスは用紙の短辺 - 余白 を一辺とする正方形
-  const canvasSide = Math.min(paper.widthPt, paper.heightPt) - MARGIN_PT * 2;
-
   const defsHtml = design.polygons
     .map((p) => `<clipPath id="clip-${escapeHtml(p.id)}"><path d="${escapeHtml(p.path)}"/></clipPath>`)
     .join('');
@@ -121,17 +118,30 @@ export async function buildPdfHtml(input: BuildPdfHtmlInput): Promise<string> {
       if (!meta) {
         return `<path d="${escapeHtml(polygon.path)}" fill="#ffffff" stroke="none"/>`;
       }
-      const fitScale = Math.max(bbox.width / meta.width, bbox.height / meta.height);
-      const drawScale = fitScale * setting.scale;
-      const drawW = meta.width * drawScale;
-      const drawH = meta.height * drawScale;
+      const fabric = fabricsById.get(setting.fabricImageId);
+      // 実寸モード: drawW = (imageMmW / sizeMm) * scale（パターン座標 0..1）
+      // フォールバック: 従来 cover ロジック
+      const useRealScale = !!fabric && fabric.pxPerMm != null && fabric.pxPerMm > 0;
+      let drawW: number;
+      let drawH: number;
+      if (useRealScale && fabric && fabric.pxPerMm) {
+        const imageMmW = meta.width / fabric.pxPerMm;
+        const imageMmH = meta.height / fabric.pxPerMm;
+        drawW = (imageMmW / sizeMm) * setting.scale;
+        drawH = (imageMmH / sizeMm) * setting.scale;
+      } else {
+        const fitScale = Math.max(bbox.width / meta.width, bbox.height / meta.height);
+        const drawScale = fitScale * setting.scale;
+        drawW = meta.width * drawScale;
+        drawH = meta.height * drawScale;
+      }
       const cx = bbox.minX + bbox.width * (0.5 + setting.offsetX);
       const cy = bbox.minY + bbox.height * (0.5 + setting.offsetY);
       const x = cx - drawW / 2;
       const y = cy - drawH / 2;
       return `
         <g clip-path="url(#clip-${escapeHtml(polygon.id)})">
-          <image href="${meta.dataUri}" x="${x}" y="${y}" width="${drawW}" height="${drawH}" preserveAspectRatio="none"/>
+          <image href="${meta.dataUri}" x="${x}" y="${y}" width="${drawW}" height="${drawH}" preserveAspectRatio="xMidYMid slice"/>
         </g>
       `;
     })
@@ -171,7 +181,7 @@ export async function buildPdfHtml(input: BuildPdfHtmlInput): Promise<string> {
       <h1>${escapeHtml(work.name)}</h1>
       <div class="meta">${escapeHtml(design.name)} (${escapeHtml(paperSize)})</div>
       <div class="canvas-wrap">
-        <svg width="${canvasSide}pt" height="${canvasSide}pt" viewBox="0 0 1 1" xmlns="http://www.w3.org/2000/svg">
+        <svg width="${sizeMm}mm" height="${sizeMm}mm" viewBox="0 0 1 1" xmlns="http://www.w3.org/2000/svg">
           <defs>${defsHtml}</defs>
           ${piecesHtml}
           ${strokesHtml}
