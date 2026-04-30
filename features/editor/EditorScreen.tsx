@@ -3,7 +3,8 @@ import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router';
-import type { EventArg, NavigationAction } from '@react-navigation/native';
+import { usePreventRemove } from '@react-navigation/native';
+import type { NavigationAction } from '@react-navigation/native';
 
 import { useAtomValue, useSetAtom } from 'jotai';
 
@@ -277,69 +278,55 @@ export const EditorScreen = () => {
     [pieceSettings, pushHistory, selectedPolygonId, upsertPieceSetting],
   );
 
-  // 未保存変更ガード: 履歴あり or 名前変更ありの場合、戻る/遷移時に確認。
-  useEffect(() => {
-    const unsubscribe = navigation.addListener(
-      'beforeRemove' as never,
-      ((
-        e: EventArg<'beforeRemove', true, { action: NavigationAction }>,
-      ) => {
-        if (!canUndo && !nameDirty && !sizeMmDirty) return;
-        e.preventDefault();
-        showDialog({
-          title: t('editor.unsavedTitle'),
-          message: t('editor.unsavedMessage'),
-          actions: [
-            {
-              label: t('editor.saveLeave'),
-              variant: 'primary',
-              onPress: () => {
-                if (editingWorkId) {
-                  void (async () => {
-                    await handleSave(editingWorkName);
-                    navigation.dispatch(e.data.action);
-                  })();
-                } else {
-                  // 新規(未命名): 保存ダイアログを開き、保存完了時に保留アクションを dispatch
-                  pendingLeaveActionRef.current = e.data.action;
-                  setSavePromptVisible(true);
-                }
-              },
-            },
-            {
-              label: t('editor.discardLeave'),
-              variant: 'danger',
-              onPress: () => {
-                clearHistory();
-                setNameDirty(false);
-                setSizeMmDirty(false);
-                navigation.dispatch(e.data.action);
-              },
-            },
-            {
-              label: t('common.cancel'),
-              variant: 'secondary',
-              onPress: () => {},
-            },
-          ],
-        });
-      }) as never,
-    );
-    return unsubscribe;
-  }, [
-    navigation,
-    canUndo,
-    nameDirty,
-    sizeMmDirty,
-    showDialog,
-    t,
-    clearHistory,
-    setNameDirty,
-    setSizeMmDirty,
-    editingWorkId,
-    editingWorkName,
-    handleSave,
-  ]);
+  // 未保存変更ガード: usePreventRemove で native-stack の swipe-back / header-back を抑止する。
+  const hasUnsaved = canUndo || nameDirty || sizeMmDirty;
+  usePreventRemove(hasUnsaved, ({ data }) => {
+    showDialog({
+      title: t('editor.unsavedTitle'),
+      message: t('editor.unsavedMessage'),
+      actions: [
+        {
+          label: t('editor.saveLeave'),
+          variant: 'primary',
+          onPress: () => {
+            if (editingWorkId) {
+              void (async () => {
+                await handleSave(editingWorkName);
+                (
+                  navigation as unknown as {
+                    dispatch: (a: NavigationAction) => void;
+                  }
+                ).dispatch(data.action);
+              })();
+            } else {
+              // 新規(未命名): 保存ダイアログを開き、保存完了時に保留アクションを dispatch
+              pendingLeaveActionRef.current = data.action;
+              setSavePromptVisible(true);
+            }
+          },
+        },
+        {
+          label: t('editor.discardLeave'),
+          variant: 'danger',
+          onPress: () => {
+            clearHistory();
+            setNameDirty(false);
+            setSizeMmDirty(false);
+            (
+              navigation as unknown as {
+                dispatch: (a: NavigationAction) => void;
+              }
+            ).dispatch(data.action);
+          },
+        },
+        {
+          label: t('common.cancel'),
+          variant: 'secondary',
+          onPress: () => {},
+        },
+      ],
+    });
+  });
 
   const handleUnassign = useCallback(() => {
     if (!selectedPolygonId) return;
