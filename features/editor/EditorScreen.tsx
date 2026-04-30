@@ -415,16 +415,18 @@ export const EditorScreen = () => {
         >
           {canvasSize > 0 && <EditorCanvas design={design} size={canvasSize} />}
         </View>
-        {selectedFabricId && !adjustMode && (
+        {!adjustMode && (
           <View style={styles.actionRow}>
             <Button
               label={t('editor.adjust')}
               variant="secondary"
+              disabled={!selectedFabricId}
               onPress={() => setAdjustMode(true)}
             />
             <Button
               label={t('editor.unassign')}
               variant="secondary"
+              disabled={!selectedFabricId}
               onPress={handleUnassign}
             />
           </View>
