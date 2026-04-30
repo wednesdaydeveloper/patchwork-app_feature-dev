@@ -8,9 +8,11 @@ import { Provider as JotaiProvider } from 'jotai';
 
 import { NotificationHost } from '@/components/ui/NotificationHost';
 import { useI18n } from '@/hooks/useI18n';
+import { useOrientationLock } from '@/hooks/useOrientationLock';
 
 function RootStack() {
   useI18n();
+  useOrientationLock();
   const { t } = useTranslation();
   return (
     <>

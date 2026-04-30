@@ -4,7 +4,7 @@
     "slug": "patchwork-app",
     "scheme": "patchwork",
     "version": "1.0.0",
-    "orientation": "portrait",
+    "orientation": "default",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
@@ -15,6 +15,7 @@
     },
     "ios": {
       "supportsTablet": true,
+      "requireFullScreen": true,
       "bundleIdentifier": "com.example.patchworkapp",
       "infoPlist": {
         "NSCameraUsageDescription": "布地を撮影してパッチワーク作成に使用するためにカメラを使用します。",
@@ -44,6 +45,7 @@
       "expo-router",
       "expo-sqlite",
       "expo-localization",
+      "expo-screen-orientation",
       [
         "expo-image-picker",
         {
