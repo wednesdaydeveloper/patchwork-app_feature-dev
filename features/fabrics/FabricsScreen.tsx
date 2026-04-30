@@ -192,6 +192,19 @@ export const FabricsScreen = () => {
           },
         ]}
         submitLabel={t('common.save')}
+        extraAction={
+          editingFabric
+            ? {
+                label: t('fabrics.recalibrate'),
+                variant: 'secondary',
+                onPress: () => {
+                  const target = editingFabric;
+                  setEditingFabric(null);
+                  setRecalibrateTarget(target);
+                },
+              }
+            : undefined
+        }
         onSubmit={(values) => {
           if (!editingFabric) return;
           const name = (values.name ?? '').trim() || t('common.untitledFabric');

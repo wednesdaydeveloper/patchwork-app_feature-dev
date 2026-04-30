@@ -23,12 +23,12 @@ export interface Work {
  * 座標系（CLAUDE.md「ピース内画像座標系」参照）:
  * - `offsetX`, `offsetY`: ピース bbox の幅・高さを 1 とした正規化オフセット
  *   （`(0, 0)` で画像中心が bbox 中心と一致）
- * - `scale`: 表示倍率。`1.0` で画像が bbox を cover（完全に覆う）する最小倍率。
+ * - `rotation`: 画像中心まわりの回転（ラジアン）。デフォルト 0。
  */
 export interface PieceSetting {
   polygonId: string;
   fabricImageId: string;
   offsetX: number;
   offsetY: number;
-  scale: number;
+  rotation: number;
 }

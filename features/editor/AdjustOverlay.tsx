@@ -30,17 +30,15 @@ export interface AdjustOverlayProps {
 }
 
 const PADDING_RATIO = 0.05;
-const MIN_SCALE = 0.1;
-const MAX_SCALE = 10;
 
 const AnimatedSvgImage = Animated.createAnimatedComponent(SvgImage);
 
 /**
- * 調整モードのオーバーレイ。選択中ピースを拡大表示し、ピンチ／パンで位置・倍率を調整する。
+ * 調整モードのオーバーレイ。選択中ピースを拡大表示し、ジェスチャで位置・回転を調整する。
  *
- * - パン・ピンチは Reanimated `useSharedValue` で UI スレッド処理（リアルタイム反映）
+ * - 1 本指パン: 位置調整
+ * - 2 本指回転: 画像中心まわりの回転（拡大縮小は無効）
  * - ジェスチャー終了時に `runOnJS` で `pieceSettingsAtom` へコミット
- * - 倍率は MIN_SCALE..MAX_SCALE にクランプ
  */
 export const AdjustOverlay = ({ size }: AdjustOverlayProps) => {
   const { t } = useTranslation();
@@ -55,7 +53,6 @@ export const AdjustOverlay = ({ size }: AdjustOverlayProps) => {
   const pushHistory = useSetAtom(pushHistoryAtom);
   const sampled = useSampledPolygons(design);
 
-  // Hooks must run unconditionally; resolve nullable values below.
   const polygon = design && selectedId ? design.polygons.find((p) => p.id === selectedId) : undefined;
   const bbox = selectedId ? sampled.find((s) => s.id === selectedId)?.bbox : undefined;
   const setting = selectedId ? settings.find((s) => s.polygonId === selectedId) : undefined;
@@ -64,10 +61,10 @@ export const AdjustOverlay = ({ size }: AdjustOverlayProps) => {
 
   const liveOffsetX = useSharedValue(0);
   const liveOffsetY = useSharedValue(0);
-  const liveScale = useSharedValue(1);
+  const liveRotation = useSharedValue(0); // ラジアン
   const startOffsetX = useSharedValue(0);
   const startOffsetY = useSharedValue(0);
-  const startScale = useSharedValue(1);
+  const startRotation = useSharedValue(0);
 
   const dim = bbox ? Math.max(bbox.width, bbox.height) : 1;
   const padding = dim * PADDING_RATIO;
@@ -77,11 +74,11 @@ export const AdjustOverlay = ({ size }: AdjustOverlayProps) => {
   const viewBox = `${vbMinX} ${vbMinY} ${vbSize} ${vbSize}`;
   const vbPerPx = vbSize / size;
 
-  // 実寸モード（pxPerMm 設定済み）: drawScale_per_px = 1 / (pxPerMm * sizeMm)
-  // フォールバック（未キャリブレーション）: drawScale_per_px = max(bbox.w/img.w, bbox.h/img.h)（cover）
+  // 実寸モード: drawScale_per_px = 1 / (pxPerMm * sizeMm)
+  // フォールバック（未キャリブレーション）: cover
   const useRealScale =
     !!fabric && fabric.pxPerMm != null && fabric.pxPerMm > 0 && sizeMm > 0;
-  const fitScale =
+  const drawScalePerPx =
     useRealScale && fabric && fabric.pxPerMm
       ? 1 / (fabric.pxPerMm * sizeMm)
       : bbox && imgSize && imgSize.width > 0 && imgSize.height > 0
@@ -89,18 +86,17 @@ export const AdjustOverlay = ({ size }: AdjustOverlayProps) => {
         : 0;
 
   const commit = useCallback(
-    (deltaX: number, deltaY: number, scaleMul: number) => {
+    (deltaX: number, deltaY: number, deltaRotation: number) => {
       if (!selectedId || !setting || !bbox) return;
-      const noChange = deltaX === 0 && deltaY === 0 && scaleMul === 1;
+      const noChange = deltaX === 0 && deltaY === 0 && deltaRotation === 0;
       if (noChange) return;
-      const nextScale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, setting.scale * scaleMul));
       pushHistory();
       upsertPieceSetting({
         polygonId: selectedId,
         fabricImageId: setting.fabricImageId,
         offsetX: setting.offsetX + deltaX / bbox.width,
         offsetY: setting.offsetY + deltaY / bbox.height,
-        scale: nextScale,
+        rotation: setting.rotation + deltaRotation,
       });
     },
     [bbox, pushHistory, selectedId, setting, upsertPieceSetting],
@@ -122,45 +118,49 @@ export const AdjustOverlay = ({ size }: AdjustOverlayProps) => {
           const dy = liveOffsetY.value;
           liveOffsetX.value = 0;
           liveOffsetY.value = 0;
-          runOnJS(commit)(dx, dy, 1);
+          runOnJS(commit)(dx, dy, 0);
         }),
     [commit, liveOffsetX, liveOffsetY, startOffsetX, startOffsetY, vbPerPx],
   );
 
-  const pinchGesture = useMemo(
+  const rotationGesture = useMemo(
     () =>
-      Gesture.Pinch()
+      Gesture.Rotation()
         .onStart(() => {
-          startScale.value = liveScale.value;
+          startRotation.value = liveRotation.value;
         })
         .onUpdate((e) => {
-          liveScale.value = startScale.value * e.scale;
+          liveRotation.value = startRotation.value + e.rotation;
         })
         .onEnd(() => {
-          const mul = liveScale.value;
-          liveScale.value = 1;
-          runOnJS(commit)(0, 0, mul);
+          const dr = liveRotation.value;
+          liveRotation.value = 0;
+          runOnJS(commit)(0, 0, dr);
         }),
-    [commit, liveScale, startScale],
+    [commit, liveRotation, startRotation],
   );
 
   const composed = useMemo(
-    () => Gesture.Simultaneous(panGesture, pinchGesture),
-    [panGesture, pinchGesture],
+    () => Gesture.Simultaneous(panGesture, rotationGesture),
+    [panGesture, rotationGesture],
   );
 
-  // 画像は自然ピクセルサイズで <image> を配置し、transform で配置・縮小する。
-  // 0..1 単位の小さな width/height を直接渡すとラスタライズ精度が落ちるため。
+  // 画像中心まわりの回転 + パターン座標系への配置を transform で表現
   const animatedProps = useAnimatedProps(() => {
-    if (!setting || !bbox || !imgSize || fitScale === 0) {
+    if (!setting || !bbox || !imgSize || drawScalePerPx === 0) {
       return { transform: 'scale(0)' };
     }
-    const drawScalePerPx = fitScale * setting.scale * liveScale.value;
     const cx = bbox.minX + bbox.width * (0.5 + setting.offsetX) + liveOffsetX.value;
     const cy = bbox.minY + bbox.height * (0.5 + setting.offsetY) + liveOffsetY.value;
-    const tx = cx - (imgSize.width * drawScalePerPx) / 2;
-    const ty = cy - (imgSize.height * drawScalePerPx) / 2;
-    return { transform: `translate(${tx}, ${ty}) scale(${drawScalePerPx})` };
+    const totalRotationRad = setting.rotation + liveRotation.value;
+    const rotationDeg = (totalRotationRad * 180) / Math.PI;
+    return {
+      transform:
+        `translate(${cx}, ${cy}) ` +
+        `rotate(${rotationDeg}) ` +
+        `scale(${drawScalePerPx}) ` +
+        `translate(${-imgSize.width / 2}, ${-imgSize.height / 2})`,
+    };
   });
 
   if (!adjustMode || !design || !selectedId || !polygon || !bbox) {
@@ -204,14 +204,14 @@ export const AdjustOverlay = ({ size }: AdjustOverlayProps) => {
           variant="secondary"
           onPress={() => {
             if (!setting) return;
-            if (setting.offsetX === 0 && setting.offsetY === 0 && setting.scale === 1) return;
+            if (setting.offsetX === 0 && setting.offsetY === 0 && setting.rotation === 0) return;
             pushHistory();
             upsertPieceSetting({
               polygonId: setting.polygonId,
               fabricImageId: setting.fabricImageId,
               offsetX: 0,
               offsetY: 0,
-              scale: 1,
+              rotation: 0,
             });
           }}
         />

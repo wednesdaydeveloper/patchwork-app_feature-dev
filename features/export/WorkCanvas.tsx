@@ -91,7 +91,7 @@ export const WorkCanvas = ({
                 bbox={bbox}
                 offsetX={setting.offsetX}
                 offsetY={setting.offsetY}
-                scale={setting.scale}
+                rotation={setting.rotation}
                 sizeMm={sizeMm}
                 pxPerMm={fabric.pxPerMm}
               />

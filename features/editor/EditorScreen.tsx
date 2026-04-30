@@ -272,7 +272,7 @@ export const EditorScreen = () => {
         fabricImageId: fabric.id,
         offsetX: existing?.offsetX ?? 0,
         offsetY: existing?.offsetY ?? 0,
-        scale: existing?.scale ?? 1,
+        rotation: existing?.rotation ?? 0,
       });
     },
     [pieceSettings, pushHistory, selectedPolygonId, upsertPieceSetting],

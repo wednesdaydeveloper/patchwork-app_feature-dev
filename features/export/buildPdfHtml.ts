@@ -119,24 +119,22 @@ export async function buildPdfHtml(input: BuildPdfHtmlInput): Promise<string> {
         return `<path d="${escapeHtml(polygon.path)}" fill="#ffffff" stroke="none"/>`;
       }
       const fabric = fabricsById.get(setting.fabricImageId);
-      // 実寸モード: drawScalePerPx = scale / (pxPerMm * sizeMm)
-      // フォールバック(cover): drawScalePerPx = scale * max(bbox.w/img.w, bbox.h/img.h)
+      // 実寸モード: drawScalePerPx = 1 / (pxPerMm * sizeMm)
+      // フォールバック(cover): drawScalePerPx = max(bbox.w/img.w, bbox.h/img.h)
       const useRealScale = !!fabric && fabric.pxPerMm != null && fabric.pxPerMm > 0;
       let drawScalePerPx: number;
       if (useRealScale && fabric && fabric.pxPerMm) {
-        drawScalePerPx = setting.scale / (fabric.pxPerMm * sizeMm);
+        drawScalePerPx = 1 / (fabric.pxPerMm * sizeMm);
       } else {
-        const fitScale = Math.max(bbox.width / meta.width, bbox.height / meta.height);
-        drawScalePerPx = fitScale * setting.scale;
+        drawScalePerPx = Math.max(bbox.width / meta.width, bbox.height / meta.height);
       }
       const cx = bbox.minX + bbox.width * (0.5 + setting.offsetX);
       const cy = bbox.minY + bbox.height * (0.5 + setting.offsetY);
-      const tx = cx - (meta.width * drawScalePerPx) / 2;
-      const ty = cy - (meta.height * drawScalePerPx) / 2;
-      // 画像は自然ピクセルサイズで配置し、transform でピース座標系に縮小
+      const rotationDeg = (setting.rotation * 180) / Math.PI;
+      // 画像中心まわりの回転 + ピース座標系への配置
       return `
         <g clip-path="url(#clip-${escapeHtml(polygon.id)})">
-          <image href="${meta.dataUri}" x="0" y="0" width="${meta.width}" height="${meta.height}" preserveAspectRatio="xMidYMid slice" transform="translate(${tx}, ${ty}) scale(${drawScalePerPx})"/>
+          <image href="${meta.dataUri}" x="0" y="0" width="${meta.width}" height="${meta.height}" preserveAspectRatio="xMidYMid slice" transform="translate(${cx}, ${cy}) rotate(${rotationDeg}) scale(${drawScalePerPx}) translate(${-meta.width / 2}, ${-meta.height / 2})"/>
         </g>
       `;
     })

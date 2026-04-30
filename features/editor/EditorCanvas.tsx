@@ -113,7 +113,7 @@ export const EditorCanvas = ({ design, size }: EditorCanvasProps) => {
                   bbox={bbox}
                   offsetX={setting.offsetX}
                   offsetY={setting.offsetY}
-                  scale={setting.scale}
+                  rotation={setting.rotation}
                   sizeMm={sizeMm}
                   pxPerMm={fabric.pxPerMm}
                 />

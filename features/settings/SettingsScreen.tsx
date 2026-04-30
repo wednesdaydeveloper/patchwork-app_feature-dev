@@ -7,11 +7,10 @@ import { type LanguagePreference, languagePreferenceAtom } from '@/atoms/setting
 
 interface Option {
   value: LanguagePreference;
-  labelKey: 'settings.languageSystem' | 'settings.languageJa' | 'settings.languageEn';
+  labelKey: 'settings.languageJa' | 'settings.languageEn';
 }
 
 const OPTIONS: Option[] = [
-  { value: 'system', labelKey: 'settings.languageSystem' },
   { value: 'ja', labelKey: 'settings.languageJa' },
   { value: 'en', labelKey: 'settings.languageEn' },
 ];

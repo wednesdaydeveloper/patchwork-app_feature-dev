@@ -87,6 +87,7 @@ export const ja = {
     imageWidthMm: '画像全幅: {{mm}} mm',
     calibrationSaved: 'キャリブレーションを保存しました。',
     uncalibratedWarning: '未キャリブレーションの布地があります。布地をタップして編集→キャリブレーションを実施してください。',
+    recalibrate: 'キャリブレーションを再実行',
     namePlaceholder: '布地名を入力',
     categoryPlaceholder: 'カテゴリを入力（任意）',
   },
@@ -111,7 +112,6 @@ export const ja = {
   settings: {
     title: '設定',
     language: '言語',
-    languageSystem: '端末設定に従う',
     languageJa: '日本語',
     languageEn: 'English',
   },

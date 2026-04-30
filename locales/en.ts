@@ -89,6 +89,7 @@ export const en: Translations = {
     imageWidthMm: 'Image width: {{mm}} mm',
     calibrationSaved: 'Calibration saved.',
     uncalibratedWarning: 'There are uncalibrated fabrics. Tap a fabric to edit and run calibration.',
+    recalibrate: 'Re-run calibration',
     namePlaceholder: 'Fabric name',
     categoryPlaceholder: 'Category (optional)',
   },
@@ -113,7 +114,6 @@ export const en: Translations = {
   settings: {
     title: 'Settings',
     language: 'Language',
-    languageSystem: 'System default',
     languageJa: '日本語',
     languageEn: 'English',
   },

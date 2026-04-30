@@ -14,7 +14,7 @@ const sample: PieceSetting = {
   fabricImageId: 'f1',
   offsetX: 0,
   offsetY: 0,
-  scale: 1,
+  rotation: 0,
 };
 
 describe('atoms/editor', () => {
@@ -23,10 +23,10 @@ describe('atoms/editor', () => {
     store.set(upsertPieceSettingAtom, sample);
     expect(store.get(pieceSettingsAtom)).toHaveLength(1);
 
-    store.set(upsertPieceSettingAtom, { ...sample, scale: 2 });
+    store.set(upsertPieceSettingAtom, { ...sample, rotation: Math.PI / 4 });
     const list = store.get(pieceSettingsAtom);
     expect(list).toHaveLength(1);
-    expect(list[0].scale).toBe(2);
+    expect(list[0].rotation).toBeCloseTo(Math.PI / 4);
   });
 
   test('removePieceSettingAtom removes the matching polygon', () => {
@@ -42,10 +42,10 @@ describe('atoms/editor', () => {
   test('selectedPieceSettingAtom returns the setting for the selected polygon', () => {
     const store = createStore();
     store.set(upsertPieceSettingAtom, sample);
-    store.set(upsertPieceSettingAtom, { ...sample, polygonId: 'p2', scale: 3 });
+    store.set(upsertPieceSettingAtom, { ...sample, polygonId: 'p2', rotation: 1 });
 
     store.set(selectedPolygonIdAtom, 'p2');
-    expect(store.get(selectedPieceSettingAtom)?.scale).toBe(3);
+    expect(store.get(selectedPieceSettingAtom)?.rotation).toBe(1);
 
     store.set(selectedPolygonIdAtom, null);
     expect(store.get(selectedPieceSettingAtom)).toBeNull();

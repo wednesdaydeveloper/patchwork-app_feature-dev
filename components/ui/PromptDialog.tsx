@@ -24,6 +24,12 @@ export interface PromptField {
   keyboardType?: KeyboardTypeOptions;
 }
 
+export interface PromptDialogExtraAction {
+  label: string;
+  onPress: () => void;
+  variant?: 'primary' | 'secondary' | 'danger';
+}
+
 export interface PromptDialogProps {
   visible: boolean;
   title: string;
@@ -32,6 +38,8 @@ export interface PromptDialogProps {
   submitLabel?: string;
   onSubmit: (values: Record<string, string>) => void;
   onCancel: () => void;
+  /** submit/cancel の上に追加表示する 1 アクション（任意）。 */
+  extraAction?: PromptDialogExtraAction;
 }
 
 /**
@@ -46,6 +54,7 @@ export const PromptDialog = ({
   submitLabel,
   onSubmit,
   onCancel,
+  extraAction,
 }: PromptDialogProps) => {
   const { t } = useTranslation();
   const [values, setValues] = useState<Record<string, string>>({});
@@ -101,6 +110,14 @@ export const PromptDialog = ({
                 onPress={() => onSubmit(values)}
                 style={styles.actionButton}
               />
+              {extraAction && (
+                <Button
+                  label={extraAction.label}
+                  variant={extraAction.variant ?? 'secondary'}
+                  onPress={extraAction.onPress}
+                  style={styles.actionButton}
+                />
+              )}
               <Button
                 label={t('common.cancel')}
                 variant="secondary"

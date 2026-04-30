@@ -85,6 +85,15 @@ async function migrate(db: SQLite.SQLiteDatabase): Promise<void> {
       PRAGMA user_version = 3;
     `);
   }
+
+  if (current < 4) {
+    // PieceSetting に rotation（ラジアン）を追加。既存 scale カラムは保持するが
+    // INSERT 時は常に 1.0 でハードコードし、SELECT では参照しない。
+    await db.execAsync(`
+      ALTER TABLE piece_settings ADD COLUMN rotation REAL NOT NULL DEFAULT 0;
+      PRAGMA user_version = 4;
+    `);
+  }
 }
 
 // ----------------------------------------------------------------------------
@@ -198,7 +207,7 @@ interface PieceSettingRow {
   fabric_image_id: string;
   offset_x: number;
   offset_y: number;
-  scale: number;
+  rotation: number;
 }
 
 function rowToPieceSetting(row: PieceSettingRow): PieceSetting {
@@ -207,7 +216,7 @@ function rowToPieceSetting(row: PieceSettingRow): PieceSetting {
     fabricImageId: row.fabric_image_id,
     offsetX: row.offset_x,
     offsetY: row.offset_y,
-    scale: row.scale,
+    rotation: row.rotation ?? 0,
   };
 }
 
@@ -216,7 +225,7 @@ async function loadPieceSettings(
   workId: string,
 ): Promise<PieceSetting[]> {
   const rows = await db.getAllAsync<PieceSettingRow>(
-    `SELECT work_id, polygon_id, fabric_image_id, offset_x, offset_y, scale
+    `SELECT work_id, polygon_id, fabric_image_id, offset_x, offset_y, rotation
      FROM piece_settings WHERE work_id = ?;`,
     [workId],
   );
@@ -251,15 +260,16 @@ export async function saveWork(work: Work): Promise<void> {
     for (const setting of work.pieceSettings) {
       await db.runAsync(
         `INSERT INTO piece_settings
-           (work_id, polygon_id, fabric_image_id, offset_x, offset_y, scale)
-         VALUES (?, ?, ?, ?, ?, ?);`,
+           (work_id, polygon_id, fabric_image_id, offset_x, offset_y, scale, rotation)
+         VALUES (?, ?, ?, ?, ?, ?, ?);`,
         [
           work.id,
           setting.polygonId,
           setting.fabricImageId,
           setting.offsetX,
           setting.offsetY,
-          setting.scale,
+          1.0, // 旧 scale カラム互換のため固定
+          setting.rotation,
         ],
       );
     }

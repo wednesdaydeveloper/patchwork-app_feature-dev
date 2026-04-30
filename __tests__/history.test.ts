@@ -11,13 +11,13 @@ import {
 } from '@/atoms/history';
 import type { PieceSetting } from '@/types/work';
 
-function makeSetting(polygonId: string, scale: number): PieceSetting {
+function makeSetting(polygonId: string, rotation: number): PieceSetting {
   return {
     polygonId,
     fabricImageId: 'f1',
     offsetX: 0,
     offsetY: 0,
-    scale,
+    rotation,
   };
 }
 
@@ -35,12 +35,12 @@ describe('atoms/history', () => {
     expect(store.get(canRedoAtom)).toBe(false);
 
     store.set(undoAtom);
-    expect(store.get(pieceSettingsAtom)[0].scale).toBe(1);
+    expect(store.get(pieceSettingsAtom)[0].rotation).toBe(1);
     expect(store.get(canUndoAtom)).toBe(false);
     expect(store.get(canRedoAtom)).toBe(true);
 
     store.set(redoAtom);
-    expect(store.get(pieceSettingsAtom)[0].scale).toBe(2);
+    expect(store.get(pieceSettingsAtom)[0].rotation).toBe(2);
   });
 
   test('history is capped at 20 entries', () => {
