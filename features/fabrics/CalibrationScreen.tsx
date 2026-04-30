@@ -16,13 +16,15 @@ import Animated, {
 import { useTranslation } from 'react-i18next';
 
 import { Button } from '@/components/ui/Button';
+import { useDeviceSize } from '@/hooks/useDeviceSize';
 import { useImageSize } from '@/hooks/useImageSize';
 
 /** mm 1 つを何 DP で描画するか（Android baseline 160dpi 想定）。 */
 export const DP_PER_MM = 160 / 25.4; // ≈ 6.299
 
-/** ルーラの最大目盛 mm */
-const RULER_MAX_MM = 150;
+/** ルーラの最大目盛 mm(デバイス別) */
+const RULER_MAX_MM_PHONE = 150;
+const RULER_MAX_MM_TABLET = 250;
 /** 大目盛間隔 mm */
 const RULER_MAJOR_MM = 10;
 /** 小目盛間隔 mm */
@@ -59,10 +61,12 @@ export const CalibrationScreen = ({
   const { t } = useTranslation();
   const { width: screenWidth } = useWindowDimensions();
   const imageSize = useImageSize(imageUri);
+  const { kind: deviceKind } = useDeviceSize();
+  const rulerMaxMm = deviceKind === 'tablet' ? RULER_MAX_MM_TABLET : RULER_MAX_MM_PHONE;
 
   const initialDisplayWidth = useMemo(
-    () => Math.min(screenWidth - 48, RULER_MAX_MM * DP_PER_MM),
-    [screenWidth],
+    () => Math.min(screenWidth - 48, rulerMaxMm * DP_PER_MM),
+    [screenWidth, rulerMaxMm],
   );
 
   const initialScale = useMemo(() => {
@@ -158,7 +162,7 @@ export const CalibrationScreen = ({
           <Text style={styles.hint}>{t('fabrics.calibrationHint')}</Text>
         </View>
 
-        <Ruler />
+        <Ruler maxMm={rulerMaxMm} />
 
         <View style={styles.imageArea}>
           <GestureDetector gesture={composed}>
@@ -190,21 +194,21 @@ export const CalibrationScreen = ({
 
 /**
  * 物理 mm ベースの目盛りを描画する。
- * 0..RULER_MAX_MM、大目盛 RULER_MAJOR_MM、小目盛 RULER_MINOR_MM。
+ * 0..maxMm、大目盛 RULER_MAJOR_MM、小目盛 RULER_MINOR_MM。
  */
-const Ruler = () => {
+const Ruler = ({ maxMm }: { maxMm: number }) => {
   const items = useMemo(() => {
     const ticks: { x: number; major: boolean; label?: number }[] = [];
-    for (let mm = 0; mm <= RULER_MAX_MM; mm += RULER_MINOR_MM) {
+    for (let mm = 0; mm <= maxMm; mm += RULER_MINOR_MM) {
       const major = mm % RULER_MAJOR_MM === 0;
       ticks.push({ x: mm * DP_PER_MM, major, label: major ? mm : undefined });
     }
     return ticks;
-  }, []);
+  }, [maxMm]);
 
   return (
     <View style={styles.rulerWrap}>
-      <View style={[styles.rulerBar, { width: RULER_MAX_MM * DP_PER_MM }]}>
+      <View style={[styles.rulerBar, { width: maxMm * DP_PER_MM }]}>
         {items.map((tick, i) => (
           <View
             key={i}

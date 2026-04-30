@@ -41,6 +41,7 @@ export const SizeSelectScreen = () => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.inner}>
       <Text style={styles.title}>{t('newWorkSize.title')}</Text>
       <Text style={styles.description}>
         {t('newWorkSize.description', {
@@ -75,6 +76,7 @@ export const SizeSelectScreen = () => {
         <Button label={t('common.back')} variant="secondary" onPress={() => router.back()} />
         <Button label={t('newWorkSize.start')} onPress={handleStart} />
       </View>
+      </View>
     </View>
   );
 };
@@ -85,6 +87,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingTop: 24,
     backgroundColor: '#f9fafb',
+    alignItems: 'center',
+  },
+  inner: {
+    width: '100%',
+    maxWidth: 600,
     gap: 16,
   },
   title: {

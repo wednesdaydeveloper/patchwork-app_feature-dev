@@ -21,6 +21,7 @@ export const SettingsScreen = () => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.inner}>
       <Text style={styles.sectionTitle}>{t('settings.language')}</Text>
       <View style={styles.group}>
         {OPTIONS.map((option, index) => {
@@ -47,6 +48,7 @@ export const SettingsScreen = () => {
           );
         })}
       </View>
+      </View>
     </View>
   );
 };
@@ -57,6 +59,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingTop: 24,
     backgroundColor: '#f9fafb',
+    alignItems: 'center',
+  },
+  inner: {
+    width: '100%',
+    maxWidth: 600,
   },
   sectionTitle: {
     fontSize: 13,

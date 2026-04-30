@@ -14,6 +14,7 @@ import { fabricsAtom, loadFabricsAtom } from '@/atoms/fabrics';
 import { showDialogAtom, showToastAtom } from '@/atoms/notification';
 import { Button } from '@/components/ui/Button';
 import { LoadingView } from '@/components/ui/LoadingView';
+import { useDeviceSize } from '@/hooks/useDeviceSize';
 import { findDesignById, loadDesigns } from '@/constants/designs';
 import {
   PAPER_SIZES,
@@ -47,6 +48,8 @@ export const ExportScreen = () => {
   const [imageFormat, setImageFormat] = useState<'png' | 'jpg'>('png');
   const offscreenRef = useRef<View>(null);
   const checkStorage = useStorageGuard();
+  const { kind: deviceKind } = useDeviceSize();
+  const isTablet = deviceKind === 'tablet';
 
   useEffect(() => {
     let cancelled = false;
@@ -86,7 +89,9 @@ export const ExportScreen = () => {
   }, [id, loadFabrics, router, showDialog, t]);
 
   const screenWidth = Dimensions.get('window').width;
-  const previewSize = Math.min(screenWidth - HORIZONTAL_PADDING * 2, 360);
+  // タブレット時は右の options カラム(360 DP) と paddings を除いた左側に収める
+  const previewMax = isTablet ? screenWidth - 360 - HORIZONTAL_PADDING * 2 : 360;
+  const previewSize = Math.min(screenWidth - HORIZONTAL_PADDING * 2, previewMax);
 
   const handleExportImage = async () => {
     if (isExporting || !offscreenRef.current) return;
@@ -188,19 +193,33 @@ export const ExportScreen = () => {
     return <LoadingView label={t('common.loading')} />;
   }
 
+  const previewBlock = (
+    <>
+      <Text style={styles.title}>{work.name}</Text>
+      <View style={styles.previewWrap}>
+        <WorkCanvas
+          design={design}
+          pieceSettings={work.pieceSettings}
+          fabrics={fabrics}
+          size={previewSize}
+          sizeMm={work.sizeMm}
+        />
+      </View>
+    </>
+  );
+
   return (
-    <View style={styles.root}>
-      <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.title}>{work.name}</Text>
-        <View style={styles.previewWrap}>
-          <WorkCanvas
-            design={design}
-            pieceSettings={work.pieceSettings}
-            fabrics={fabrics}
-            size={previewSize}
-            sizeMm={work.sizeMm}
-          />
+    <View style={[styles.root, isTablet && styles.rootTablet]}>
+      {isTablet && (
+        <View style={styles.previewColumn}>
+          {previewBlock}
         </View>
+      )}
+      <ScrollView
+        style={isTablet ? styles.optionsColumn : undefined}
+        contentContainerStyle={styles.container}
+      >
+        {!isTablet && previewBlock}
 
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>{t('exportScreen.image')}</Text>
@@ -292,6 +311,23 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: '#f9fafb',
+  },
+  rootTablet: {
+    flexDirection: 'row',
+  },
+  previewColumn: {
+    flex: 1,
+    paddingVertical: 24,
+    paddingHorizontal: HORIZONTAL_PADDING,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 16,
+  },
+  optionsColumn: {
+    width: 360,
+    borderLeftWidth: 1,
+    borderLeftColor: '#e5e7eb',
+    backgroundColor: '#ffffff',
   },
   container: {
     paddingVertical: 24,
