@@ -149,16 +149,18 @@ export const AdjustOverlay = ({ size }: AdjustOverlayProps) => {
     [panGesture, pinchGesture],
   );
 
+  // 画像は自然ピクセルサイズで <image> を配置し、transform で配置・縮小する。
+  // 0..1 単位の小さな width/height を直接渡すとラスタライズ精度が落ちるため。
   const animatedProps = useAnimatedProps(() => {
     if (!setting || !bbox || !imgSize || fitScale === 0) {
-      return { x: 0, y: 0, width: 0, height: 0 };
+      return { transform: 'scale(0)' };
     }
-    const drawScale = fitScale * setting.scale * liveScale.value;
-    const drawW = imgSize.width * drawScale;
-    const drawH = imgSize.height * drawScale;
+    const drawScalePerPx = fitScale * setting.scale * liveScale.value;
     const cx = bbox.minX + bbox.width * (0.5 + setting.offsetX) + liveOffsetX.value;
     const cy = bbox.minY + bbox.height * (0.5 + setting.offsetY) + liveOffsetY.value;
-    return { x: cx - drawW / 2, y: cy - drawH / 2, width: drawW, height: drawH };
+    const tx = cx - (imgSize.width * drawScalePerPx) / 2;
+    const ty = cy - (imgSize.height * drawScalePerPx) / 2;
+    return { transform: `translate(${tx}, ${ty}) scale(${drawScalePerPx})` };
   });
 
   if (!adjustMode || !design || !selectedId || !polygon || !bbox) {
@@ -180,6 +182,10 @@ export const AdjustOverlay = ({ size }: AdjustOverlayProps) => {
               <G clipPath={`url(#adjust-clip-${polygon.id})`}>
                 <AnimatedSvgImage
                   href={fabric.imagePath}
+                  x={0}
+                  y={0}
+                  width={imgSize.width}
+                  height={imgSize.height}
                   preserveAspectRatio="xMidYMid slice"
                   animatedProps={animatedProps}
                 />

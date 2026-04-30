@@ -119,29 +119,24 @@ export async function buildPdfHtml(input: BuildPdfHtmlInput): Promise<string> {
         return `<path d="${escapeHtml(polygon.path)}" fill="#ffffff" stroke="none"/>`;
       }
       const fabric = fabricsById.get(setting.fabricImageId);
-      // 実寸モード: drawW = (imageMmW / sizeMm) * scale（パターン座標 0..1）
-      // フォールバック: 従来 cover ロジック
+      // 実寸モード: drawScalePerPx = scale / (pxPerMm * sizeMm)
+      // フォールバック(cover): drawScalePerPx = scale * max(bbox.w/img.w, bbox.h/img.h)
       const useRealScale = !!fabric && fabric.pxPerMm != null && fabric.pxPerMm > 0;
-      let drawW: number;
-      let drawH: number;
+      let drawScalePerPx: number;
       if (useRealScale && fabric && fabric.pxPerMm) {
-        const imageMmW = meta.width / fabric.pxPerMm;
-        const imageMmH = meta.height / fabric.pxPerMm;
-        drawW = (imageMmW / sizeMm) * setting.scale;
-        drawH = (imageMmH / sizeMm) * setting.scale;
+        drawScalePerPx = setting.scale / (fabric.pxPerMm * sizeMm);
       } else {
         const fitScale = Math.max(bbox.width / meta.width, bbox.height / meta.height);
-        const drawScale = fitScale * setting.scale;
-        drawW = meta.width * drawScale;
-        drawH = meta.height * drawScale;
+        drawScalePerPx = fitScale * setting.scale;
       }
       const cx = bbox.minX + bbox.width * (0.5 + setting.offsetX);
       const cy = bbox.minY + bbox.height * (0.5 + setting.offsetY);
-      const x = cx - drawW / 2;
-      const y = cy - drawH / 2;
+      const tx = cx - (meta.width * drawScalePerPx) / 2;
+      const ty = cy - (meta.height * drawScalePerPx) / 2;
+      // 画像は自然ピクセルサイズで配置し、transform でピース座標系に縮小
       return `
         <g clip-path="url(#clip-${escapeHtml(polygon.id)})">
-          <image href="${meta.dataUri}" x="${x}" y="${y}" width="${drawW}" height="${drawH}" preserveAspectRatio="xMidYMid slice"/>
+          <image href="${meta.dataUri}" x="0" y="0" width="${meta.width}" height="${meta.height}" preserveAspectRatio="xMidYMid slice" transform="translate(${tx}, ${ty}) scale(${drawScalePerPx})"/>
         </g>
       `;
     })
