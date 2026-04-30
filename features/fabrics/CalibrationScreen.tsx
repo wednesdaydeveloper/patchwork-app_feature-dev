@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   Image as RNImage,
   Modal,
@@ -77,8 +77,8 @@ export const CalibrationScreen = ({
   const savedTranslateX = useSharedValue(0);
   const savedTranslateY = useSharedValue(0);
 
-  // imageSize 確定時に初期 scale を反映
-  useMemo(() => {
+  // imageSize 確定時に初期 scale を反映（render 中に shared value を書かないため effect で）
+  useEffect(() => {
     scale.value = initialScale;
     savedScale.value = initialScale;
     translateX.value = 0;
