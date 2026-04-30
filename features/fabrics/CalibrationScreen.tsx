@@ -77,6 +77,9 @@ export const CalibrationScreen = ({
   const savedTranslateX = useSharedValue(0);
   const savedTranslateY = useSharedValue(0);
 
+  // ライブ表示用 mm 幅（ジェスチャ中に間引いて更新）
+  const [displayMmW, setDisplayMmW] = useState(0);
+
   // imageSize 確定時に初期 scale を反映（render 中に shared value を書かないため effect で）
   useEffect(() => {
     scale.value = initialScale;
@@ -85,10 +88,19 @@ export const CalibrationScreen = ({
     translateY.value = 0;
     savedTranslateX.value = 0;
     savedTranslateY.value = 0;
-  }, [initialScale, scale, savedScale, translateX, translateY, savedTranslateX, savedTranslateY]);
-
-  // ライブ表示用 mm 幅（ジェスチャ中に間引いて更新）
-  const [displayMmW, setDisplayMmW] = useState(0);
+    if (imageSize) {
+      setDisplayMmW((imageSize.width * initialScale) / DP_PER_MM);
+    }
+  }, [
+    initialScale,
+    imageSize,
+    scale,
+    savedScale,
+    translateX,
+    translateY,
+    savedTranslateX,
+    savedTranslateY,
+  ]);
   const lastUpdateRef = useRef(0);
   const reportMmW = useCallback((value: number) => {
     const now = Date.now();
