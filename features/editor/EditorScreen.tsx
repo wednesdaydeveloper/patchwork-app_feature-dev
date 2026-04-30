@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router';
@@ -182,8 +182,14 @@ export const EditorScreen = () => {
     t,
   ]);
 
-  const screenWidth = Dimensions.get('window').width;
-  const canvasSize = Math.min(screenWidth - HORIZONTAL_PADDING * 2, 480);
+  const { width: screenWidth, height: screenHeight } = useWindowDimensions();
+  // 縦方向の予約領域: ヘッダ・ツールバー・ラベル・アクション行・布地ピッカー・各種余白
+  // 数値は実機計測ベースのおおよその値。
+  const VERTICAL_RESERVED = 360;
+  const canvasSize = Math.max(
+    240,
+    Math.min(screenWidth - HORIZONTAL_PADDING * 2, screenHeight - VERTICAL_RESERVED, 480),
+  );
 
   const selectedLabel = useMemo(() => {
     if (!design || !selectedPolygonId) {
