@@ -1,5 +1,6 @@
-import { memo } from 'react';
+import { memo, useCallback, useRef } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Swipeable } from 'react-native-gesture-handler';
 import { useTranslation } from 'react-i18next';
 
 import { useRouter } from 'expo-router';
@@ -30,11 +31,14 @@ const WorkListItemImpl = ({ work }: WorkListItemProps) => {
   const displayName = work.name.trim() || t('common.untitled');
   const updatedLabel = `${t('home.updatedAt')}: ${formatDate(work.updatedAt, language)}`;
 
+  const swipeableRef = useRef<Swipeable>(null);
+
   const handlePress = () => {
     router.push(`/editor/${work.id}`);
   };
 
-  const handleLongPress = () => {
+  const handleDelete = useCallback(() => {
+    swipeableRef.current?.close();
     showDialog({
       title: t('home.deleteConfirmTitle'),
       message: t('home.deleteConfirm'),
@@ -59,25 +63,42 @@ const WorkListItemImpl = ({ work }: WorkListItemProps) => {
       ],
       dismissOnBackdrop: true,
     });
-  };
+  }, [removeWork, showDialog, showToast, t, work.id]);
 
-  return (
+  const renderRightActions = () => (
     <Pressable
       accessibilityRole="button"
-      accessibilityLabel={displayName}
-      accessibilityHint={t('home.deleteConfirm')}
-      onPress={handlePress}
-      onLongPress={handleLongPress}
-      style={({ pressed }) => [styles.container, pressed && styles.pressed]}
+      accessibilityLabel={t('common.delete')}
+      onPress={handleDelete}
+      style={({ pressed }) => [styles.deleteAction, pressed && styles.deleteActionPressed]}
     >
-      <View style={styles.thumbnail} />
-      <View style={styles.body}>
-        <Text style={styles.name} numberOfLines={1}>
-          {displayName}
-        </Text>
-        <Text style={styles.meta}>{updatedLabel}</Text>
-      </View>
+      <Text style={styles.deleteActionLabel}>{t('common.delete')}</Text>
     </Pressable>
+  );
+
+  return (
+    <Swipeable
+      ref={swipeableRef}
+      renderRightActions={renderRightActions}
+      overshootRight={false}
+      friction={2}
+      rightThreshold={40}
+    >
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={displayName}
+        onPress={handlePress}
+        style={({ pressed }) => [styles.container, pressed && styles.pressed]}
+      >
+        <View style={styles.thumbnail} />
+        <View style={styles.body}>
+          <Text style={styles.name} numberOfLines={1}>
+            {displayName}
+          </Text>
+          <Text style={styles.meta}>{updatedLabel}</Text>
+        </View>
+      </Pressable>
+    </Swipeable>
   );
 };
 
@@ -116,5 +137,21 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#6b7280',
     marginTop: 4,
+  },
+  deleteAction: {
+    backgroundColor: '#dc2626',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 24,
+    marginBottom: 8,
+    borderRadius: 12,
+  },
+  deleteActionPressed: {
+    opacity: 0.8,
+  },
+  deleteActionLabel: {
+    color: '#fff',
+    fontSize: 15,
+    fontWeight: '700',
   },
 });
