@@ -1,4 +1,4 @@
-import { computeBbox, isPointInPolygon, pathBbox, samplePath } from '@/utils/path';
+import { computeBbox, isPointInPath, isPointInPolygon, pathBbox, samplePath } from '@/utils/path';
 
 describe('utils/path', () => {
   test('samplePath returns points along a closed square', () => {
@@ -42,6 +42,25 @@ describe('utils/path', () => {
     expect(isPointInPolygon({ x: 0.5, y: 0.5 }, square)).toBe(true);
     expect(isPointInPolygon({ x: 1.5, y: 0.5 }, square)).toBe(false);
     expect(isPointInPolygon({ x: -0.1, y: 0.5 }, square)).toBe(false);
+  });
+
+  test('samplePath returns empty array for a zero-length path', () => {
+    expect(samplePath('M 0 0')).toEqual([]);
+  });
+
+  test('computeBbox returns a zero rectangle for empty input', () => {
+    expect(computeBbox([])).toEqual({ minX: 0, minY: 0, width: 0, height: 0 });
+  });
+
+  test('isPointInPolygon returns false for fewer than 3 vertices', () => {
+    expect(isPointInPolygon({ x: 0, y: 0 }, [])).toBe(false);
+    expect(isPointInPolygon({ x: 0, y: 0 }, [{ x: 0, y: 0 }, { x: 1, y: 1 }])).toBe(false);
+  });
+
+  test('isPointInPath delegates to sampling + ray casting', () => {
+    const square = 'M 0 0 L 1 0 L 1 1 L 0 1 Z';
+    expect(isPointInPath({ x: 0.5, y: 0.5 }, square)).toBe(true);
+    expect(isPointInPath({ x: 1.5, y: 0.5 }, square)).toBe(false);
   });
 
   test('isPointInPolygon handles a concave polygon (L shape)', () => {

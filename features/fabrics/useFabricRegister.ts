@@ -11,6 +11,8 @@ import type { FabricImage } from '@/types/fabric';
 import { saveFabricImage } from '@/utils/fileSystem';
 import { logger } from '@/utils/logger';
 
+import { generateFabricId, resolveFabricMeta } from './fabricRegisterHelpers';
+
 export type RegisterSource = 'camera' | 'library';
 
 interface PendingPick {
@@ -36,15 +38,6 @@ interface UseFabricRegisterResult {
   cancel: () => void;
 }
 
-function generateFabricId(): string {
-  return `fab_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
-}
-
-function defaultName(): string {
-  const d = new Date();
-  const pad = (n: number) => (n < 10 ? `0${n}` : String(n));
-  return `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}`;
-}
 
 /**
  * 布地登録フローを管理するフック。
@@ -106,10 +99,11 @@ export function useFabricRegister(): UseFabricRegisterResult {
   const confirmMeta = useCallback(
     (name: string, category: string) => {
       if (!pending) return;
+      const meta = resolveFabricMeta(name, category);
       setPendingCalibration({
         uri: pending.uri,
-        name: name.trim() || defaultName(),
-        category: category.trim(),
+        name: meta.name,
+        category: meta.category,
       });
       setPending(null);
     },
