@@ -63,7 +63,7 @@ export const DesignSelectScreen = () => {
   }, [designs, t]);
 
   const handleSelect = (design: Design) => {
-    router.push({ pathname: '/editor/[id]', params: { id: 'new', designId: design.id } });
+    router.push({ pathname: '/new-work/size', params: { designId: design.id } });
   };
 
   if (designs.length === 0) {

@@ -33,6 +33,15 @@ export const en: Translations = {
     title: 'Choose a pattern',
     empty: 'No patterns available.',
   },
+  newWorkSize: {
+    title: 'Choose size',
+    description: 'Set the physical edge length of the patchwork in mm ({{min}}–{{max}}mm).',
+    label: 'Edge length',
+    hint: 'Default: {{default}}mm',
+    invalidNumber: 'Please enter a whole number.',
+    invalidRange: 'Enter a value between {{min}} and {{max}} mm.',
+    start: 'Start',
+  },
   editor: {
     title: 'Edit patchwork',
     placeholderCanvas: 'Canvas (coming soon)',
@@ -47,6 +56,7 @@ export const en: Translations = {
     saveWork: 'Save patchwork',
     exportAction: 'Export',
     renameWork: 'Rename',
+    changeSize: 'Change size',
     workName: 'Name',
     saveSuccess: 'Saved.',
     saveFailed: 'Failed to save.',

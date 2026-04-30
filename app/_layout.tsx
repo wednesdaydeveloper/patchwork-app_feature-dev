@@ -17,6 +17,7 @@ function RootStack() {
       <Stack>
         <Stack.Screen name="index" options={{ title: t('home.title') }} />
         <Stack.Screen name="design-select" options={{ title: t('designSelect.title') }} />
+        <Stack.Screen name="new-work/size" options={{ title: t('newWorkSize.title') }} />
         <Stack.Screen name="editor/[id]" options={{ title: t('editor.title') }} />
         <Stack.Screen name="export/[id]" options={{ title: t('exportScreen.title') }} />
         <Stack.Screen name="fabrics/index" options={{ title: t('fabrics.title') }} />

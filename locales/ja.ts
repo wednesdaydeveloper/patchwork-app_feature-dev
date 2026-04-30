@@ -31,6 +31,15 @@ export const ja = {
     title: 'パターン選択',
     empty: 'パターンが登録されていません。',
   },
+  newWorkSize: {
+    title: 'サイズを指定',
+    description: 'パッチワーク一辺の物理サイズを mm 単位で指定してください（{{min}}〜{{max}}mm）。',
+    label: '一辺のサイズ',
+    hint: 'デフォルト: {{default}}mm',
+    invalidNumber: '整数を入力してください。',
+    invalidRange: '{{min}}〜{{max}}mm の範囲で指定してください。',
+    start: '作成開始',
+  },
   editor: {
     title: 'パッチワーク編集',
     placeholderCanvas: 'キャンバス（実装中）',
@@ -45,6 +54,7 @@ export const ja = {
     saveWork: 'パッチワークを保存',
     exportAction: 'エクスポート',
     renameWork: '名前を変更',
+    changeSize: 'サイズを変更',
     workName: '名前',
     saveSuccess: '保存しました',
     saveFailed: '保存に失敗しました',

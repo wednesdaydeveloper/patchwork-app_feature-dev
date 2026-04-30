@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  type KeyboardTypeOptions,
   View,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
@@ -20,6 +21,7 @@ export interface PromptField {
   /** 必須入力か（空欄時は確定不可）。デフォルト false */
   required?: boolean;
   autoFocus?: boolean;
+  keyboardType?: KeyboardTypeOptions;
 }
 
 export interface PromptDialogProps {
@@ -87,6 +89,7 @@ export const PromptDialog = ({
                   setValues((prev) => ({ ...prev, [field.key]: text }))
                 }
                 autoFocus={field.autoFocus}
+                keyboardType={field.keyboardType}
                 style={styles.input}
               />
             ))}

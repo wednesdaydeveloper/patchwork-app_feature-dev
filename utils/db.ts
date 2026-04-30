@@ -69,8 +69,13 @@ async function migrate(db: SQLite.SQLiteDatabase): Promise<void> {
     `);
   }
 
-  // 将来のマイグレーションはここに追加
-  // if (current < 2) { ... PRAGMA user_version = 2; }
+  if (current < 2) {
+    // Work にパッチワーク物理サイズ（mm）を追加。既存行は 150 にデフォルト。
+    await db.execAsync(`
+      ALTER TABLE works ADD COLUMN size_mm REAL NOT NULL DEFAULT 150;
+      PRAGMA user_version = 2;
+    `);
+  }
 }
 
 // ----------------------------------------------------------------------------
@@ -170,6 +175,7 @@ interface WorkRow {
   id: string;
   name: string;
   design_id: string;
+  size_mm: number;
   created_at: number;
   updated_at: number;
 }
@@ -213,13 +219,21 @@ export async function saveWork(work: Work): Promise<void> {
   const db = await getDatabase();
   await db.withTransactionAsync(async () => {
     await db.runAsync(
-      `INSERT INTO works (id, name, design_id, created_at, updated_at)
-       VALUES (?, ?, ?, ?, ?)
+      `INSERT INTO works (id, name, design_id, size_mm, created_at, updated_at)
+       VALUES (?, ?, ?, ?, ?, ?)
        ON CONFLICT(id) DO UPDATE SET
          name = excluded.name,
          design_id = excluded.design_id,
+         size_mm = excluded.size_mm,
          updated_at = excluded.updated_at;`,
-      [work.id, work.name, work.designId, work.createdAt.getTime(), work.updatedAt.getTime()],
+      [
+        work.id,
+        work.name,
+        work.designId,
+        work.sizeMm,
+        work.createdAt.getTime(),
+        work.updatedAt.getTime(),
+      ],
     );
     await db.runAsync('DELETE FROM piece_settings WHERE work_id = ?;', [work.id]);
     for (const setting of work.pieceSettings) {
@@ -243,7 +257,7 @@ export async function saveWork(work: Work): Promise<void> {
 export async function findWorkById(id: string): Promise<Work | null> {
   const db = await getDatabase();
   const row = await db.getFirstAsync<WorkRow>(
-    'SELECT id, name, design_id, created_at, updated_at FROM works WHERE id = ?;',
+    'SELECT id, name, design_id, size_mm, created_at, updated_at FROM works WHERE id = ?;',
     [id],
   );
   if (!row) return null;
@@ -252,6 +266,7 @@ export async function findWorkById(id: string): Promise<Work | null> {
     id: row.id,
     name: row.name,
     designId: row.design_id,
+    sizeMm: row.size_mm,
     createdAt: new Date(row.created_at),
     updatedAt: new Date(row.updated_at),
     pieceSettings,
@@ -261,7 +276,7 @@ export async function findWorkById(id: string): Promise<Work | null> {
 export async function listWorks(): Promise<Work[]> {
   const db = await getDatabase();
   const rows = await db.getAllAsync<WorkRow>(
-    'SELECT id, name, design_id, created_at, updated_at FROM works ORDER BY updated_at DESC;',
+    'SELECT id, name, design_id, size_mm, created_at, updated_at FROM works ORDER BY updated_at DESC;',
   );
   const works: Work[] = [];
   for (const row of rows) {
@@ -270,6 +285,7 @@ export async function listWorks(): Promise<Work[]> {
       id: row.id,
       name: row.name,
       designId: row.design_id,
+      sizeMm: row.size_mm,
       createdAt: new Date(row.created_at),
       updatedAt: new Date(row.updated_at),
       pieceSettings,

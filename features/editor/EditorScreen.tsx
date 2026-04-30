@@ -12,6 +12,8 @@ import {
   editingWorkIdAtom,
   editingWorkNameAtom,
   editingWorkNameDirtyAtom,
+  editingWorkSizeMmAtom,
+  editingWorkSizeMmDirtyAtom,
   pieceSettingsAtom,
   removePieceSettingAtom,
   resetEditorAtom,
@@ -34,7 +36,12 @@ import { PromptDialog } from '@/components/ui/PromptDialog';
 import { useStorageGuard } from '@/hooks/useStorageGuard';
 import { AdjustOverlay } from '@/features/editor/AdjustOverlay';
 import { EditorCanvas } from '@/features/editor/EditorCanvas';
-import type { Work } from '@/types/work';
+import {
+  WORK_SIZE_MM_DEFAULT,
+  WORK_SIZE_MM_MAX,
+  WORK_SIZE_MM_MIN,
+  type Work,
+} from '@/types/work';
 import type { FabricImage } from '@/types/fabric';
 
 const HORIZONTAL_PADDING = 24;
@@ -47,7 +54,7 @@ export const EditorScreen = () => {
   const { t } = useTranslation();
   const router = useRouter();
   const navigation = useNavigation();
-  const params = useLocalSearchParams<{ id: string; designId?: string }>();
+  const params = useLocalSearchParams<{ id: string; designId?: string; sizeMm?: string }>();
   const setDesign = useSetAtom(selectedDesignAtom);
   const resetEditor = useSetAtom(resetEditorAtom);
   const upsertPieceSetting = useSetAtom(upsertPieceSettingAtom);
@@ -73,10 +80,15 @@ export const EditorScreen = () => {
   const setEditingWorkName = useSetAtom(editingWorkNameAtom);
   const nameDirty = useAtomValue(editingWorkNameDirtyAtom);
   const setNameDirty = useSetAtom(editingWorkNameDirtyAtom);
+  const editingWorkSizeMm = useAtomValue(editingWorkSizeMmAtom);
+  const setEditingWorkSizeMm = useSetAtom(editingWorkSizeMmAtom);
+  const sizeMmDirty = useAtomValue(editingWorkSizeMmDirtyAtom);
+  const setSizeMmDirty = useSetAtom(editingWorkSizeMmDirtyAtom);
   const saveWork = useSetAtom(saveWorkAtom);
   const showToast = useSetAtom(showToastAtom);
   const [savePromptVisible, setSavePromptVisible] = useState(false);
   const [renamePromptVisible, setRenamePromptVisible] = useState(false);
+  const [sizePromptVisible, setSizePromptVisible] = useState(false);
   const [isLoadingWork, setIsLoadingWork] = useState(false);
   const editingWorkCreatedAt = useRef<Date | null>(null);
   const pendingLeaveActionRef = useRef<NavigationAction | null>(null);
@@ -97,6 +109,15 @@ export const EditorScreen = () => {
           setDesign(target);
         }
       }
+      // URL パラメータから sizeMm を取得（範囲外/不正値は default にフォールバック）
+      const parsedSize = params.sizeMm ? Number(params.sizeMm) : NaN;
+      const validSize =
+        Number.isFinite(parsedSize) &&
+        parsedSize >= WORK_SIZE_MM_MIN &&
+        parsedSize <= WORK_SIZE_MM_MAX
+          ? parsedSize
+          : WORK_SIZE_MM_DEFAULT;
+      setEditingWorkSizeMm(validSize);
       return () => {
         cancelled = true;
       };
@@ -120,6 +141,7 @@ export const EditorScreen = () => {
         setPieceSettings(work.pieceSettings);
         setEditingWorkId(work.id);
         setEditingWorkName(work.name);
+        setEditingWorkSizeMm(work.sizeMm);
         editingWorkCreatedAt.current = work.createdAt;
       } catch (error) {
         if (cancelled) return;
@@ -145,12 +167,14 @@ export const EditorScreen = () => {
   }, [
     params.id,
     params.designId,
+    params.sizeMm,
     resetEditor,
     clearHistory,
     setDesign,
     setPieceSettings,
     setEditingWorkId,
     setEditingWorkName,
+    setEditingWorkSizeMm,
     showDialog,
     router,
     loadFabrics,
@@ -187,6 +211,7 @@ export const EditorScreen = () => {
         id: editingWorkId ?? generateWorkId(),
         name: trimmedName,
         designId: design.id,
+        sizeMm: editingWorkSizeMm,
         createdAt: editingWorkId ? (editingWorkCreatedAt.current ?? now) : now,
         updatedAt: now,
         pieceSettings,
@@ -196,6 +221,7 @@ export const EditorScreen = () => {
         setEditingWorkId(work.id);
         setEditingWorkName(work.name);
         setNameDirty(false);
+        setSizeMmDirty(false);
         editingWorkCreatedAt.current = work.createdAt;
         clearHistory();
         showToast({ message: t('editor.saveSuccess'), variant: 'success' });
@@ -222,12 +248,14 @@ export const EditorScreen = () => {
       clearHistory,
       design,
       editingWorkId,
+      editingWorkSizeMm,
       navigation,
       pieceSettings,
       saveWork,
       setEditingWorkId,
       setEditingWorkName,
       setNameDirty,
+      setSizeMmDirty,
       showToast,
       t,
     ],
@@ -256,7 +284,7 @@ export const EditorScreen = () => {
       ((
         e: EventArg<'beforeRemove', true, { action: NavigationAction }>,
       ) => {
-        if (!canUndo && !nameDirty) return;
+        if (!canUndo && !nameDirty && !sizeMmDirty) return;
         e.preventDefault();
         showDialog({
           title: t('editor.unsavedTitle'),
@@ -284,6 +312,7 @@ export const EditorScreen = () => {
               onPress: () => {
                 clearHistory();
                 setNameDirty(false);
+                setSizeMmDirty(false);
                 navigation.dispatch(e.data.action);
               },
             },
@@ -301,10 +330,12 @@ export const EditorScreen = () => {
     navigation,
     canUndo,
     nameDirty,
+    sizeMmDirty,
     showDialog,
     t,
     clearHistory,
     setNameDirty,
+    setSizeMmDirty,
     editingWorkId,
     editingWorkName,
     handleSave,
@@ -331,17 +362,27 @@ export const EditorScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.canvasArea}>
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel={t('editor.renameWork')}
-          onPress={() => setRenamePromptVisible(true)}
-          style={styles.workNameRow}
-        >
-          <Text style={styles.workName}>
-            {editingWorkName.trim() || t('common.untitled')}
-          </Text>
-          <Text style={styles.workNameHint}>✎</Text>
-        </Pressable>
+        <View style={styles.headerRow}>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={t('editor.renameWork')}
+            onPress={() => setRenamePromptVisible(true)}
+            style={styles.workNameRow}
+          >
+            <Text style={styles.workName}>
+              {editingWorkName.trim() || t('common.untitled')}
+            </Text>
+            <Text style={styles.workNameHint}>✎</Text>
+          </Pressable>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={t('editor.changeSize')}
+            onPress={() => setSizePromptVisible(true)}
+            style={styles.sizeChip}
+          >
+            <Text style={styles.sizeChipLabel}>{editingWorkSizeMm}mm</Text>
+          </Pressable>
+        </View>
         <View style={styles.toolbar}>
           <IconButton
             icon="↶"
@@ -412,6 +453,44 @@ export const EditorScreen = () => {
         onCancel={() => setRenamePromptVisible(false)}
       />
       <PromptDialog
+        visible={sizePromptVisible}
+        title={t('editor.changeSize')}
+        fields={[
+          {
+            key: 'sizeMm',
+            placeholder: t('newWorkSize.label'),
+            initialValue: String(editingWorkSizeMm),
+            autoFocus: true,
+            keyboardType: 'number-pad',
+          },
+        ]}
+        submitLabel={t('common.save')}
+        onSubmit={(values) => {
+          const value = Number(values.sizeMm ?? '');
+          if (
+            !Number.isFinite(value) ||
+            !Number.isInteger(value) ||
+            value < WORK_SIZE_MM_MIN ||
+            value > WORK_SIZE_MM_MAX
+          ) {
+            showToast({
+              message: t('newWorkSize.invalidRange', {
+                min: WORK_SIZE_MM_MIN,
+                max: WORK_SIZE_MM_MAX,
+              }),
+              variant: 'error',
+            });
+            return;
+          }
+          if (value !== editingWorkSizeMm) {
+            setEditingWorkSizeMm(value);
+            setSizeMmDirty(true);
+          }
+          setSizePromptVisible(false);
+        }}
+        onCancel={() => setSizePromptVisible(false)}
+      />
+      <PromptDialog
         visible={savePromptVisible}
         title={t('editor.saveWork')}
         fields={[
@@ -479,11 +558,28 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 12,
   },
+  headerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    alignSelf: 'stretch',
+  },
   workNameRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
-    alignSelf: 'flex-start',
+    flexShrink: 1,
+  },
+  sizeChip: {
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    backgroundColor: '#e5e7eb',
+    borderRadius: 16,
+  },
+  sizeChipLabel: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: '#374151',
   },
   workName: {
     fontSize: 18,

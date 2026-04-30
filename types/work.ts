@@ -1,10 +1,17 @@
 /**
  * パッチワーク（パターンに画像を対応づけして完成させた作品）
  */
+/** パッチワーク一辺の物理サイズの範囲（mm） */
+export const WORK_SIZE_MM_MIN = 50;
+export const WORK_SIZE_MM_MAX = 280;
+export const WORK_SIZE_MM_DEFAULT = 150;
+
 export interface Work {
   id: string;
   name: string;
   designId: string;
+  /** パッチワーク一辺の物理サイズ（mm）。50〜280、デフォルト 150。 */
+  sizeMm: number;
   createdAt: Date;
   updatedAt: Date;
   pieceSettings: PieceSetting[];

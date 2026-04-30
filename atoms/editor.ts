@@ -1,7 +1,7 @@
 import { atom } from 'jotai';
 
 import type { Design } from '@/types/design';
-import type { PieceSetting } from '@/types/work';
+import { WORK_SIZE_MM_DEFAULT, type PieceSetting } from '@/types/work';
 
 /**
  * 現在編集中のパッチワークの ID（保存済み Work の ID。新規作成中は新しい UUID）。
@@ -21,6 +21,18 @@ editingWorkNameAtom.debugLabel = 'editingWorkName';
  */
 export const editingWorkNameDirtyAtom = atom<boolean>(false);
 editingWorkNameDirtyAtom.debugLabel = 'editingWorkNameDirty';
+
+/**
+ * 編集中のパッチワーク物理サイズ（mm）。
+ */
+export const editingWorkSizeMmAtom = atom<number>(WORK_SIZE_MM_DEFAULT);
+editingWorkSizeMmAtom.debugLabel = 'editingWorkSizeMm';
+
+/**
+ * サイズが変更されてから未保存である場合に true。
+ */
+export const editingWorkSizeMmDirtyAtom = atom<boolean>(false);
+editingWorkSizeMmDirtyAtom.debugLabel = 'editingWorkSizeMmDirty';
 
 /**
  * 編集中のパターン（Design）。
@@ -88,6 +100,8 @@ export const resetEditorAtom = atom(null, (_get, set) => {
   set(editingWorkIdAtom, null);
   set(editingWorkNameAtom, '');
   set(editingWorkNameDirtyAtom, false);
+  set(editingWorkSizeMmAtom, WORK_SIZE_MM_DEFAULT);
+  set(editingWorkSizeMmDirtyAtom, false);
   set(selectedDesignAtom, null);
   set(selectedPolygonIdAtom, null);
   set(pieceSettingsAtom, []);
