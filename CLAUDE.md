@@ -248,6 +248,13 @@ assets/                 # 静的アセット
 - 参考: Expo SDK 53 時点では iOS 15.1+ / Android 7（API Level 24）+
 - SDK 更新時は本セクションも見直すこと
 
+### 対応デバイスとレイアウト
+
+- **スマホ**(iPhone / Android phone): 縦向き固定。1 カラムレイアウト
+- **タブレット**(iPad / Android tablet, 短辺 600 DP 以上): 横向き固定。複数カラム / 横並びレイアウト
+- 単一バイナリで両対応(レスポンシブ)。`hooks/useDeviceSize` で動的判定し、`expo-screen-orientation` で起動時にロック制御
+- iPad は Apple 要件のため `ios.requireFullScreen: true`（Split View 無効化）
+
 ### 多言語化
 
 - 対応言語：**日本語 / 英語**
