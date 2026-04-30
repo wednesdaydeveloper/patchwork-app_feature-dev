@@ -1,11 +1,6 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { GestureDetector, Gesture } from 'react-native-gesture-handler';
-import Animated, {
-  runOnJS,
-  useAnimatedProps,
-  useSharedValue,
-} from 'react-native-reanimated';
 import Svg, { ClipPath, Defs, G, Image as SvgImage, Path } from 'react-native-svg';
 import { useTranslation } from 'react-i18next';
 
@@ -31,14 +26,16 @@ export interface AdjustOverlayProps {
 
 const PADDING_RATIO = 0.05;
 
-const AnimatedSvgImage = Animated.createAnimatedComponent(SvgImage);
-
 /**
  * 調整モードのオーバーレイ。選択中ピースを拡大表示し、ジェスチャで位置・回転を調整する。
  *
  * - 1 本指パン: 位置調整
  * - 2 本指回転: 画像中心まわりの回転（拡大縮小は無効）
- * - ジェスチャー終了時に `runOnJS` で `pieceSettingsAtom` へコミット
+ * - ジェスチャー終了時に `pieceSettingsAtom` へコミット
+ *
+ * 描画は通常の React state を使用。reanimated の `animatedProps` で SVG の
+ * `transform` 文字列を渡す方式は react-native-svg のパース経路で壊れるケースが
+ * あったため不採用（`PieceImage` と同様の静的 transform 文字列で記述する）。
  */
 export const AdjustOverlay = ({ size }: AdjustOverlayProps) => {
   const { t } = useTranslation();
@@ -59,12 +56,18 @@ export const AdjustOverlay = ({ size }: AdjustOverlayProps) => {
   const fabric = setting ? fabrics.find((f) => f.id === setting.fabricImageId) : undefined;
   const imgSize = useImageSize(fabric?.imagePath ?? null);
 
-  const liveOffsetX = useSharedValue(0);
-  const liveOffsetY = useSharedValue(0);
-  const liveRotation = useSharedValue(0); // ラジアン
-  const startOffsetX = useSharedValue(0);
-  const startOffsetY = useSharedValue(0);
-  const startRotation = useSharedValue(0);
+  // ジェスチャ中の差分(viewBox 単位 / ラジアン)。state なので変更で再描画。
+  const [liveOffsetX, setLiveOffsetX] = useState(0);
+  const [liveOffsetY, setLiveOffsetY] = useState(0);
+  const [liveRotation, setLiveRotation] = useState(0);
+  // gesture onStart 時のスナップショット。state のクロージャ問題を避けるため ref に保持。
+  const startOffsetX = useRef(0);
+  const startOffsetY = useRef(0);
+  const startRotation = useRef(0);
+  // commit 時に最新値を読むため ref に同期しておく。
+  const liveOffsetXRef = useRef(0);
+  const liveOffsetYRef = useRef(0);
+  const liveRotationRef = useRef(0);
 
   const dim = bbox ? Math.max(bbox.width, bbox.height) : 1;
   const padding = dim * PADDING_RATIO;
@@ -102,42 +105,57 @@ export const AdjustOverlay = ({ size }: AdjustOverlayProps) => {
     [bbox, pushHistory, selectedId, setting, upsertPieceSetting],
   );
 
+  const updateOffset = useCallback((x: number, y: number) => {
+    liveOffsetXRef.current = x;
+    liveOffsetYRef.current = y;
+    setLiveOffsetX(x);
+    setLiveOffsetY(y);
+  }, []);
+
+  const updateRotation = useCallback((r: number) => {
+    liveRotationRef.current = r;
+    setLiveRotation(r);
+  }, []);
+
   const panGesture = useMemo(
     () =>
       Gesture.Pan()
+        .runOnJS(true)
         .onStart(() => {
-          startOffsetX.value = liveOffsetX.value;
-          startOffsetY.value = liveOffsetY.value;
+          startOffsetX.current = liveOffsetXRef.current;
+          startOffsetY.current = liveOffsetYRef.current;
         })
         .onUpdate((e) => {
-          liveOffsetX.value = startOffsetX.value + e.translationX * vbPerPx;
-          liveOffsetY.value = startOffsetY.value + e.translationY * vbPerPx;
+          updateOffset(
+            startOffsetX.current + e.translationX * vbPerPx,
+            startOffsetY.current + e.translationY * vbPerPx,
+          );
         })
         .onEnd(() => {
-          const dx = liveOffsetX.value;
-          const dy = liveOffsetY.value;
-          liveOffsetX.value = 0;
-          liveOffsetY.value = 0;
-          runOnJS(commit)(dx, dy, 0);
+          const dx = liveOffsetXRef.current;
+          const dy = liveOffsetYRef.current;
+          updateOffset(0, 0);
+          commit(dx, dy, 0);
         }),
-    [commit, liveOffsetX, liveOffsetY, startOffsetX, startOffsetY, vbPerPx],
+    [commit, updateOffset, vbPerPx],
   );
 
   const rotationGesture = useMemo(
     () =>
       Gesture.Rotation()
+        .runOnJS(true)
         .onStart(() => {
-          startRotation.value = liveRotation.value;
+          startRotation.current = liveRotationRef.current;
         })
         .onUpdate((e) => {
-          liveRotation.value = startRotation.value + e.rotation;
+          updateRotation(startRotation.current + e.rotation);
         })
         .onEnd(() => {
-          const dr = liveRotation.value;
-          liveRotation.value = 0;
-          runOnJS(commit)(0, 0, dr);
+          const dr = liveRotationRef.current;
+          updateRotation(0);
+          commit(0, 0, dr);
         }),
-    [commit, liveRotation, startRotation],
+    [commit, updateRotation],
   );
 
   const composed = useMemo(
@@ -145,27 +163,25 @@ export const AdjustOverlay = ({ size }: AdjustOverlayProps) => {
     [panGesture, rotationGesture],
   );
 
-  // 画像中心まわりの回転 + パターン座標系への配置を transform で表現
-  const animatedProps = useAnimatedProps(() => {
-    if (!setting || !bbox || !imgSize || drawScalePerPx === 0) {
-      return { transform: 'scale(0)' };
-    }
-    const cx = bbox.minX + bbox.width * (0.5 + setting.offsetX) + liveOffsetX.value;
-    const cy = bbox.minY + bbox.height * (0.5 + setting.offsetY) + liveOffsetY.value;
-    const totalRotationRad = setting.rotation + liveRotation.value;
-    const rotationDeg = (totalRotationRad * 180) / Math.PI;
-    return {
-      transform:
-        `translate(${cx}, ${cy}) ` +
-        `rotate(${rotationDeg}) ` +
-        `scale(${drawScalePerPx}) ` +
-        `translate(${-imgSize.width / 2}, ${-imgSize.height / 2})`,
-    };
-  });
-
   if (!adjustMode || !design || !selectedId || !polygon || !bbox) {
     return null;
   }
+
+  // 画像 transform: 画像中心まわりの回転 + ピース座標系への配置
+  const renderImage = setting && fabric && imgSize && drawScalePerPx > 0;
+  const imageTransform = renderImage
+    ? (() => {
+        const cx = bbox.minX + bbox.width * (0.5 + setting.offsetX) + liveOffsetX;
+        const cy = bbox.minY + bbox.height * (0.5 + setting.offsetY) + liveOffsetY;
+        const rotationDeg = ((setting.rotation + liveRotation) * 180) / Math.PI;
+        return (
+          `translate(${cx}, ${cy}) ` +
+          `rotate(${rotationDeg}) ` +
+          `scale(${drawScalePerPx}) ` +
+          `translate(${-imgSize.width / 2}, ${-imgSize.height / 2})`
+        );
+      })()
+    : '';
 
   return (
     <View style={styles.overlay}>
@@ -178,16 +194,16 @@ export const AdjustOverlay = ({ size }: AdjustOverlayProps) => {
               </ClipPath>
             </Defs>
             <Path d={polygon.path} fill="#ffffff" stroke="none" />
-            {setting && fabric && imgSize && (
+            {renderImage && (
               <G clipPath={`url(#adjust-clip-${polygon.id})`}>
-                <AnimatedSvgImage
+                <SvgImage
                   href={fabric.imagePath}
                   x={0}
                   y={0}
                   width={imgSize.width}
                   height={imgSize.height}
                   preserveAspectRatio="xMidYMid slice"
-                  animatedProps={animatedProps}
+                  transform={imageTransform}
                 />
               </G>
             )}
