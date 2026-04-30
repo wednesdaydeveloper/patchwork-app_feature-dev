@@ -1,5 +1,6 @@
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { useTranslation } from 'react-i18next';
 
 import { Stack } from 'expo-router';
 
@@ -10,15 +11,16 @@ import { useI18n } from '@/hooks/useI18n';
 
 function RootStack() {
   useI18n();
+  const { t } = useTranslation();
   return (
     <>
       <Stack>
-        <Stack.Screen name="index" options={{ title: 'Patchwork' }} />
-        <Stack.Screen name="design-select" options={{ title: 'パターン選択' }} />
-        <Stack.Screen name="editor/[id]" options={{ title: '編集' }} />
-        <Stack.Screen name="export/[id]" options={{ title: 'エクスポート' }} />
-        <Stack.Screen name="fabrics/index" options={{ title: '布地管理' }} />
-        <Stack.Screen name="settings" options={{ title: '設定' }} />
+        <Stack.Screen name="index" options={{ title: t('home.title') }} />
+        <Stack.Screen name="design-select" options={{ title: t('designSelect.title') }} />
+        <Stack.Screen name="editor/[id]" options={{ title: t('editor.title') }} />
+        <Stack.Screen name="export/[id]" options={{ title: t('exportScreen.title') }} />
+        <Stack.Screen name="fabrics/index" options={{ title: t('fabrics.title') }} />
+        <Stack.Screen name="settings" options={{ title: t('settings.title') }} />
       </Stack>
       <NotificationHost />
     </>

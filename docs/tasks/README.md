@@ -144,6 +144,7 @@
 | #63 | [updateFabric の DB 層ガード追加](./63-update-fabric-db-guard.md)               | #50      | 🟢     |
 | #64 | [フェーズ13 機能の単体テスト追加](./64-phase13-tests.md)                        | #43, #46〜#52 | 🟢 |
 | #65 | [翻訳キー editor.export のリネーム](./65-i18n-export-key-rename.md)             | #49      | 🟢     |
+| #66 | [Stack ヘッダータイトルの多言語化](./66-stack-title-i18n.md)                     | #16-#18  | 🔴     |
 
 ---
 
