@@ -18,12 +18,21 @@ import { PromptDialog } from '@/components/ui/PromptDialog';
 import { CalibrationScreen } from '@/features/fabrics/CalibrationScreen';
 import { FabricListItem } from '@/features/fabrics/FabricListItem';
 import { useFabricRegister } from '@/features/fabrics/useFabricRegister';
+import { useDeviceSize } from '@/hooks/useDeviceSize';
 import type { FabricImage } from '@/types/fabric';
 import { logger } from '@/utils/logger';
 
 interface Section {
   title: string;
-  data: FabricImage[];
+  data: FabricImage[][];
+}
+
+function chunk<T>(items: T[], size: number): T[][] {
+  const result: T[][] = [];
+  for (let i = 0; i < items.length; i += size) {
+    result.push(items.slice(i, i + size));
+  }
+  return result;
 }
 
 export const FabricsScreen = () => {
@@ -33,6 +42,8 @@ export const FabricsScreen = () => {
   const loadFabrics = useSetAtom(loadFabricsAtom);
   const removeFabric = useSetAtom(removeFabricAtom);
   const updateFabricMeta = useSetAtom(updateFabricAtom);
+  const { kind } = useDeviceSize();
+  const columns = kind === 'tablet' ? 2 : 1;
   const [editingFabric, setEditingFabric] = useState<FabricImage | null>(null);
   const [recalibrateTarget, setRecalibrateTarget] = useState<FabricImage | null>(null);
   const showDialog = useSetAtom(showDialogAtom);
@@ -56,7 +67,10 @@ export const FabricsScreen = () => {
     }
     const result: Section[] = [];
     for (const [key, data] of groups) {
-      result.push({ title: key.length > 0 ? key : t('fabrics.uncategorized'), data });
+      result.push({
+        title: key.length > 0 ? key : t('fabrics.uncategorized'),
+        data: chunk(data, columns),
+      });
     }
     // 「未分類」を末尾に
     result.sort((a, b) => {
@@ -66,7 +80,7 @@ export const FabricsScreen = () => {
       return a.title.localeCompare(b.title);
     });
     return result;
-  }, [fabrics, t]);
+  }, [fabrics, t, columns]);
 
   const performDelete = useCallback(
     async (fabric: FabricImage, force: boolean) => {
@@ -158,14 +172,24 @@ export const FabricsScreen = () => {
       ) : (
         <SectionList
           sections={sections}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <FabricListItem
-              fabric={item}
-              onPress={setEditingFabric}
-              onDelete={handleDeleteRequest}
-              deleteAccessibilityLabel={t('common.delete')}
-            />
+          keyExtractor={(row, index) => row.map((f) => f.id).join('-') + index}
+          renderItem={({ item: row }) => (
+            <View style={columns > 1 ? styles.row : undefined}>
+              {row.map((fabric) => (
+                <View key={fabric.id} style={columns > 1 ? styles.cell : undefined}>
+                  <FabricListItem
+                    fabric={fabric}
+                    onPress={setEditingFabric}
+                    onDelete={handleDeleteRequest}
+                    deleteAccessibilityLabel={t('common.delete')}
+                  />
+                </View>
+              ))}
+              {row.length < columns &&
+                Array.from({ length: columns - row.length }).map((_, i) => (
+                  <View key={`spacer-${i}`} style={styles.cell} />
+                ))}
+            </View>
           )}
           renderSectionHeader={({ section }) => (
             <Text style={styles.sectionHeader}>{section.title}</Text>
@@ -314,6 +338,13 @@ const styles = StyleSheet.create({
   },
   listContent: {
     paddingBottom: 24,
+  },
+  row: {
+    flexDirection: 'row',
+    gap: 8,
+  },
+  cell: {
+    flex: 1,
   },
   empty: {
     flex: 1,

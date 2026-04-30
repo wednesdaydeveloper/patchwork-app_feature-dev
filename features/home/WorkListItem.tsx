@@ -83,6 +83,7 @@ const WorkListItemImpl = ({ work }: WorkListItemProps) => {
       overshootRight={false}
       friction={2}
       rightThreshold={40}
+      containerStyle={styles.swipeContainer}
     >
       <Pressable
         accessibilityRole="button"
@@ -137,6 +138,9 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#6b7280',
     marginTop: 4,
+  },
+  swipeContainer: {
+    flex: 1,
   },
   deleteAction: {
     backgroundColor: '#dc2626',

@@ -10,6 +10,7 @@ import { showToastAtom } from '@/atoms/notification';
 import { loadWorksAtom, worksAtom, worksLoadedAtom } from '@/atoms/works';
 import { Button } from '@/components/ui/Button';
 import { LoadingView } from '@/components/ui/LoadingView';
+import { useDeviceSize } from '@/hooks/useDeviceSize';
 import { WorkListItem } from '@/features/home/WorkListItem';
 import type { Work } from '@/types/work';
 import { logger } from '@/utils/logger';
@@ -21,6 +22,8 @@ export const HomeScreen = () => {
   const loaded = useAtomValue(worksLoadedAtom);
   const loadWorks = useSetAtom(loadWorksAtom);
   const showToast = useSetAtom(showToastAtom);
+  const { kind } = useDeviceSize();
+  const columns = kind === 'tablet' ? 2 : 1;
 
   useEffect(() => {
     loadWorks().catch((error) => {
@@ -62,9 +65,12 @@ export const HomeScreen = () => {
         />
       ) : (
         <FlatList
+          key={`works-${columns}`}
           data={works}
           keyExtractor={keyExtractor}
           renderItem={renderItem}
+          numColumns={columns}
+          columnWrapperStyle={columns > 1 ? styles.columnWrapper : undefined}
           contentContainerStyle={styles.listContent}
         />
       )}
@@ -116,6 +122,9 @@ const styles = StyleSheet.create({
   },
   listContent: {
     paddingBottom: 24,
+  },
+  columnWrapper: {
+    gap: 8,
   },
   empty: {
     flex: 1,

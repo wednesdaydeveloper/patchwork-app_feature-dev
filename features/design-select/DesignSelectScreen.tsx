@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/Button';
 import { loadDesigns } from '@/constants/designs';
 import { DesignThumbnail } from '@/features/design-select/DesignThumbnail';
 import { useDesignName } from '@/hooks/useDesignName';
+import { useDeviceSize } from '@/hooks/useDeviceSize';
 import type { Design } from '@/types/design';
 import { logger } from '@/utils/logger';
 
@@ -19,12 +20,15 @@ interface Section {
   data: Design[][];
 }
 
-const COLUMNS = 2;
+const PHONE_COLUMNS = 2;
+const TABLET_COLUMNS = 4;
 
 export const DesignSelectScreen = () => {
   const { t } = useTranslation();
   const router = useRouter();
   const showDialog = useSetAtom(showDialogAtom);
+  const { kind } = useDeviceSize();
+  const columns = kind === 'tablet' ? TABLET_COLUMNS : PHONE_COLUMNS;
 
   const designs = useMemo(() => {
     try {
@@ -56,11 +60,11 @@ export const DesignSelectScreen = () => {
     }
     const result: Section[] = [];
     for (const [key, list] of groups) {
-      result.push({ title: t(`category.${key}`, { defaultValue: key }), data: chunk(list, COLUMNS) });
+      result.push({ title: t(`category.${key}`, { defaultValue: key }), data: chunk(list, columns) });
     }
     result.sort((a, b) => a.title.localeCompare(b.title));
     return result;
-  }, [designs, t]);
+  }, [designs, t, columns]);
 
   const handleSelect = (design: Design) => {
     router.push({ pathname: '/new-work/size', params: { designId: design.id } });
@@ -84,8 +88,8 @@ export const DesignSelectScreen = () => {
           {row.map((design) => (
             <DesignCard key={design.id} design={design} onPress={handleSelect} />
           ))}
-          {row.length < COLUMNS &&
-            Array.from({ length: COLUMNS - row.length }).map((_, i) => (
+          {row.length < columns &&
+            Array.from({ length: columns - row.length }).map((_, i) => (
               <View key={`spacer-${i}`} style={styles.cardSpacer} />
             ))}
         </View>
