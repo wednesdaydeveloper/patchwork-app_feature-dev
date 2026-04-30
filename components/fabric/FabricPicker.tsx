@@ -8,15 +8,21 @@ export interface FabricPickerProps {
   selectedFabricId: string | null;
   onSelect: (fabric: FabricImage) => void;
   onAddFabric: () => void;
+  /**
+   * 'horizontal'(既定): 画面下部に横スクロールで並べる(スマホ縦持ち向け)
+   * 'vertical': 縦スクロールの 2 列グリッドで並べる(タブレット横並び向け)
+   */
+  orientation?: 'horizontal' | 'vertical';
 }
 
 const ITEM_SIZE = 72;
 
 /**
- * 編集画面下部に表示する布地選択パネル。
+ * 編集画面の布地選択パネル。
  *
- * - 登録済み布地を横スクロール一覧で表示
- * - タップで `onSelect` を発火（呼び出し側で `pieceSettingsAtom` 更新）
+ * - 横モード: 下部に横スクロール一覧
+ * - 縦モード: 右サイドバーに 2 列グリッド(タブレット用)
+ * - タップで `onSelect` を発火(呼び出し側で `pieceSettingsAtom` 更新)
  * - 0 件時は布地管理画面への導線を表示
  */
 export const FabricPicker = ({
@@ -24,12 +30,14 @@ export const FabricPicker = ({
   selectedFabricId,
   onSelect,
   onAddFabric,
+  orientation = 'horizontal',
 }: FabricPickerProps) => {
   const { t } = useTranslation();
+  const isVertical = orientation === 'vertical';
 
   if (fabrics.length === 0) {
     return (
-      <View style={styles.empty}>
+      <View style={[styles.empty, isVertical && styles.emptyVertical]}>
         <Text style={styles.emptyMessage}>{t('fabrics.empty')}</Text>
         <Pressable
           accessibilityRole="button"
@@ -44,10 +52,13 @@ export const FabricPicker = ({
   }
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, isVertical && styles.containerVertical]}>
       <Text style={styles.title}>{t('editor.selectFabric')}</Text>
       <FlatList
-        horizontal
+        key={`fabric-picker-${orientation}`}
+        horizontal={!isVertical}
+        numColumns={isVertical ? 2 : undefined}
+        columnWrapperStyle={isVertical ? styles.columnWrapper : undefined}
         data={fabrics}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
@@ -57,8 +68,9 @@ export const FabricPicker = ({
             onPress={() => onSelect(item)}
           />
         )}
-        contentContainerStyle={styles.listContent}
+        contentContainerStyle={isVertical ? styles.listContentVertical : styles.listContent}
         showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
       />
     </View>
   );
@@ -98,6 +110,12 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: '#e5e7eb',
   },
+  containerVertical: {
+    flex: 1,
+    borderTopWidth: 0,
+    borderLeftWidth: 1,
+    borderLeftColor: '#e5e7eb',
+  },
   title: {
     fontSize: 13,
     fontWeight: '700',
@@ -108,6 +126,15 @@ const styles = StyleSheet.create({
   listContent: {
     paddingHorizontal: 12,
     gap: 8,
+  },
+  listContentVertical: {
+    paddingHorizontal: 8,
+    paddingBottom: 16,
+    gap: 8,
+  },
+  columnWrapper: {
+    gap: 8,
+    justifyContent: 'space-between',
   },
   item: {
     width: ITEM_SIZE,
@@ -142,6 +169,13 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: '#e5e7eb',
     gap: 12,
+  },
+  emptyVertical: {
+    flex: 1,
+    justifyContent: 'center',
+    borderTopWidth: 0,
+    borderLeftWidth: 1,
+    borderLeftColor: '#e5e7eb',
   },
   emptyMessage: {
     fontSize: 13,

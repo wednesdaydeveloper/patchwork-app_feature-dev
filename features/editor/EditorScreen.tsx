@@ -34,6 +34,7 @@ import { Button } from '@/components/ui/Button';
 import { IconButton } from '@/components/ui/IconButton';
 import { LoadingView } from '@/components/ui/LoadingView';
 import { PromptDialog } from '@/components/ui/PromptDialog';
+import { useDeviceSize } from '@/hooks/useDeviceSize';
 import { useStorageGuard } from '@/hooks/useStorageGuard';
 import { AdjustOverlay } from '@/features/editor/AdjustOverlay';
 import { EditorCanvas } from '@/features/editor/EditorCanvas';
@@ -94,6 +95,8 @@ export const EditorScreen = () => {
   const editingWorkCreatedAt = useRef<Date | null>(null);
   const pendingLeaveActionRef = useRef<NavigationAction | null>(null);
   const checkStorage = useStorageGuard();
+  const { kind: deviceKind } = useDeviceSize();
+  const isTablet = deviceKind === 'tablet';
 
   useEffect(() => {
     let cancelled = false;
@@ -351,7 +354,7 @@ export const EditorScreen = () => {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, isTablet && styles.containerTablet]}>
       <View style={styles.canvasArea}>
         <View style={styles.headerRow}>
           <Pressable
@@ -510,12 +513,15 @@ export const EditorScreen = () => {
         }}
       />
       {!adjustMode && (
-        <FabricPicker
-          fabrics={fabrics}
-          selectedFabricId={selectedFabricId}
-          onSelect={handleSelectFabric}
-          onAddFabric={() => router.push('/fabrics')}
-        />
+        <View style={isTablet ? styles.fabricPickerTablet : styles.fabricPickerPhone}>
+          <FabricPicker
+            fabrics={fabrics}
+            selectedFabricId={selectedFabricId}
+            onSelect={handleSelectFabric}
+            onAddFabric={() => router.push('/fabrics')}
+            orientation={isTablet ? 'vertical' : 'horizontal'}
+          />
+        </View>
       )}
     </View>
   );
@@ -525,6 +531,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f9fafb',
+  },
+  containerTablet: {
+    flexDirection: 'row',
+  },
+  fabricPickerPhone: {
+    // 縦積み(スマホ): 内容に応じた高さ。FabricPicker 内部で paddingVertical 12 がある。
+  },
+  fabricPickerTablet: {
+    width: 280,
   },
   canvasArea: {
     flex: 1,
