@@ -20,3 +20,16 @@ export function resolveFabricMeta(
     category: category.trim(),
   };
 }
+
+/**
+ * 一括登録時の連番付き名前を生成する。
+ * - prefix が空ならデフォルト名 (タイムスタンプ系) ベース
+ * - 連番は 2 桁ゼロ埋め (3 桁以降は自動拡張)
+ */
+export function bulkFabricName(prefix: string, index: number, total: number): string {
+  const base = prefix.trim() || defaultFabricName();
+  const width = Math.max(2, String(total).length);
+  return `${base}${String(index).padStart(width, '0')}`;
+}
+
+export const FABRIC_MULTI_PICK_LIMIT = 10;

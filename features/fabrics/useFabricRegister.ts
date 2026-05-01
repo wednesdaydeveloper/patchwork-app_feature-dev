@@ -11,7 +11,12 @@ import type { FabricImage } from '@/types/fabric';
 import { saveFabricImage } from '@/utils/fileSystem';
 import { logger } from '@/utils/logger';
 
-import { generateFabricId, resolveFabricMeta } from './fabricRegisterHelpers';
+import {
+  FABRIC_MULTI_PICK_LIMIT,
+  bulkFabricName,
+  generateFabricId,
+  resolveFabricMeta,
+} from './fabricRegisterHelpers';
 
 export type RegisterSource = 'camera' | 'library';
 
@@ -25,16 +30,26 @@ interface PendingCalibration {
   category: string;
 }
 
+interface PendingBulk {
+  uris: string[];
+}
+
 interface UseFabricRegisterResult {
   /** 名前/カテゴリ入力待ち */
   pending: PendingPick | null;
   /** キャリブレーション待ち */
   pendingCalibration: PendingCalibration | null;
+  /** 一括登録: プレフィックス/カテゴリ入力待ち */
+  pendingBulk: PendingBulk | null;
   pick: (source: RegisterSource) => Promise<void>;
+  /** カメラロールから複数枚を選択して一括登録フローを開始 */
+  pickMultiple: () => Promise<void>;
   /** 名前/カテゴリを確定し、キャリブレーション段階へ進める */
   confirmMeta: (name: string, category: string) => void;
   /** キャリブレーション結果(pxPerMm)を確定し、DB 登録 */
   confirmCalibration: (pxPerMm: number) => Promise<void>;
+  /** 一括登録の確定: pxPerMm = null で全件 DB 登録 */
+  confirmBulk: (prefix: string, category: string) => Promise<void>;
   cancel: () => void;
 }
 
@@ -46,11 +61,15 @@ interface UseFabricRegisterResult {
  * 2. 成功すると `pending` に URI を保持し、UI 側で名前・カテゴリ入力を表示
  * 3. `confirm(name, category)` でファイル保存 + DB 登録
  * 4. `cancel()` で破棄
+ *
+ * `pickMultiple` はカメラロールから複数枚を取り込み、`pendingBulk` 経由で
+ * プレフィックス/カテゴリを 1 度入力させて pxPerMm = null で一括登録する。
  */
 export function useFabricRegister(): UseFabricRegisterResult {
   const { t } = useTranslation();
   const [pending, setPending] = useState<PendingPick | null>(null);
   const [pendingCalibration, setPendingCalibration] = useState<PendingCalibration | null>(null);
+  const [pendingBulk, setPendingBulk] = useState<PendingBulk | null>(null);
   const showToast = useSetAtom(showToastAtom);
   const addFabric = useSetAtom(addFabricAtom);
 
@@ -96,6 +115,37 @@ export function useFabricRegister(): UseFabricRegisterResult {
     [showToast, t],
   );
 
+  const pickMultiple = useCallback(async () => {
+    try {
+      const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (!permission.granted) {
+        showToast({ message: t('error.permissionLibrary'), variant: 'error' });
+        return;
+      }
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: 'images',
+        quality: 0.9,
+        allowsMultipleSelection: true,
+        selectionLimit: FABRIC_MULTI_PICK_LIMIT,
+      });
+      if (result.canceled || result.assets.length === 0) {
+        return;
+      }
+      let uris = result.assets.map((a) => a.uri);
+      if (uris.length > FABRIC_MULTI_PICK_LIMIT) {
+        showToast({
+          message: t('fabrics.bulkLimitWarning', { limit: FABRIC_MULTI_PICK_LIMIT }),
+          variant: 'info',
+        });
+        uris = uris.slice(0, FABRIC_MULTI_PICK_LIMIT);
+      }
+      setPendingBulk({ uris });
+    } catch (error) {
+      logger.error('fabrics', 'failed to pick multiple images', error);
+      showToast({ message: t('fabrics.registerFailed'), variant: 'error' });
+    }
+  }, [showToast, t]);
+
   const confirmMeta = useCallback(
     (name: string, category: string) => {
       if (!pending) return;
@@ -136,10 +186,54 @@ export function useFabricRegister(): UseFabricRegisterResult {
     [pendingCalibration, addFabric, showToast, t],
   );
 
+  const confirmBulk = useCallback(
+    async (prefix: string, category: string) => {
+      if (!pendingBulk) return;
+      const { uris } = pendingBulk;
+      const trimmedCategory = category.trim();
+      try {
+        for (let i = 0; i < uris.length; i += 1) {
+          const id = generateFabricId();
+          const localUri = saveFabricImage(uris[i], id);
+          const fabric: FabricImage = {
+            id,
+            name: bulkFabricName(prefix, i + 1, uris.length),
+            category: trimmedCategory,
+            imagePath: localUri,
+            pxPerMm: null,
+            createdAt: new Date(),
+          };
+          await addFabric(fabric);
+        }
+        setPendingBulk(null);
+        showToast({
+          message: t('fabrics.bulkRegisterSuccess', { count: uris.length }),
+          variant: 'success',
+        });
+      } catch (error) {
+        setPendingBulk(null);
+        logger.error('fabrics', 'failed to bulk register fabrics', error);
+        showToast({ message: t('fabrics.bulkRegisterFailed'), variant: 'error' });
+      }
+    },
+    [pendingBulk, addFabric, showToast, t],
+  );
+
   const cancel = useCallback(() => {
     setPending(null);
     setPendingCalibration(null);
+    setPendingBulk(null);
   }, []);
 
-  return { pending, pendingCalibration, pick, confirmMeta, confirmCalibration, cancel };
+  return {
+    pending,
+    pendingCalibration,
+    pendingBulk,
+    pick,
+    pickMultiple,
+    confirmMeta,
+    confirmCalibration,
+    confirmBulk,
+    cancel,
+  };
 }

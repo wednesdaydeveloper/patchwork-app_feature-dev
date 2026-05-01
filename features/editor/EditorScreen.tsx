@@ -66,6 +66,7 @@ export const EditorScreen = () => {
   const loadFabrics = useSetAtom(loadFabricsAtom);
   const design = useAtomValue(selectedDesignAtom);
   const selectedPolygonId = useAtomValue(selectedPolygonIdAtom);
+  const setSelectedPolygonId = useSetAtom(selectedPolygonIdAtom);
   const pieceSettings = useAtomValue(pieceSettingsAtom);
   const fabrics = useAtomValue(fabricsAtom);
   const adjustMode = useAtomValue(adjustModeAtom);
@@ -355,7 +356,21 @@ export const EditorScreen = () => {
 
   return (
     <View style={[styles.container, isTablet && styles.containerTablet]}>
-      <View style={styles.canvasArea}>
+      <Pressable
+        accessibilityRole="none"
+        style={styles.canvasArea}
+        onPress={() => {
+          // キャンバスを含む左カラムの余白 (ヘッダー周辺・キャンバス上下・
+          // アクションボタン余白など) をタップしたら選択解除する。
+          // ヘッダーボタン / ツールバー / EditorCanvas / 各 Button は
+          // 自前の Pressable がイベントを消費するため、それらの上を
+          // タップしてもここには伝わらない。
+          // 調整モード中は誤操作を避けるため何もしない。
+          if (!adjustMode) {
+            setSelectedPolygonId(null);
+          }
+        }}
+      >
         <View style={styles.headerRow}>
           <Pressable
             accessibilityRole="button"
@@ -431,7 +446,7 @@ export const EditorScreen = () => {
             />
           </View>
         )}
-      </View>
+      </Pressable>
       <AdjustOverlay size={canvasSize} />
       <PromptDialog
         visible={renamePromptVisible}
