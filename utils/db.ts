@@ -109,14 +109,16 @@ interface FabricImageRow {
   created_at: number;
 }
 
-function rowToFabric(row: FabricImageRow): FabricImage {
+export function rowToFabric(row: FabricImageRow): FabricImage {
   return {
     id: row.id,
     name: row.name,
     category: row.category,
     imagePath: row.image_path,
     pxPerMm: row.px_per_mm,
-    createdAt: new Date(row.created_at),
+    // expo-sqlite は INTEGER カラムを数値文字列で返すことがあり、
+    // `new Date("1714836300000")` は Invalid Date になるため Number() で強制する。
+    createdAt: new Date(Number(row.created_at)),
   };
 }
 
@@ -289,8 +291,8 @@ export async function findWorkById(id: string): Promise<Work | null> {
     name: row.name,
     designId: row.design_id,
     sizeMm: row.size_mm,
-    createdAt: new Date(row.created_at),
-    updatedAt: new Date(row.updated_at),
+    createdAt: new Date(Number(row.created_at)),
+    updatedAt: new Date(Number(row.updated_at)),
     pieceSettings,
   };
 }
@@ -308,8 +310,8 @@ export async function listWorks(): Promise<Work[]> {
       name: row.name,
       designId: row.design_id,
       sizeMm: row.size_mm,
-      createdAt: new Date(row.created_at),
-      updatedAt: new Date(row.updated_at),
+      createdAt: new Date(Number(row.created_at)),
+      updatedAt: new Date(Number(row.updated_at)),
       pieceSettings,
     });
   }
