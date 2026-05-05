@@ -266,6 +266,7 @@ assets/                 # 静的アセット
 - ピースラベル（`Polygon.label`）は翻訳キー（`piece.<key>`）として扱う
 - パターンカテゴリ（`Design.category`）も翻訳キー（`category.<key>`）として扱う
 - 日付フォーマットは `utils/format.ts` でロケール別書式（`ja`: `yyyy/MM/dd`、`en`: `yyyy-MM-dd`）
+  - Invalid Date / 非 Date 値を受け取った場合は `'-'` を返す（UI に `NaN-NaN-NaN` が露出しないようにするための保険）
 
 ---
 
@@ -845,6 +846,7 @@ const recentDesignsAtom = atomWithStorage('recent-designs', [], storage);
 
 - `locales/ja.ts` を真とし、`Translations = typeof ja` の型を `locales/en.ts` に強制
 - `utils/i18n.ts` で `i18next` を初期化（端末ロケール → `ja` か `en` のどちらかにマッピング）
+- `initI18n()` は `app/_layout.tsx` のモジュールトップで呼び出す。`useTranslation()` は最初のレンダリング中に評価されるため、`useI18n` の `useEffect` 内で初期化すると `NO_I18NEXT_INSTANCE` 警告が出る。`initI18n` は idempotent なので `useI18n` 内の二重呼び出しは no-op
 - `atoms/settings.ts` の `languagePreferenceAtom` は `atomWithStorage` で AsyncStorage に永続化
 
 #### 使い方
