@@ -204,6 +204,7 @@
 | #86 | [布地管理: カメラロールから複数選択](./86-fabric-multi-pick.md)            | #24            | 🟢     |
 | #87 | [画像エクスポート: 保存先選択 (Sharing.shareAsync 化)](./87-image-save-destination.md) | #38, #85 | 🟢     |
 | #88 | [印刷用 PDF: 印刷ダイアログのキャンセルをエラー扱いしない](./88-pdf-print-cancel.md) | #39 | 🟡     |
+| #89 | [共有シートのキャンセル時に「保存しました」トーストを出さない](./89-share-cancel-toast.md) | #85, #87 | 🟡     |
 
 ---
 
