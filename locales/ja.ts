@@ -101,7 +101,7 @@ export const ja = {
   exportScreen: {
     title: 'エクスポート',
     image: '画像として保存',
-    imageDescription: 'カメラロールに高解像度の画像（PNG）として保存します。',
+    imageDescription: '高解像度の画像として保存します。共有シートから保存先（写真 / ファイル / 他アプリ等）を選択できます。',
     svg: 'SVG として保存',
     pdf: '印刷用 PDF',
     pdfDescription: '指定の用紙サイズに合わせた印刷用 PDF を出力します。',

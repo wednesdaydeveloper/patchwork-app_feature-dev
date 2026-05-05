@@ -103,7 +103,7 @@ export const en: Translations = {
   exportScreen: {
     title: 'Export',
     image: 'Save as image',
-    imageDescription: 'Save a high-resolution PNG image to your photo library.',
+    imageDescription: 'Save as a high-resolution image. Choose the destination (Photos / Files / other apps) from the share sheet.',
     svg: 'Save as SVG',
     pdf: 'Printable PDF',
     pdfDescription: 'Generate a printable PDF sized for the selected paper.',
