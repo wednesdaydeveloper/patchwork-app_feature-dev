@@ -1,3 +1,6 @@
+import { useEffect, useState } from 'react';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
@@ -6,16 +9,15 @@ import { Stack } from 'expo-router';
 
 import { Provider as JotaiProvider } from 'jotai';
 
+import type { LanguagePreference } from '@/atoms/settings';
 import { NotificationHost } from '@/components/ui/NotificationHost';
 import { useI18n } from '@/hooks/useI18n';
 import { useOrientationLock } from '@/hooks/useOrientationLock';
 import { initI18n } from '@/utils/i18n';
+import { logger } from '@/utils/logger';
 
-// `useTranslation()` は最初のレンダリング中に呼ばれるため、
-// `useI18n` の `useEffect` が走る前に i18next を初期化しておく必要がある。
-// ここでは端末ロケールで暫定初期化し、永続化されたユーザー設定は
-// `useI18n` が `changeLanguage` で適用する。
-initI18n();
+// languagePreferenceAtom（atoms/settings.ts）が AsyncStorage に保存するキー
+const LANGUAGE_PREFERENCE_KEY = 'settings.languagePreference';
 
 function RootStack() {
   useI18n();
@@ -38,6 +40,28 @@ function RootStack() {
 }
 
 export default function RootLayout() {
+  const [i18nReady, setI18nReady] = useState(false);
+
+  useEffect(() => {
+    // `useTranslation()` は最初のレンダリング中に呼ばれるため、
+    // RootStack をレンダリングする前に i18next を初期化する必要がある。
+    // AsyncStorage から永続化された言語設定を読み込み、ユーザー設定が
+    // 端末ロケールと異なる場合も初回から正しい言語で表示できるようにする。
+    void (async () => {
+      try {
+        const stored = await AsyncStorage.getItem(LANGUAGE_PREFERENCE_KEY);
+        const preference = stored ? (JSON.parse(stored) as LanguagePreference) : null;
+        initI18n(preference === 'ja' || preference === 'en' ? preference : undefined);
+      } catch (e) {
+        logger.warn('i18n', 'AsyncStorage からの言語設定読み込みに失敗しました。端末ロケールで初期化します。', undefined, e);
+        initI18n();
+      }
+      setI18nReady(true);
+    })();
+  }, []);
+
+  if (!i18nReady) return null;
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
