@@ -9,6 +9,13 @@ import { Provider as JotaiProvider } from 'jotai';
 import { NotificationHost } from '@/components/ui/NotificationHost';
 import { useI18n } from '@/hooks/useI18n';
 import { useOrientationLock } from '@/hooks/useOrientationLock';
+import { initI18n } from '@/utils/i18n';
+
+// `useTranslation()` は最初のレンダリング中に呼ばれるため、
+// `useI18n` の `useEffect` が走る前に i18next を初期化しておく必要がある。
+// ここでは端末ロケールで暫定初期化し、永続化されたユーザー設定は
+// `useI18n` が `changeLanguage` で適用する。
+initI18n();
 
 function RootStack() {
   useI18n();
