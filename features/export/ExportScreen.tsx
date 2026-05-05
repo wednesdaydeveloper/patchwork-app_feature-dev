@@ -24,6 +24,7 @@ import {
   type PaperSize,
 } from '@/features/export/buildPdfHtml';
 import { buildSvgString } from '@/features/export/buildSvg';
+import { isUserCancelledPrint } from '@/features/export/printErrors';
 import { WorkCanvas } from '@/features/export/WorkCanvas';
 import type { Design } from '@/types/design';
 import type { Work } from '@/types/work';
@@ -156,6 +157,10 @@ export const ExportScreen = () => {
       const paper = PAPER_SIZES[paperSize];
       await Print.printAsync({ html, width: paper.widthPt, height: paper.heightPt });
     } catch (error) {
+      if (isUserCancelledPrint(error)) {
+        // ユーザーが印刷ダイアログをキャンセルしただけなので silent で終了する
+        return;
+      }
       logger.error('export', 'failed to export pdf', error, { paperSize });
       const detail = error instanceof Error ? error.message : '';
       showDialog({
