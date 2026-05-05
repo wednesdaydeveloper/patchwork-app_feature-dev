@@ -202,6 +202,7 @@
 | #84 | [編集画面: パッチワーク外タップで選択解除](./84-deselect-on-outside-tap.md) | #28, #80       | 🟢     |
 | #85 | [エクスポート画面: SVG 出力](./85-export-svg.md)                          | #38, #39       | 🟢     |
 | #86 | [布地管理: カメラロールから複数選択](./86-fabric-multi-pick.md)            | #24            | 🟢     |
+| #87 | [画像エクスポート: 保存先選択 (Sharing.shareAsync 化)](./87-image-save-destination.md) | #38, #85 | 🟢     |
 
 ---
 
