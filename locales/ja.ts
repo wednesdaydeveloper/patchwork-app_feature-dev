@@ -109,7 +109,6 @@ export const ja = {
     format: '形式',
     formatPng: 'PNG',
     formatJpeg: 'JPEG',
-    saved: '保存しました',
     notFound: 'パッチワークが見つかりません。',
     scaleNote: 'PDF は実寸（mm）で生成されています。印刷ダイアログで「実際のサイズ」または「スケール 100%」を指定してください。',
     tooLargeTitle: '用紙サイズに収まりません',

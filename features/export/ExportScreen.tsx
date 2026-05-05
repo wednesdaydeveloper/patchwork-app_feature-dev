@@ -126,7 +126,7 @@ export const ExportScreen = () => {
         dialogTitle: t('exportScreen.image'),
         UTI,
       });
-      showToast({ message: t('exportScreen.saved'), variant: 'success' });
+      // Sharing.shareAsync はキャンセル時も resolve するため成功トーストは出さない (#89)
     } catch (error) {
       logger.error('export', 'failed to export image', error);
       showToast({
@@ -196,7 +196,7 @@ export const ExportScreen = () => {
         dialogTitle: t('exportScreen.svg'),
         UTI: 'public.svg-image',
       });
-      showToast({ message: t('exportScreen.saved'), variant: 'success' });
+      // Sharing.shareAsync はキャンセル時も resolve するため成功トーストは出さない (#89)
     } catch (error) {
       logger.error('export', 'failed to export svg', error);
       showToast({
