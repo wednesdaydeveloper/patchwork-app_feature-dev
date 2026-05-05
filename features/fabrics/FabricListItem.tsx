@@ -51,7 +51,17 @@ const FabricListItemImpl = ({
         onPress={onPress ? () => onPress(fabric) : undefined}
         style={({ pressed }) => [styles.container, pressed && styles.pressed]}
       >
-        <Image source={{ uri: fabric.imagePath }} style={styles.thumbnail} />
+        <View>
+          <Image source={{ uri: fabric.imagePath }} style={styles.thumbnail} />
+          {fabric.pxPerMm == null && (
+            <View
+              accessibilityLabel="uncalibrated"
+              style={styles.uncalibratedBadge}
+            >
+              <Text style={styles.uncalibratedBadgeLabel}>⚠️</Text>
+            </View>
+          )}
+        </View>
         <View style={styles.text}>
           <Text style={styles.name} numberOfLines={1}>
             {fabric.name}
@@ -89,6 +99,24 @@ const styles = StyleSheet.create({
     height: 56,
     borderRadius: 8,
     backgroundColor: '#e5e7eb',
+  },
+  uncalibratedBadge: {
+    position: 'absolute',
+    top: -4,
+    right: -4,
+    minWidth: 22,
+    height: 22,
+    paddingHorizontal: 4,
+    borderRadius: 11,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: '#fde68a',
+  },
+  uncalibratedBadgeLabel: {
+    fontSize: 12,
+    lineHeight: 14,
   },
   text: {
     flex: 1,

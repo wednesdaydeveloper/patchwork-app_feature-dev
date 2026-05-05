@@ -5,8 +5,10 @@ import { useTranslation } from 'react-i18next';
 
 import { useLocalSearchParams, useRouter } from 'expo-router';
 
+import * as FileSystemLegacy from 'expo-file-system/legacy';
 import * as MediaLibrary from 'expo-media-library';
 import * as Print from 'expo-print';
+import * as Sharing from 'expo-sharing';
 
 import { useAtomValue, useSetAtom } from 'jotai';
 
@@ -22,6 +24,7 @@ import {
   getPaperPrintableSquareMm,
   type PaperSize,
 } from '@/features/export/buildPdfHtml';
+import { buildSvgString } from '@/features/export/buildSvg';
 import { WorkCanvas } from '@/features/export/WorkCanvas';
 import type { Design } from '@/types/design';
 import type { Work } from '@/types/work';
@@ -156,6 +159,43 @@ export const ExportScreen = () => {
     }
   };
 
+  const handleExportSvg = async () => {
+    if (isExporting || !work || !design) return;
+    if (!(await checkStorage())) return;
+    setIsExporting(true);
+    try {
+      const svg = await buildSvgString({ work, design, fabrics, standalone: true });
+      const safeName = (work.name.trim() || 'patchwork').replace(/[\\/:*?"<>|]/g, '_');
+      const fileUri = `${FileSystemLegacy.cacheDirectory ?? ''}${safeName}.svg`;
+      await FileSystemLegacy.writeAsStringAsync(fileUri, svg, {
+        encoding: 'utf8',
+      });
+      const canShare = await Sharing.isAvailableAsync();
+      if (!canShare) {
+        showToast({ message: t('error.exportSvgFailed'), variant: 'error' });
+        return;
+      }
+      await Sharing.shareAsync(fileUri, {
+        mimeType: 'image/svg+xml',
+        dialogTitle: t('exportScreen.svg'),
+        UTI: 'public.svg-image',
+      });
+      showToast({ message: t('exportScreen.saved'), variant: 'success' });
+    } catch (error) {
+      logger.error('export', 'failed to export svg', error);
+      showToast({
+        message: t('error.exportSvgFailed'),
+        variant: 'error',
+        actionLabel: t('common.retry'),
+        onAction: () => {
+          void handleExportSvg();
+        },
+      });
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
   const handleExportPdf = async () => {
     if (isExporting || !work || !design) return;
     if (!(await checkStorage())) return;
@@ -250,6 +290,14 @@ export const ExportScreen = () => {
             disabled={isExporting}
             onPress={() => {
               void handleExportImage();
+            }}
+          />
+          <Button
+            label={t('exportScreen.svg')}
+            variant="secondary"
+            disabled={isExporting}
+            onPress={() => {
+              void handleExportSvg();
             }}
           />
         </View>

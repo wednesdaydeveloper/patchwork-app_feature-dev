@@ -1,4 +1,6 @@
 import {
+  FABRIC_MULTI_PICK_LIMIT,
+  bulkFabricName,
   defaultFabricName,
   generateFabricId,
   resolveFabricMeta,
@@ -31,5 +33,23 @@ describe('features/fabrics useFabricRegister helpers', () => {
     const result = resolveFabricMeta('   ', 'cat');
     expect(result.name).toMatch(/^\d{14}$/);
     expect(result.category).toBe('cat');
+  });
+
+  test('bulkFabricName combines prefix with zero-padded index', () => {
+    expect(bulkFabricName('cotton', 1, 5)).toBe('cotton01');
+    expect(bulkFabricName('cotton', 12, 12)).toBe('cotton12');
+  });
+
+  test('bulkFabricName widens the suffix for >= 100 items', () => {
+    expect(bulkFabricName('p', 7, 100)).toBe('p007');
+  });
+
+  test('bulkFabricName falls back to default name when prefix is blank', () => {
+    const name = bulkFabricName('   ', 1, 3);
+    expect(name).toMatch(/^\d{14}01$/);
+  });
+
+  test('FABRIC_MULTI_PICK_LIMIT is exposed (10 per spec)', () => {
+    expect(FABRIC_MULTI_PICK_LIMIT).toBe(10);
   });
 });

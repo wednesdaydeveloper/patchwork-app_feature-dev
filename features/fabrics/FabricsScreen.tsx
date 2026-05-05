@@ -155,6 +155,11 @@ export const FabricsScreen = () => {
           variant="secondary"
           onPress={() => void register.pick('library')}
         />
+        <Button
+          label={t('fabrics.fromLibraryMulti')}
+          variant="secondary"
+          onPress={() => void register.pickMultiple()}
+        />
       </View>
 
       {hasUncalibrated && (
@@ -273,6 +278,30 @@ export const FabricsScreen = () => {
         onCancel={register.cancel}
       />
 
+      {/* 一括登録: プレフィックス/カテゴリ入力 */}
+      <PromptDialog
+        visible={register.pendingBulk !== null}
+        title={t('fabrics.bulkRegisterTitle')}
+        message={t('fabrics.bulkRegisterMessage', {
+          count: register.pendingBulk?.uris.length ?? 0,
+        })}
+        fields={[
+          {
+            key: 'prefix',
+            placeholder: t('fabrics.bulkPrefixPlaceholder'),
+            autoFocus: true,
+          },
+          {
+            key: 'category',
+            placeholder: t('fabrics.categoryPlaceholder'),
+          },
+        ]}
+        onSubmit={(values) => {
+          void register.confirmBulk(values.prefix ?? '', values.category ?? '');
+        }}
+        onCancel={register.cancel}
+      />
+
       {/* 新規登録のキャリブレーション */}
       {register.pendingCalibration && (
         <CalibrationScreen
@@ -326,7 +355,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f9fafb',
   },
   actions: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     gap: 8,
     marginBottom: 16,
   },
