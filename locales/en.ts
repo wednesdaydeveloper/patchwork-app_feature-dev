@@ -111,7 +111,6 @@ export const en: Translations = {
     format: 'Format',
     formatPng: 'PNG',
     formatJpeg: 'JPEG',
-    saved: 'Saved.',
     notFound: 'Patchwork not found.',
     scaleNote: 'PDF is generated at actual size (mm). Choose "Actual size" or 100% scale in the print dialog.',
     tooLargeTitle: 'Larger than printable area',
