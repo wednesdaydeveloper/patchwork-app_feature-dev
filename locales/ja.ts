@@ -101,7 +101,7 @@ export const ja = {
   exportScreen: {
     title: 'エクスポート',
     image: '画像として保存',
-    imageDescription: 'カメラロールに高解像度の画像（PNG）として保存します。',
+    imageDescription: '高解像度の画像として保存します。共有シートから保存先（写真 / ファイル / 他アプリ等）を選択できます。',
     svg: 'SVG として保存',
     pdf: '印刷用 PDF',
     pdfDescription: '指定の用紙サイズに合わせた印刷用 PDF を出力します。',
@@ -111,7 +111,6 @@ export const ja = {
     formatJpeg: 'JPEG',
     saved: '保存しました',
     notFound: 'パッチワークが見つかりません。',
-    permissionDeniedLibrary: 'フォトライブラリへのアクセスが許可されていません。',
     scaleNote: 'PDF は実寸（mm）で生成されています。印刷ダイアログで「実際のサイズ」または「スケール 100%」を指定してください。',
     tooLargeTitle: '用紙サイズに収まりません',
     tooLargeMessage: '指定サイズ {{sizeMm}}mm は {{paperSize}} の印刷可能領域（最大 {{maxMm}}mm）を超えています。縮小して印刷しますか？',
