@@ -113,7 +113,6 @@ export const en: Translations = {
     formatJpeg: 'JPEG',
     saved: 'Saved.',
     notFound: 'Patchwork not found.',
-    permissionDeniedLibrary: 'Photo library access is not granted.',
     scaleNote: 'PDF is generated at actual size (mm). Choose "Actual size" or 100% scale in the print dialog.',
     tooLargeTitle: 'Larger than printable area',
     tooLargeMessage: 'Size {{sizeMm}}mm exceeds the printable area of {{paperSize}} (max {{maxMm}}mm). Shrink to fit?',

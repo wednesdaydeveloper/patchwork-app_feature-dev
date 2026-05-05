@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 
 import * as FileSystemLegacy from 'expo-file-system/legacy';
-import * as MediaLibrary from 'expo-media-library';
 import * as Print from 'expo-print';
 import * as Sharing from 'expo-sharing';
 
@@ -97,23 +96,35 @@ export const ExportScreen = () => {
   const previewSize = Math.min(screenWidth - HORIZONTAL_PADDING * 2, previewMax);
 
   const handleExportImage = async () => {
-    if (isExporting || !offscreenRef.current) return;
+    if (isExporting || !offscreenRef.current || !work) return;
     if (!(await checkStorage())) return;
     setIsExporting(true);
     try {
-      const permission = await MediaLibrary.requestPermissionsAsync();
-      if (!permission.granted) {
-        showToast({ message: t('exportScreen.permissionDeniedLibrary'), variant: 'error' });
-        return;
-      }
-      const uri = await captureRef(offscreenRef, {
+      const tmpUri = await captureRef(offscreenRef, {
         format: imageFormat,
         quality: imageFormat === 'jpg' ? 0.9 : 1,
         result: 'tmpfile',
         width: EXPORT_RESOLUTION,
         height: EXPORT_RESOLUTION,
       });
-      await MediaLibrary.saveToLibraryAsync(uri);
+      // 共有先アプリが mimeType を正しく認識できるよう、
+      // 拡張子を明示したキャッシュ配下のファイル名にコピーする。
+      const ext = imageFormat === 'jpg' ? 'jpg' : 'png';
+      const safeName = (work.name.trim() || 'patchwork').replace(/[\\/:*?"<>|]/g, '_');
+      const fileUri = `${FileSystemLegacy.cacheDirectory ?? ''}${safeName}.${ext}`;
+      await FileSystemLegacy.copyAsync({ from: tmpUri, to: fileUri });
+      const canShare = await Sharing.isAvailableAsync();
+      if (!canShare) {
+        showToast({ message: t('error.exportImageFailed'), variant: 'error' });
+        return;
+      }
+      const mimeType = imageFormat === 'jpg' ? 'image/jpeg' : 'image/png';
+      const UTI = imageFormat === 'jpg' ? 'public.jpeg' : 'public.png';
+      await Sharing.shareAsync(fileUri, {
+        mimeType,
+        dialogTitle: t('exportScreen.image'),
+        UTI,
+      });
       showToast({ message: t('exportScreen.saved'), variant: 'success' });
     } catch (error) {
       logger.error('export', 'failed to export image', error);
