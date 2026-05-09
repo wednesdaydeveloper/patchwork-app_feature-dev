@@ -74,17 +74,17 @@ export function PatternCanvas({
         style={{ position: 'absolute', top: 0, left: 0 }}
       >
         {pieces.map((piece, idx) => {
-          const isSelected = piece.id === selectedPieceId;
+          const isSelected = piece.internalId === selectedPieceId;
           const fill = isSelected ? 'rgba(74,144,217,0.45)' : FILL_COLORS[idx % FILL_COLORS.length];
           return (
             <path
-              key={piece.id}
+              key={piece.internalId}
               d={scaledPath(piece.path)}
               fill={fill}
               stroke={isSelected ? '#1a6ab8' : '#333'}
               strokeWidth={isSelected ? 2 : 1}
               style={{ cursor: 'pointer' }}
-              onClick={() => onSelectPiece(piece.id)}
+              onClick={() => onSelectPiece(piece.internalId)}
             />
           );
         })}
@@ -109,7 +109,7 @@ export function PatternCanvas({
           const cy = pieceCenterY(piece, rows) * size;
           return (
             <text
-              key={`lbl-${piece.id}`}
+              key={`lbl-${piece.internalId}`}
               x={cx}
               y={cy}
               textAnchor="middle"

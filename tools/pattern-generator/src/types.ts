@@ -1,5 +1,7 @@
 /** ツール内で扱う編集可能なピース */
 export interface EditablePiece {
+  /** 内部管理用の不変ID（UUID）。選択・更新・React keyに使用 */
+  internalId: string;
   id: string;
   label: string;
   /** SVG path data (正規化座標 0.0〜1.0、Z で閉じる) */

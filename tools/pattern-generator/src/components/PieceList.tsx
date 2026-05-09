@@ -24,19 +24,19 @@ export function PieceList({ pieces, selectedPieceId, onSelectPiece, onUpdatePiec
         </thead>
         <tbody>
           {pieces.map((piece, idx) => {
-            const isSelected = piece.id === selectedPieceId;
+            const isSelected = piece.internalId === selectedPieceId;
             return (
               <tr
-                key={`${piece.id}-${idx}`}
+                key={piece.internalId}
                 style={{ ...styles.row, ...(isSelected ? styles.rowSelected : {}) }}
-                onClick={() => onSelectPiece(piece.id)}
+                onClick={() => onSelectPiece(piece.internalId)}
               >
                 <td style={styles.td}>{idx + 1}</td>
                 <td style={styles.td} onClick={(e) => e.stopPropagation()}>
                   <input
                     style={styles.input}
                     value={piece.id}
-                    onChange={(e) => onUpdatePiece(piece.id, 'id', e.target.value)}
+                    onChange={(e) => onUpdatePiece(piece.internalId, 'id', e.target.value)}
                     spellCheck={false}
                   />
                 </td>
@@ -44,7 +44,7 @@ export function PieceList({ pieces, selectedPieceId, onSelectPiece, onUpdatePiec
                   <input
                     style={styles.input}
                     value={piece.label}
-                    onChange={(e) => onUpdatePiece(piece.id, 'label', e.target.value)}
+                    onChange={(e) => onUpdatePiece(piece.internalId, 'label', e.target.value)}
                     spellCheck={false}
                     placeholder="例: topLeft, center"
                   />

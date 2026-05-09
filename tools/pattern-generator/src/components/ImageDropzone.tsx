@@ -54,11 +54,19 @@ export function ImageDropzone({ imageUrl, onImageLoaded, onImageCleared }: Props
 
   return (
     <div
+      role="button"
+      tabIndex={0}
       style={{ ...styles.dropzone, ...(dragging ? styles.dragging : {}) }}
       onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
       onDragLeave={() => setDragging(false)}
       onDrop={onDrop}
       onClick={() => inputRef.current?.click()}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          inputRef.current?.click();
+        }
+      }}
     >
       <span style={styles.icon}>📷</span>
       <span style={styles.label}>参照画像をドロップ<br />またはクリックして選択</span>

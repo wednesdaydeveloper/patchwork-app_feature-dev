@@ -60,16 +60,13 @@ export function App() {
   }, [localCols, localRows]);
 
   const handleUpdatePiece = useCallback(
-    (pieceId: string, field: 'id' | 'label', value: string) => {
+    (internalId: string, field: 'id' | 'label', value: string) => {
       setState((prev) => ({
         ...prev,
         pieces: prev.pieces.map((p) => {
-          if (p.id !== pieceId) return p;
+          if (p.internalId !== internalId) return p;
           return { ...p, [field]: value };
         }),
-        // If ID changes, keep selection synced
-        selectedPieceId:
-          field === 'id' && prev.selectedPieceId === pieceId ? value : prev.selectedPieceId,
       }));
     },
     [],
@@ -103,7 +100,7 @@ export function App() {
     a.href = url;
     a.download = `${output.design.id}.json`;
     a.click();
-    URL.revokeObjectURL(url);
+    setTimeout(() => URL.revokeObjectURL(url), 0);
   }, [state]);
 
   const handleDownloadThumbnail = useCallback(() => {
@@ -116,7 +113,10 @@ export function App() {
     a.click();
   }, [state]);
 
-  const canDownload = state.pieces.length > 0 && state.metadata.id.trim() !== '';
+  const canDownload =
+    state.pieces.length > 0 &&
+    state.metadata.id.trim() !== '' &&
+    validationResult?.ok === true;
 
   return (
     <div style={styles.root}>

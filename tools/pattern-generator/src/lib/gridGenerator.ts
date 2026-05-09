@@ -28,7 +28,8 @@ export function generateGridPieces(cols: number, rows: number): EditablePiece[] 
       const y1 = (row + 1) / rows;
 
       pieces.push({
-        id: `p${col}${row}`,
+        internalId: crypto.randomUUID(),
+        id: `p${col}_${row}`,
         label: deriveLabel(col, row, cols, rows),
         path: cellPath(x0, y0, x1, y1),
         cells: { colStart: col, colEnd: col + 1, rowStart: row, rowEnd: row + 1 },
@@ -58,6 +59,7 @@ export function pieceFromCells(
   const y1 = rowEnd / totalRows;
 
   return {
+    internalId: crypto.randomUUID(),
     id,
     label,
     path: cellPath(x0, y0, x1, y1),
