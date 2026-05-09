@@ -2,6 +2,8 @@
 
 #45 で整備した EAS Build / `app.json` 設定の使い方。
 
+> **個人で iPhone 実機にインストールしたい場合は [docs/install-iphone.md](./install-iphone.md) を参照**(Internal Distribution での実機配布手順をステップごとに解説)。本書は EAS Build 全体の概要・本番ビルド・申請まわりを扱う。
+
 ## 前提
 
 - [Expo アカウント](https://expo.dev/) にサインアップ済み
