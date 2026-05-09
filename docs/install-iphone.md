@@ -152,7 +152,7 @@ iPhone で:
 | --- | --- |
 | `eas build` で「No bundle identifier specified」 | `app.json` の `ios.bundleIdentifier` が設定されているか確認 |
 | ビルド成功するがインストール時に「インストールできません」 | `eas device:create` で UDID 登録 → 再ビルド |
-| 起動時に「信頼されていない開発元」が消えない | 1-2 で示した「信頼」操作を再実行 |
+| 起動時に「信頼されていない開発元」が消えない | 2-3 で示した「信頼」操作を再実行 |
 | `eas credentials` でエラー | Apple Developer アカウントのログインを `eas` 内で再認証 |
 | Bundle ID 重複エラー | App Store Connect で同じ Bundle ID が他に登録されていないか確認 |
 | ビルド失敗 (Provisioning Profile invalid) | `eas credentials --platform ios` で Provisioning Profile を再生成 |
@@ -176,4 +176,3 @@ eas submit --platform ios --profile production
 
 - [EAS Build introduction](https://docs.expo.dev/build/introduction/)
 - [EAS Build internal distribution](https://docs.expo.dev/build/internal-distribution/)
-- [eas device:create reference](https://docs.expo.dev/eas/json/#devices)
