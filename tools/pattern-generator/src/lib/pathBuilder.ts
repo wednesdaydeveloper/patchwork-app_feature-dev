@@ -1,5 +1,36 @@
 import type { DrawingVertex, SegmentType } from '../types';
 
+// ---------- Path scaling ----------
+
+/**
+ * Scale coordinate/radius values in an SVG path string by `factor`.
+ * For A/a arc commands, x-rotation (param 3), large-arc-flag (param 4), and
+ * sweep-flag (param 5) are left unchanged — only rx, ry, x, y are scaled.
+ */
+export function scalePath(d: string, factor: number): string {
+  const tokens =
+    d.match(/[MmLlHhVvCcSsQqTtAaZz]|[+-]?(?:\d*\.)?\d+(?:[eE][+-]?\d+)?/g) ?? [];
+  // Within an A/a command the 7 params are: rx ry x-rotation large-arc sweep-flag x y
+  // Indices 2, 3, 4 (x-rotation, large-arc-flag, sweep-flag) must NOT be multiplied.
+  const ARC_SKIP = new Set([2, 3, 4]);
+  let cmd = '';
+  let paramIdx = 0;
+
+  return tokens
+    .map((token) => {
+      if (/^[MmLlHhVvCcSsQqTtAaZz]$/.test(token)) {
+        cmd = token;
+        paramIdx = 0;
+        return token;
+      }
+      const isArc = cmd === 'A' || cmd === 'a';
+      const skip = isArc && ARC_SKIP.has(paramIdx % 7);
+      paramIdx++;
+      return skip ? token : String(parseFloat(token) * factor);
+    })
+    .join(' ');
+}
+
 // ---------- Coordinate utils ----------
 
 const COORD_PRECISION = 4;

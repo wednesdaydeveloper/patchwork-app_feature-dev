@@ -1,5 +1,5 @@
 import { useCallback, useRef, useState } from 'react';
-import { buildOpenPath, buildSvgPath, fmt, segmentMidpoint, snapCoord } from '../lib/pathBuilder';
+import { buildOpenPath, buildSvgPath, fmt, scalePath, segmentMidpoint, snapCoord } from '../lib/pathBuilder';
 import type { DrawingState, DrawingVertex, EditablePiece } from '../types';
 
 interface Props {
@@ -153,10 +153,7 @@ export function DrawingCanvas({
 
         {/* Existing pieces */}
         {existingPieces.map((piece, idx) => {
-          const scaled = piece.path.replace(
-            /(-?\d+(?:\.\d+)?)/g,
-            (_, n) => String(parseFloat(n) * size),
-          );
+          const scaled = scalePath(piece.path, size);
           return (
             <path
               key={piece.internalId}
@@ -171,10 +168,7 @@ export function DrawingCanvas({
         {/* Completed (closed) path preview */}
         {closedPathD && (
           <path
-            d={closedPathD.replace(
-              /(-?\d+(?:\.\d+)?)/g,
-              (_, n) => String(parseFloat(n) * size),
-            )}
+            d={scalePath(closedPathD, size)}
             fill="rgba(74,144,217,0.25)"
             stroke="#1a6ab8"
             strokeWidth={2}
@@ -184,10 +178,7 @@ export function DrawingCanvas({
         {/* Open (in-progress) path */}
         {openPathD && !closed && (
           <path
-            d={openPathD.replace(
-              /(-?\d+(?:\.\d+)?)/g,
-              (_, n) => String(parseFloat(n) * size),
-            )}
+            d={scalePath(openPathD, size)}
             fill="none"
             stroke="#1a6ab8"
             strokeWidth={2}

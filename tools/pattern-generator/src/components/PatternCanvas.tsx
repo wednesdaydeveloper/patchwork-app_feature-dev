@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { scalePath } from '../lib/pathBuilder';
 import type { EditablePiece } from '../types';
 
 interface Props {
@@ -121,8 +122,7 @@ export function PatternCanvas({
   );
 
   const viewBox = `0 0 ${size} ${size}`;
-  const scaledPath = (path: string) =>
-    path.replace(/(-?\d+(?:\.\d+)?)/g, (_, n) => String(parseFloat(n) * size));
+  const scaledPath = (path: string) => scalePath(path, size);
 
   const hasRefImg = Boolean(referenceImageUrl);
   const containerCursor = isDragging ? 'grabbing' : hasRefImg ? 'grab' : 'default';
