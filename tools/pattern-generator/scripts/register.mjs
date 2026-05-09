@@ -16,13 +16,13 @@
  *
  * 処理内容:
  *   1. <id>.json → constants/designs/<id>.json にコピー
- *   2. thumbnail.png → assets/designs/<thumbnail> にコピー（存在する場合）
+ *   2. thumbnail.png → assets/designs/<thumbnail> にコピー（指定時 / バッチ時は同名 .png を自動検出）
  *   3. constants/designs/index.ts に import と配列エントリを追加
  *   4. --commit 指定時: git add + git commit（バッチ時は全件まとめて 1 コミット）
  */
 
-import { readFileSync, writeFileSync, copyFileSync, existsSync, readdirSync } from 'fs';
-import { resolve, dirname, join, basename, extname } from 'path';
+import { readFileSync, writeFileSync, copyFileSync, existsSync, readdirSync, statSync } from 'fs';
+import { resolve, dirname, join, basename } from 'path';
 import { fileURLToPath } from 'url';
 import { execFileSync } from 'child_process';
 
@@ -37,8 +37,13 @@ const SAFE_NAME_RE = /^[a-z0-9][a-z0-9-_.]*$/;
 const args = process.argv.slice(2);
 const doCommit = args.includes('--commit');
 const dirIdx = args.indexOf('--dir');
-const dirArg = dirIdx !== -1 ? args[dirIdx + 1] : null;
-const positional = args.filter((a, i) => !a.startsWith('--') && i !== dirIdx + 1);
+const hasDirFlag = dirIdx !== -1;
+const dirArg = hasDirFlag ? args[dirIdx + 1] : null;
+if (hasDirFlag && (!dirArg || dirArg.startsWith('--'))) {
+  console.error('--dir にはディレクトリパスを指定してください');
+  process.exit(1);
+}
+const positional = args.filter((a, i) => !a.startsWith('--') && !(hasDirFlag && i === dirIdx + 1));
 
 /** @type {Array<{jsonSrc: string, pngSrc: string|null}>} */
 const entries = [];
@@ -50,7 +55,24 @@ if (dirArg) {
     console.error(`ディレクトリが見つかりません: ${dir}`);
     process.exit(1);
   }
-  const jsonFiles = readdirSync(dir).filter((f) => f.endsWith('.json'));
+  let dirStat;
+  try {
+    dirStat = statSync(dir);
+  } catch (e) {
+    console.error(`ディレクトリ情報の取得に失敗しました: ${dir} (${e.message})`);
+    process.exit(1);
+  }
+  if (!dirStat.isDirectory()) {
+    console.error(`ディレクトリではありません: ${dir}`);
+    process.exit(1);
+  }
+  let jsonFiles;
+  try {
+    jsonFiles = readdirSync(dir).filter((f) => f.endsWith('.json'));
+  } catch (e) {
+    console.error(`ディレクトリの読み取りに失敗しました: ${dir} (${e.message})`);
+    process.exit(1);
+  }
   if (jsonFiles.length === 0) {
     console.error(`JSON ファイルが見つかりません: ${dir}`);
     process.exit(1);
@@ -68,7 +90,7 @@ if (dirArg) {
     '  一括: node scripts/register.mjs --dir <directory> [--commit]',
   );
   process.exit(1);
-} else if (positional.length === 1 || (positional.length === 2 && positional[1].endsWith('.png'))) {
+} else if (positional.length === 1 || (positional.length === 2 && /\.png$/i.test(positional[1]))) {
   // 単体モード（従来互換）
   const jsonSrc = resolve(positional[0]);
   const pngSrc = positional[1] ? resolve(positional[1]) : null;
@@ -92,7 +114,7 @@ let indexContent = readFileSync(indexPath, 'utf-8');
 /**
  * @param {string} jsonSrc
  * @param {string|null} pngSrc
- * @returns {{ ok: boolean, id: string, name: string, stagedFiles: string[], error?: string }}
+ * @returns {{ ok: boolean, id: string, name: string, stagedFiles: string[], pngNote?: string, error?: string }}
  */
 function registerOne(jsonSrc, pngSrc) {
   if (!existsSync(jsonSrc)) {
@@ -129,6 +151,20 @@ function registerOne(jsonSrc, pngSrc) {
   const safeVarName = /^[a-zA-Z_$]/.test(varNameBase) ? varNameBase : `design${varNameBase}`;
   const varName = `${safeVarName}Json`;
 
+  const importLine = `import ${varName} from '@/constants/designs/${id}.json';`;
+  if (!indexContent.includes(importLine)) {
+    const marker = 'import { type Design';
+    const insertPos = indexContent.indexOf(marker);
+    if (insertPos === -1) {
+      return { ok: false, id, name, stagedFiles: [], error: 'index.ts の挿入位置が見つかりません' };
+    }
+  }
+
+  const arrayMatch = /const RAW_DESIGN_FILES: unknown\[\] = \[([^\]]*)\]/.exec(indexContent);
+  if (!arrayMatch) {
+    return { ok: false, id, name, stagedFiles: [], error: 'index.ts の RAW_DESIGN_FILES が見つかりません' };
+  }
+
   const stagedFiles = [];
 
   // JSON コピー
@@ -150,20 +186,15 @@ function registerOne(jsonSrc, pngSrc) {
   }
 
   // index.ts 更新（インメモリ）
-  const importLine = `import ${varName} from '@/constants/designs/${id}.json';`;
   if (!indexContent.includes(importLine)) {
     const marker = 'import { type Design';
     const insertPos = indexContent.indexOf(marker);
-    if (insertPos === -1) {
-      return { ok: false, id, name, stagedFiles, error: 'index.ts の挿入位置が見つかりません' };
-    }
     indexContent =
       indexContent.slice(0, insertPos) + importLine + '\n' + indexContent.slice(insertPos);
   }
 
   // import の存在とは独立して配列への追加を確認する
-  const arrayMatch = /const RAW_DESIGN_FILES: unknown\[\] = \[([^\]]*)\]/.exec(indexContent);
-  const alreadyInArray = arrayMatch ? arrayMatch[1].includes(varName) : false;
+  const alreadyInArray = arrayMatch[1].includes(varName);
   if (!alreadyInArray) {
     indexContent = indexContent.replace(
       /const RAW_DESIGN_FILES: unknown\[\] = \[([^\]]*)\];/,

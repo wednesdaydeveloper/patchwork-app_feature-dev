@@ -183,7 +183,7 @@ npm run register -- --dir ~/Downloads/patterns/ --commit
 
 スクリプトが以下を自動で行います:
 1. `constants/designs/<id>.json` にコピー
-2. `assets/designs/<thumbnail>` にコピー（同名 PNG が存在する場合）
+2. `assets/designs/<thumbnail>` にコピー（単体は PNG 指定時 / バッチは同名 PNG 自動ペアリング時）
 3. `constants/designs/index.ts` に import と配列エントリを追加
 4. `--commit` 指定時: `git add` + `git commit`（バッチ時は全件まとめて 1 コミット）
 
