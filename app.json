@@ -71,9 +71,7 @@
       }
     },
     "owner": "sigaokamoto",
-    "runtimeVersion": {
-      "policy": "appVersion"
-    },
+    "runtimeVersion": "1.0.0",
     "updates": {
       "url": "https://u.expo.dev/7d1f961d-a7d9-456a-b5e0-c64c20194d5d"
     }
