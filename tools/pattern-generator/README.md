@@ -165,21 +165,27 @@ Label はアプリ内で `t('piece.<label>')` として解決される翻訳キ�
 ### 方法 A: CLI スクリプト（推奨）
 
 ```bash
-# JSON のみ配置
+# JSON のみ（単体）
 npm run register -- path/to/design.json
 
-# JSON + PNG を配置
+# JSON + PNG（単体）
 npm run register -- path/to/design.json path/to/thumbnail.png
 
 # 配置してそのままコミット
 npm run register -- path/to/design.json path/to/thumbnail.png --commit
+
+# 複数 JSON をスペース区切りで指定（同名 .png を自動ペアリング）
+npm run register -- a.json b.json c.json --commit
+
+# ディレクトリ内の全 JSON を一括登録（同名 .png を自動ペアリング）
+npm run register -- --dir ~/Downloads/patterns/ --commit
 ```
 
 スクリプトが以下を自動で行います:
 1. `constants/designs/<id>.json` にコピー
-2. `assets/designs/<thumbnail>` にコピー（PNG 指定時）
+2. `assets/designs/<thumbnail>` にコピー（同名 PNG が存在する場合）
 3. `constants/designs/index.ts` に import と配列エントリを追加
-4. `--commit` 指定時: `git add` + `git commit`
+4. `--commit` 指定時: `git add` + `git commit`（バッチ時は全件まとめて 1 コミット）
 
 ### 方法 B: 手動配置
 
