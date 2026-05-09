@@ -1,3 +1,4 @@
+import { scalePath } from './pathBuilder';
 import type { EditablePiece } from '../types';
 
 const THUMBNAIL_SIZE = 256;
@@ -37,9 +38,5 @@ export function generateThumbnail(pieces: EditablePiece[]): string {
 function svgPathToPath2D(svgPath: string, scale: number): Path2D {
   // Vite/ブラウザ環境では Path2D が SVG path 文字列を直接受け取れる
   // ただし座標を scale 倍する必要があるため正規表現で変換する
-  const scaledPath = svgPath.replace(
-    /(-?\d+(?:\.\d+)?)/g,
-    (_, n) => String(parseFloat(n) * scale),
-  );
-  return new Path2D(scaledPath);
+  return new Path2D(scalePath(svgPath, scale));
 }

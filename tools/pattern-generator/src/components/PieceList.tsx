@@ -5,9 +5,10 @@ interface Props {
   selectedPieceId: string | null;
   onSelectPiece: (id: string) => void;
   onUpdatePiece: (id: string, field: 'id' | 'label', value: string) => void;
+  onDeletePiece: (internalId: string) => void;
 }
 
-export function PieceList({ pieces, selectedPieceId, onSelectPiece, onUpdatePiece }: Props) {
+export function PieceList({ pieces, selectedPieceId, onSelectPiece, onUpdatePiece, onDeletePiece }: Props) {
   if (pieces.length === 0) {
     return <p style={styles.empty}>グリッドを生成するとピース一覧が表示されます。</p>;
   }
@@ -20,6 +21,7 @@ export function PieceList({ pieces, selectedPieceId, onSelectPiece, onUpdatePiec
             <th style={styles.th}>#</th>
             <th style={styles.th}>ID</th>
             <th style={styles.th}>Label（翻訳キー）</th>
+            <th style={styles.th} />
           </tr>
         </thead>
         <tbody>
@@ -48,6 +50,15 @@ export function PieceList({ pieces, selectedPieceId, onSelectPiece, onUpdatePiec
                     spellCheck={false}
                     placeholder="例: topLeft, center"
                   />
+                </td>
+                <td style={styles.tdDelete} onClick={(e) => e.stopPropagation()}>
+                  <button
+                    style={styles.deleteBtn}
+                    title="このピースを削除"
+                    onClick={() => onDeletePiece(piece.internalId)}
+                  >
+                    ✕
+                  </button>
                 </td>
               </tr>
             );

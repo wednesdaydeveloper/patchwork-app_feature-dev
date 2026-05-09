@@ -6,7 +6,7 @@ export interface EditablePiece {
   label: string;
   /** SVG path data (正規化座標 0.0〜1.0、Z で閉じる) */
   path: string;
-  /** グリッド上の対応セル範囲 (merging 用、Phase 2) */
+  /** グリッド上の対応セル範囲 (merging 用、将来利用) */
   cells: { colStart: number; colEnd: number; rowStart: number; rowEnd: number };
 }
 
@@ -43,3 +43,49 @@ export interface DesignFileOutput {
     polygons: { id: string; label: string; path: string }[];
   };
 }
+
+// ---------- 手描きモード ----------
+
+/** 正規化座標 (0-1) の頂点 */
+export interface DrawingVertex {
+  x: number;
+  y: number;
+}
+
+/**
+ * セグメント定義。
+ * - L: 直線
+ * - A: 円弧。sagitta = 弦中点からアーク中点への符号付き距離
+ *   正 → 弦方向の右側に膨らむ（SVG Y軸下向き座標系）
+ *   負 → 左側に膨らむ
+ */
+export type SegmentType =
+  | { kind: 'L' }
+  | { kind: 'A'; sagitta: number };
+
+/** 手描きモードの状態 */
+export interface DrawingState {
+  active: boolean;
+  /** 現在描画中の頂点列 (正規化座標) */
+  vertices: DrawingVertex[];
+  /**
+   * セグメント定義。
+   * 描画中（open）: length = vertices.length - 1
+   *   segments[i]: vertices[i] → vertices[i+1]
+   * 完成（closed）: length = vertices.length
+   *   segments[i]: vertices[i] → vertices[(i+1)%n]（最後の要素が閉じるエッジ）
+   */
+  segments: SegmentType[];
+  /** パスが閉じているか（完成して確認待ち） */
+  closed: boolean;
+  /** スナップグリッドの分割数（0=スナップなし） */
+  snapDivisions: number;
+}
+
+export const INITIAL_DRAWING_STATE: DrawingState = {
+  active: false,
+  vertices: [],
+  segments: [],
+  closed: false,
+  snapDivisions: 12,
+};
