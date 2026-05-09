@@ -139,12 +139,18 @@ export function App() {
       // 左法線（弦の左方向）
       const nx = -dy / len;
       const ny = dx / len;
-      const OFFSET = 0.1;
+      const clamp01 = (value: number) => Math.max(0, Math.min(1, value));
+      // 短い辺で過大オフセットにならないよう辺長に追従
+      const offset = Math.min(0.1, len * 0.25);
 
       let updated: SegmentType;
       if (seg.kind === 'L') {
         // L → Q: 制御点を弦の中点から左法線方向にオフセット
-        updated = { kind: 'Q', cpx: mx + nx * OFFSET, cpy: my + ny * OFFSET };
+        updated = {
+          kind: 'Q',
+          cpx: clamp01(mx + nx * offset),
+          cpy: clamp01(my + ny * offset),
+        };
       } else if (seg.kind === 'Q') {
         // Q → C: 次数昇格（形状を保持）
         // cp1 = P0/3 + 2·CP/3, cp2 = P2/3 + 2·CP/3

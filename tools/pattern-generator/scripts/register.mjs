@@ -16,7 +16,7 @@
 import { readFileSync, writeFileSync, copyFileSync, existsSync } from 'fs';
 import { resolve, dirname, join } from 'path';
 import { fileURLToPath } from 'url';
-import { execSync } from 'child_process';
+import { execFileSync } from 'child_process';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = resolve(__dirname, '../../..');
@@ -58,10 +58,24 @@ if (!design?.id) {
 
 const id = design.id;
 const thumbnailFilename = design.thumbnail || `${id}.png`;
+const SAFE_NAME_RE = /^[a-z0-9][a-z0-9-_.]*$/;
+
+if (typeof id !== 'string' || !SAFE_NAME_RE.test(id)) {
+  console.error('無効なデザイン JSON: design.id は [a-z0-9-_.] のみ使用可能です');
+  process.exit(1);
+}
+
+if (typeof thumbnailFilename !== 'string' || !SAFE_NAME_RE.test(thumbnailFilename)) {
+  console.error('無効なデザイン JSON: design.thumbnail は [a-z0-9-_.] のみ使用可能です');
+  process.exit(1);
+}
 
 // kebab-case → camelCase 変換（変数名用）
-const camelId = id.replace(/-([a-z])/g, (_, c) => c.toUpperCase());
-const varName = `${camelId}Json`;
+const camelId = id.replace(/[-_.]+([a-z0-9])/g, (_, c) => c.toUpperCase());
+const identifier = camelId.replace(/[^a-zA-Z0-9_$]/g, '');
+const varNameBase = identifier.length > 0 ? identifier : 'design';
+const safeVarName = /^[a-zA-Z_$]/.test(varNameBase) ? varNameBase : `design${varNameBase}`;
+const varName = `${safeVarName}Json`;
 
 console.log(`\n📦 登録: ${design.name} (${id})\n`);
 
@@ -135,12 +149,12 @@ if (indexModified) {
 
 if (doCommit) {
   try {
-    const addArgs = stagedFiles.map((f) => `"${f}"`).join(' ');
-    execSync(`git -C "${REPO_ROOT}" add ${addArgs}`, { stdio: 'inherit' });
-    execSync(
-      `git -C "${REPO_ROOT}" commit -m "feat: パターン追加 — ${design.name} (${id})"`,
-      { stdio: 'inherit' },
-    );
+    const safeDesignName = String(design.name ?? id).replace(/\s+/g, ' ').trim() || id;
+    execFileSync('git', ['add', ...stagedFiles], { cwd: REPO_ROOT, stdio: 'inherit' });
+    execFileSync('git', ['commit', '-m', `feat: パターン追加 — ${safeDesignName} (${id})`], {
+      cwd: REPO_ROOT,
+      stdio: 'inherit',
+    });
     console.log(`\n  ✅ コミット完了`);
   } catch (e) {
     console.error(`  ❌ git コマンドでエラーが発生しました: ${e.message}`);

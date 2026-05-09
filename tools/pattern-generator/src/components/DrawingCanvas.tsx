@@ -101,9 +101,24 @@ export function DrawingCanvas({
 
   // Clear CP drag on pointer up (document-level to catch releases outside SVG)
   useEffect(() => {
-    const onUp = () => { cpDragRef.current = null; };
-    document.addEventListener('pointerup', onUp);
-    return () => document.removeEventListener('pointerup', onUp);
+    const clearDrag = () => {
+      cpDragRef.current = null;
+    };
+    const onVisibilityChange = () => {
+      if (document.visibilityState !== 'visible') {
+        clearDrag();
+      }
+    };
+    document.addEventListener('pointerup', clearDrag);
+    document.addEventListener('pointercancel', clearDrag);
+    window.addEventListener('blur', clearDrag);
+    document.addEventListener('visibilitychange', onVisibilityChange);
+    return () => {
+      document.removeEventListener('pointerup', clearDrag);
+      document.removeEventListener('pointercancel', clearDrag);
+      window.removeEventListener('blur', clearDrag);
+      document.removeEventListener('visibilitychange', onVisibilityChange);
+    };
   }, []);
 
   const handleClick = useCallback(
