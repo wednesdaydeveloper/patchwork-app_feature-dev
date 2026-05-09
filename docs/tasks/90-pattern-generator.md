@@ -1,6 +1,6 @@
 # #90 パターン生成ツール: 画像から SVG path JSON を半自動生成
 
-- **ステータス**: `[~]` 進行中（Phase 1 実装済み）
+- **ステータス**: `[~]` 進行中（Phase 1・2 実装済み、Phase 3 一部実装済み）
 - **フェーズ**: 22. パターンマスター拡充(開発者ツール)
 - **前提**: なし
 - **重要度**: 🟢 機能追加(開発者ツール)
@@ -28,40 +28,40 @@
 
 ```
 [1] パターン画像 (PNG/JPG)
-      ↓ 画像処理(自動)
-        - グレースケール化
-        - 2 値化 (Otsu thresholding)
-        - 細線化 (thinning) / ノイズ除去
-[2] 線画(処理済み画像)
-      ↓ ベクトル化(自動)
-        - imagetracer.js / potrace.js
-[3] SVG line drawing
-      ↓ ピース分割(半自動)
-        - 閉領域検出 (planar subdivision)
-        - or 開発者がクリックで領域選択
-[4] ピース候補(SVG path 群)
+      ↓ 参照画像として読み込み（D&D）
+        - ズーム・パン対応でトレース補助
+[2] ピース形状の作成（2 通り）
+      ↓ グリッド自動生成
+        - 列数・行数を指定してグリッドピースを一括生成
+      ↓ 手描きモード（インタラクティブ）
+        - クリックで頂点追加 → パスを閉じる
+        - 辺ごとに直線(L) / 円弧(A) を切替
+        - sagitta スライダーで円弧の膨らみを調整
+[3] ピース候補(SVG path 群)
       ↓ GUI レビュー(手動)
         - 各ピースに id / label を割り当て
+        - 不要なピースを削除
         - メタ情報入力(name, nameJa, category, gridSize)
         - 既存 utils/designValidator で検証
-[5] JSON + サムネイル PNG をダウンロード
-   (開発者がリポジトリへ手動配置)
+[4] JSON + サムネイル PNG をダウンロード
+[5] CLI スクリプトでリポジトリへ自動配置
+   (constants/designs/ + assets/designs/ + index.ts 更新)
 ```
 
 ## 受け入れ条件 (AC)
 
 ### Phase 1: グリッド系パターン MVP
 
-- [ ] `tools/pattern-generator/` に Vite + React の Web ツールを配置
-- [ ] 画像を D&D で取り込める
-- [ ] 画像を 2 値化・細線化 → ベクトル化して SVG path 候補を生成
-- [ ] グリッド系(2×2, 3×3, 4×4, 5×5)のピース分割を自動提案
-- [ ] GUI でピース境界を確認・微調整(クリック選択、各ピースに id/label を割り当て)
-- [ ] メタ情報入力フォーム: `id`, `name`, `nameJa`, `category`, `gridSize`, `thumbnail`
-- [ ] 既存 `utils/designValidator` で出力 JSON を検証(再利用)
-- [ ] **JSON ファイル + サムネイル PNG ダウンロード**(手動配置方式)
-- [ ] `tools/pattern-generator/README.md` に操作マニュアル
-- [ ] Phase 1 で直線多角形パターンを **20〜50 件** 実用的に作成可能
+- [x] `tools/pattern-generator/` に Vite + React の Web ツールを配置
+- [x] 画像を D&D で取り込める
+- [x] ~~画像を 2 値化・細線化 → ベクトル化して SVG path 候補を生成~~ → **方針変更**: 手描きモードで代替（Phase 2 で実装済み）
+- [x] グリッド系(2×2, 3×3, 4×4, 5×5)のピース分割を自動提案
+- [x] GUI でピース境界を確認・微調整(クリック選択、各ピースに id/label を割り当て)
+- [x] メタ情報入力フォーム: `id`, `name`, `nameJa`, `category`, `gridSize`, `thumbnail`
+- [x] 既存 `utils/designValidator` で出力 JSON を検証(再利用)
+- [x] **JSON ファイル + サムネイル PNG ダウンロード**(手動配置方式)
+- [x] `tools/pattern-generator/README.md` に操作マニュアル
+- [ ] Phase 1 で直線多角形パターンを **20〜50 件** 実用的に作成可能（ツール完成・パターン量産は作業中）
 
 ### Phase 2: 曲線パターン対応
 
@@ -71,68 +71,79 @@
 - [x] 円弧の「膨らみ量」スライダー（符号付き sagitta）でリアルタイムに形状を調整
 - [x] スナップグリッド（1/4, 1/6, 1/8, 1/10, 1/12）で座標を整列
 - [x] 手描きピースを既存ピース一覧に追加 → 既存の ID/ラベル編集・検証フローを再利用
-- [ ] 曲線パターンを **30〜100 件** 追加作成可能（パターン量産は作業中）
+- [x] ピース一覧から個別削除（✕ ボタン）
+- [x] 参照画像のズーム（ホイール）・パン（ドラッグ）操作
+- [x] 正の sagitta の円弧が描画されないバグを修正（SVG `sweepFlag` の誤スケーリング）
+- [ ] 曲線パターンを **30〜100 件** 追加作成可能（ツール完成・パターン量産は作業中）
 
 ### Phase 3: 完全自動化向上
 
-- [ ] グリッドパターンは画像投入だけで JSON 自動生成(高精度)
-- [ ] 認識精度の改善(角度補正、ノイズ除去、傾き補正)
-- [ ] バッチ処理(複数画像をまとめて変換)
-- [ ] (任意)CLI 補助スクリプト `npm run gen-pattern -- --commit` で生成 → リポジトリ自動配置
+- [ ] グリッドパターンは画像投入だけで JSON 自動生成(高精度)（複雑な画像処理パイプラインが必要・今後検討）
+- [ ] 認識精度の改善(角度補正、ノイズ除去、傾き補正)（上記に依存）
+- [ ] バッチ処理(複数画像をまとめて変換)（今後検討）
+- [x] CLI 補助スクリプト `npm run register` で生成 JSON → リポジトリ自動配置（`scripts/register.mjs`）
 
 ## 技術選択
 
-| 項目 | 採用候補 | 備考 |
+| 項目 | 採用 | 備考 |
 |---|---|---|
-| ベクトル化 | imagetracer.js / potrace.js | ブラウザで動作する純 JS 実装 |
-| 画像処理 | OpenCV.js / Canvas API | 2 値化・細線化・エッジ検出 |
 | GUI フレームワーク | Vite + React + TypeScript | 既存リポジトリと TS / 型を共有 |
-| SVG 操作 | svgo / @svgdotjs/svg.js | path data 正規化・座標変換 |
 | 検証 | `utils/designValidator`(既存) | 本体と同じスキーマで検証 |
+| 画像処理 | Canvas API | サムネイル生成 |
+| ベクトル化 | 手描きモードで代替 | imagetracer.js 等は不採用（手描きの方が精度が高い） |
 
 ## ディレクトリ配置
 
 ```text
 tools/
 └── pattern-generator/
-    ├── package.json       # Vite + React サブプロジェクト
+    ├── package.json          # Vite + React サブプロジェクト
     ├── vite.config.ts
     ├── tsconfig.json
-    ├── src/
-    │   ├── App.tsx
-    │   ├── components/
-    │   ├── lib/           # ベクトル化・ピース分割ロジック
-    │   ├── pipeline/      # 段階別パイプライン
-    │   └── ...
-    ├── public/            # ローカル動作用静的アセット
-    └── README.md          # 操作マニュアル
+    ├── README.md             # 操作マニュアル
+    ├── scripts/
+    │   └── register.mjs     # リポジトリへの自動配置スクリプト
+    └── src/
+        ├── App.tsx
+        ├── components/
+        │   ├── DrawingCanvas.tsx    # 手描きキャンバス（Phase 2）
+        │   ├── ImageDropzone.tsx    # 参照画像 D&D
+        │   ├── MetadataForm.tsx     # デザイン情報入力
+        │   ├── PatternCanvas.tsx    # ピース一覧表示・選択
+        │   ├── PieceList.tsx        # ピース一覧テーブル
+        │   ├── SegmentPanel.tsx     # 手描きセグメント制御（Phase 2）
+        │   └── ValidationPanel.tsx  # 検証結果表示
+        ├── lib/
+        │   ├── gridGenerator.ts     # グリッドピース自動生成
+        │   ├── pathBuilder.ts       # SVG path 生成・スケーリング
+        │   └── thumbnailGenerator.ts# サムネイル PNG 生成
+        └── types.ts
 ```
 
-`utils/designValidator` / `types/design` 等の既存ロジックは相対パス import で再利用する(同リポなので可能)。
+## 完成パターンの登録手順
 
-> **本体アプリのバンドルには含まれない** — `tools/` 配下は EAS Build / Expo Router 対象外として扱う(必要なら `metro.config.js` で除外設定)。
+### CLI スクリプト（推奨）
 
-## 完成パターンの登録手順(手動)
+```bash
+cd tools/pattern-generator
+npm run register -- ~/Downloads/nine-patch.json ~/Downloads/nine-patch.png --commit
+```
 
-ツール出力後のリポジトリ反映手順(README.md にも記載):
+### 手動
 
-1. Web ツールから JSON ファイルをダウンロード
+1. Web ツールから JSON / PNG をダウンロード
 2. `constants/designs/<id>.json` に配置
 3. サムネイル PNG を `assets/designs/<id>.png` に配置
 4. `constants/designs/index.ts` の `RAW_DESIGN_FILES` 配列に import を追加
 5. ローカルで `npx expo start` で表示確認
 6. コミット → push → PR
 
-> Phase 3 で CLI 補助スクリプトによる 2〜4 の自動化を検討。
-
 ## メモ / 制約
 
 - **パターン形状は閉じた path(`Z` 終端)である必要がある**(`types/design.ts` / パターン JSON 仕様の要件)
 - **ピース重複・はみ出し・隙間は禁止**(同上)
-- **入力画像は線画として認識可能な品質が必要** — 極端にぼやけた画像や濃淡が均一でない画像は精度が出ない可能性
 - **メタ情報は自動推定不可** — `name` / `nameJa` / `category` / `gridSize` は必ず開発者入力
-- **既存サムネイル PNG は未配置** — `assets/designs/` には `.gitkeep` のみ存在。本タスクでサムネイル生成も含める
-- **ツール自体のテスト**: ベクトル化 / ピース分割ロジックは Jest でユニットテスト(本体と同じテスト基盤を使う)
+- **ベクトル化パイプラインは不採用** — imagetracer.js / potrace.js による自動化より手描きモードの方が精度・使い勝手が良かったため
 - **書籍の著作権**: パターン JSON 自体は座標データなので著作物性が低い見込みだが、書籍掲載のオリジナリティが高いパターン名・配色は本タスクでは扱わない
 
 ## 関連

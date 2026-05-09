@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "register": "node scripts/register.mjs"
   },
   "dependencies": {
     "polygon-clipping": "^0.15.7",
