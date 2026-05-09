@@ -31,24 +31,25 @@ eas login
 
 Expo アカウントの認証情報でログインする。
 
-### 1-2. Bundle Identifier を変更(必須)
+### 1-2. Bundle Identifier の確認
 
-`app.json` の `ios.bundleIdentifier` と `android.package` は現在 `com.example.patchworkapp` で、これは仮の値。実際の所有ドメインの逆順に変更する。
+現在の Bundle ID は `io.github.wednesdaydeveloper.patchwork`(GitHub アカウント名ベース)で固定済み。フォーク等で別の Bundle ID を使う場合は `app.json` の `ios.bundleIdentifier` と `android.package` を所有ドメインの逆順 or `io.github.<your-username>.<app>` 形式に変更する。
 
 ```diff
   "ios": {
--   "bundleIdentifier": "com.example.patchworkapp",
-+   "bundleIdentifier": "com.<your-domain>.patchwork",
+-   "bundleIdentifier": "io.github.wednesdaydeveloper.patchwork",
++   "bundleIdentifier": "io.github.<your-username>.<app>",
     ...
   },
   "android": {
--   "package": "com.example.patchworkapp",
-+   "package": "com.<your-domain>.patchwork",
+-   "package": "io.github.wednesdaydeveloper.patchwork",
++   "package": "io.github.<your-username>.<app>",
     ...
   }
 ```
 
-> **理由**: Apple Developer アカウントに登録される App ID と Bundle ID が一致する必要があり、`com.example.*` のような汎用ドメインだと App Store Connect 側で他者が登録済みの可能性がある。所有ドメインの逆順を使うのが標準。
+> **理由**: Apple Developer アカウントに登録される App ID と Bundle ID は世界で一意である必要がある。所有ドメインの逆順または GitHub アカウント名ベース(`io.github.<username>`)が個人開発の慣例。
+> **注意**: Bundle ID 変更後は Apple Developer アカウントで新規 App ID として登録し直す必要があり、初回ビルド時に EAS が自動で対話処理を行う。
 
 ### 1-3. eas.json に実機向けプロファイルを追加
 

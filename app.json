@@ -16,7 +16,7 @@
     "ios": {
       "supportsTablet": true,
       "requireFullScreen": true,
-      "bundleIdentifier": "com.example.patchworkapp",
+      "bundleIdentifier": "io.github.wednesdaydeveloper.patchwork",
       "infoPlist": {
         "NSCameraUsageDescription": "布地を撮影してパッチワーク作成に使用するためにカメラを使用します。",
         "NSPhotoLibraryUsageDescription": "登録する布地画像を選ぶためにフォトライブラリにアクセスします。",
@@ -25,7 +25,7 @@
       }
     },
     "android": {
-      "package": "com.example.patchworkapp",
+      "package": "io.github.wednesdaydeveloper.patchwork",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
