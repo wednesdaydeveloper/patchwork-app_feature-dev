@@ -85,6 +85,15 @@ export function App() {
     [],
   );
 
+  const handleDeletePiece = useCallback((internalId: string) => {
+    setState((prev) => ({
+      ...prev,
+      pieces: prev.pieces.filter((p) => p.internalId !== internalId),
+      selectedPieceId: prev.selectedPieceId === internalId ? null : prev.selectedPieceId,
+    }));
+    setValidationResult(null);
+  }, []);
+
   // ---------- Drawing handlers ----------
 
   const handleStartDrawing = useCallback(() => {
@@ -309,6 +318,7 @@ export function App() {
                   selectedPieceId={state.selectedPieceId}
                   onSelectPiece={(id) => setStateField('selectedPieceId', id)}
                   onUpdatePiece={handleUpdatePiece}
+                  onDeletePiece={handleDeletePiece}
                 />
               </Section>
             </>
