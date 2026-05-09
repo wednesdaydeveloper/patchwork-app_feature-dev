@@ -16,6 +16,10 @@
         "simulator": true
       }
     },
+    "preview-device": {
+      "distribution": "internal",
+      "channel": "preview"
+    },
     "production": {
       "channel": "production",
       "autoIncrement": true
