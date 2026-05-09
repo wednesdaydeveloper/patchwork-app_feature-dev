@@ -46,14 +46,21 @@ export function DrawingCanvas({
   const [cursor, setCursor] = useState<DrawingVertex | null>(null);
   const cpDragRef = useRef<{ segIdx: number; cpIdx: 0 | 1 } | null>(null);
 
-  const toNorm = useCallback(
+  const toNormRaw = useCallback(
     (clientX: number, clientY: number): DrawingVertex => {
       const rect = svgRef.current?.getBoundingClientRect();
       if (!rect) return { x: 0, y: 0 };
-      const raw = {
+      return {
         x: (clientX - rect.left) / size,
         y: (clientY - rect.top) / size,
       };
+    },
+    [size],
+  );
+
+  const toNorm = useCallback(
+    (clientX: number, clientY: number): DrawingVertex => {
+      const raw = toNormRaw(clientX, clientY);
       if (drawingState.snapDivisions > 0) {
         return {
           x: snapCoord(raw.x, drawingState.snapDivisions),
@@ -62,7 +69,7 @@ export function DrawingCanvas({
       }
       return raw;
     },
-    [size, drawingState.snapDivisions],
+    [toNormRaw, drawingState.snapDivisions],
   );
 
   const toSvg = (v: DrawingVertex) => ({ x: v.x * size, y: v.y * size });
@@ -78,10 +85,16 @@ export function DrawingCanvas({
 
       if (cpDragRef.current !== null) {
         const { segIdx, cpIdx } = cpDragRef.current;
-        onUpdateSegmentCP(segIdx, cpIdx, clamped);
+        // Control points are not snapped — use raw coordinates for freeform adjustment
+        const raw = toNormRaw(e.clientX, e.clientY);
+        const rawClamped: DrawingVertex = {
+          x: Math.max(0, Math.min(1, raw.x)),
+          y: Math.max(0, Math.min(1, raw.y)),
+        };
+        onUpdateSegmentCP(segIdx, cpIdx, rawClamped);
       }
     },
-    [toNorm, onUpdateSegmentCP],
+    [toNorm, toNormRaw, onUpdateSegmentCP],
   );
 
   const handlePointerLeave = useCallback(() => setCursor(null), []);
