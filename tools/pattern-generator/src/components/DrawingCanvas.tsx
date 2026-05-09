@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { buildOpenPath, buildSvgPath, fmt, scalePath, segmentMidpoint, snapCoord } from '../lib/pathBuilder';
 import type { DrawingState, DrawingVertex, EditablePiece } from '../types';
 
@@ -8,6 +8,7 @@ interface Props {
   onAddVertex: (v: DrawingVertex) => void;
   onClosePath: () => void;
   onToggleSegment: (segIdx: number) => void;
+  onUpdateSegmentCP: (segIdx: number, cpIdx: 0 | 1, pos: DrawingVertex) => void;
   size?: number;
 }
 
@@ -25,16 +26,25 @@ const EXISTING_COLORS = [
   'rgba(100,220,220,0.20)',
 ];
 
+const SEG_COLORS: Record<string, { fill: string; stroke: string; text: string }> = {
+  L: { fill: '#fff', stroke: '#555', text: '#333' },
+  A: { fill: '#ff8c00', stroke: '#cc6600', text: '#fff' },
+  Q: { fill: '#22aa44', stroke: '#187730', text: '#fff' },
+  C: { fill: '#7744cc', stroke: '#5530aa', text: '#fff' },
+};
+
 export function DrawingCanvas({
   existingPieces,
   drawingState,
   onAddVertex,
   onClosePath,
   onToggleSegment,
+  onUpdateSegmentCP,
   size = DEFAULT_SIZE,
 }: Props) {
   const svgRef = useRef<SVGSVGElement>(null);
   const [cursor, setCursor] = useState<DrawingVertex | null>(null);
+  const cpDragRef = useRef<{ segIdx: number; cpIdx: 0 | 1 } | null>(null);
 
   const toNorm = useCallback(
     (clientX: number, clientY: number): DrawingVertex => {
@@ -60,12 +70,28 @@ export function DrawingCanvas({
   const handlePointerMove = useCallback(
     (e: React.PointerEvent) => {
       const v = toNorm(e.clientX, e.clientY);
-      setCursor({ x: Math.max(0, Math.min(1, v.x)), y: Math.max(0, Math.min(1, v.y)) });
+      const clamped: DrawingVertex = {
+        x: Math.max(0, Math.min(1, v.x)),
+        y: Math.max(0, Math.min(1, v.y)),
+      };
+      setCursor(clamped);
+
+      if (cpDragRef.current !== null) {
+        const { segIdx, cpIdx } = cpDragRef.current;
+        onUpdateSegmentCP(segIdx, cpIdx, clamped);
+      }
     },
-    [toNorm],
+    [toNorm, onUpdateSegmentCP],
   );
 
   const handlePointerLeave = useCallback(() => setCursor(null), []);
+
+  // Clear CP drag on pointer up (document-level to catch releases outside SVG)
+  useEffect(() => {
+    const onUp = () => { cpDragRef.current = null; };
+    document.addEventListener('pointerup', onUp);
+    return () => document.removeEventListener('pointerup', onUp);
+  }, []);
 
   const handleClick = useCallback(
     (e: React.MouseEvent) => {
@@ -199,6 +225,72 @@ export function DrawingCanvas({
           />
         )}
 
+        {/* Control point handles and cage lines (only for closed path) */}
+        {closed &&
+          segments.map((seg, i) => {
+            const from = vertices[i];
+            const to = vertices[(i + 1) % n];
+            const svFrom = toSvg(from);
+            const svTo = toSvg(to);
+
+            if (seg.kind === 'Q') {
+              const cp = toSvg({ x: seg.cpx, y: seg.cpy });
+              return (
+                <g key={`cp-${i}`}>
+                  <line x1={svFrom.x} y1={svFrom.y} x2={cp.x} y2={cp.y}
+                    stroke="#22aa44" strokeWidth={1} strokeDasharray="4 3" opacity={0.7} />
+                  <line x1={cp.x} y1={cp.y} x2={svTo.x} y2={svTo.y}
+                    stroke="#22aa44" strokeWidth={1} strokeDasharray="4 3" opacity={0.7} />
+                  <circle
+                    cx={cp.x} cy={cp.y} r={6}
+                    fill="#22aa44" stroke="#187730" strokeWidth={1.5}
+                    style={{ cursor: 'grab' }}
+                    onPointerDown={(e) => {
+                      e.stopPropagation();
+                      cpDragRef.current = { segIdx: i, cpIdx: 0 };
+                      (e.currentTarget as SVGElement).setPointerCapture(e.pointerId);
+                    }}
+                  />
+                </g>
+              );
+            }
+
+            if (seg.kind === 'C') {
+              const cp1 = toSvg({ x: seg.cp1x, y: seg.cp1y });
+              const cp2 = toSvg({ x: seg.cp2x, y: seg.cp2y });
+              return (
+                <g key={`cp-${i}`}>
+                  <line x1={svFrom.x} y1={svFrom.y} x2={cp1.x} y2={cp1.y}
+                    stroke="#7744cc" strokeWidth={1} strokeDasharray="4 3" opacity={0.7} />
+                  <line x1={cp2.x} y1={cp2.y} x2={svTo.x} y2={svTo.y}
+                    stroke="#7744cc" strokeWidth={1} strokeDasharray="4 3" opacity={0.7} />
+                  <circle
+                    cx={cp1.x} cy={cp1.y} r={6}
+                    fill="#7744cc" stroke="#5530aa" strokeWidth={1.5}
+                    style={{ cursor: 'grab' }}
+                    onPointerDown={(e) => {
+                      e.stopPropagation();
+                      cpDragRef.current = { segIdx: i, cpIdx: 0 };
+                      (e.currentTarget as SVGElement).setPointerCapture(e.pointerId);
+                    }}
+                  />
+                  <circle
+                    cx={cp2.x} cy={cp2.y} r={6}
+                    fill="#7744cc" stroke="#5530aa" strokeWidth={1.5}
+                    style={{ cursor: 'grab' }}
+                    onPointerDown={(e) => {
+                      e.stopPropagation();
+                      cpDragRef.current = { segIdx: i, cpIdx: 1 };
+                      (e.currentTarget as SVGElement).setPointerCapture(e.pointerId);
+                    }}
+                  />
+                </g>
+              );
+            }
+
+            return null;
+          })}
+
         {/* Segment midpoint handles (only for closed path) */}
         {closed &&
           segments.map((seg, i) => {
@@ -206,15 +298,15 @@ export function DrawingCanvas({
             const to = vertices[(i + 1) % n];
             const mid = segmentMidpoint(from, to, seg);
             const sm = toSvg(mid);
-            const isArc = seg.kind === 'A';
+            const colors = SEG_COLORS[seg.kind] ?? SEG_COLORS.L;
             return (
               <g key={`seg-handle-${i}`}>
                 <circle
                   cx={sm.x}
                   cy={sm.y}
                   r={7}
-                  fill={isArc ? '#ff8c00' : '#fff'}
-                  stroke={isArc ? '#cc6600' : '#555'}
+                  fill={colors.fill}
+                  stroke={colors.stroke}
                   strokeWidth={1.5}
                   style={{ cursor: 'pointer' }}
                   onClick={(e) => { e.stopPropagation(); onToggleSegment(i); }}
@@ -225,10 +317,10 @@ export function DrawingCanvas({
                   textAnchor="middle"
                   dominantBaseline="middle"
                   fontSize={8}
-                  fill={isArc ? '#fff' : '#333'}
+                  fill={colors.text}
                   style={{ pointerEvents: 'none', userSelect: 'none' }}
                 >
-                  {isArc ? 'A' : 'L'}
+                  {seg.kind}
                 </text>
               </g>
             );
@@ -300,7 +392,7 @@ export function DrawingCanvas({
             )}
           </>
         ) : (
-          <span style={hudStyles.ok}>✓ パス確定 — セグメントをクリックして直線/円弧を切替</span>
+          <span style={hudStyles.ok}>✓ パス確定 — ○ クリックで種類切替 / 制御点ドラッグで形状調整</span>
         )}
       </div>
     </div>

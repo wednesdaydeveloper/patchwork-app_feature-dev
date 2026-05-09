@@ -134,12 +134,16 @@ export function buildSvgPath(vertices: DrawingVertex[], segments: SegmentType[])
     const to = vertices[(i + 1) % n];
     const seg = segments[i];
 
+    const from = vertices[i];
     if (seg.kind === 'L') {
       d += ` L ${fmt(to.x)} ${fmt(to.y)}`;
-    } else {
-      const from = vertices[i];
+    } else if (seg.kind === 'A') {
       const { rx, largeArcFlag, sweepFlag } = sagittaToArcParams(from, to, seg.sagitta);
       d += ` A ${fmt(rx)} ${fmt(rx)} 0 ${largeArcFlag} ${sweepFlag} ${fmt(to.x)} ${fmt(to.y)}`;
+    } else if (seg.kind === 'Q') {
+      d += ` Q ${fmt(seg.cpx)} ${fmt(seg.cpy)} ${fmt(to.x)} ${fmt(to.y)}`;
+    } else {
+      d += ` C ${fmt(seg.cp1x)} ${fmt(seg.cp1y)} ${fmt(seg.cp2x)} ${fmt(seg.cp2y)} ${fmt(to.x)} ${fmt(to.y)}`;
     }
   }
 
@@ -160,19 +164,23 @@ export function buildOpenPath(vertices: DrawingVertex[], segments: SegmentType[]
     const to = vertices[i + 1];
     const seg = segments[i];
 
+    const from = vertices[i];
     if (seg.kind === 'L') {
       d += ` L ${fmt(to.x)} ${fmt(to.y)}`;
-    } else {
-      const from = vertices[i];
+    } else if (seg.kind === 'A') {
       const { rx, largeArcFlag, sweepFlag } = sagittaToArcParams(from, to, seg.sagitta);
       d += ` A ${fmt(rx)} ${fmt(rx)} 0 ${largeArcFlag} ${sweepFlag} ${fmt(to.x)} ${fmt(to.y)}`;
+    } else if (seg.kind === 'Q') {
+      d += ` Q ${fmt(seg.cpx)} ${fmt(seg.cpy)} ${fmt(to.x)} ${fmt(to.y)}`;
+    } else {
+      d += ` C ${fmt(seg.cp1x)} ${fmt(seg.cp1y)} ${fmt(seg.cp2x)} ${fmt(seg.cp2y)} ${fmt(to.x)} ${fmt(to.y)}`;
     }
   }
 
   return d;
 }
 
-/** Midpoint of a straight or arc segment (for interactive handles). */
+/** Midpoint of a segment at t=0.5 (for interactive handles). */
 export function segmentMidpoint(
   p1: DrawingVertex,
   p2: DrawingVertex,
@@ -180,6 +188,20 @@ export function segmentMidpoint(
 ): DrawingVertex {
   if (seg.kind === 'A' && Math.abs(seg.sagitta) > 1e-6) {
     return arcMidpoint(p1, p2, seg.sagitta);
+  }
+  if (seg.kind === 'Q') {
+    // Quadratic Bezier at t=0.5: 0.25·P0 + 0.5·CP + 0.25·P2
+    return {
+      x: 0.25 * p1.x + 0.5 * seg.cpx + 0.25 * p2.x,
+      y: 0.25 * p1.y + 0.5 * seg.cpy + 0.25 * p2.y,
+    };
+  }
+  if (seg.kind === 'C') {
+    // Cubic Bezier at t=0.5: 0.125·P0 + 0.375·CP1 + 0.375·CP2 + 0.125·P3
+    return {
+      x: 0.125 * p1.x + 0.375 * seg.cp1x + 0.375 * seg.cp2x + 0.125 * p2.x,
+      y: 0.125 * p1.y + 0.375 * seg.cp1y + 0.375 * seg.cp2y + 0.125 * p2.y,
+    };
   }
   return { x: (p1.x + p2.x) / 2, y: (p1.y + p2.y) / 2 };
 }
