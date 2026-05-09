@@ -120,14 +120,6 @@ export function PatternCanvas({
     [referenceImageUrl, imgTransform],
   );
 
-  if (pieces.length === 0) {
-    return (
-      <div style={{ ...styles.container, width: size, height: size }}>
-        <span style={styles.emptyHint}>← グリッドを設定して「生成」を押してください</span>
-      </div>
-    );
-  }
-
   const viewBox = `0 0 ${size} ${size}`;
   const scaledPath = (path: string) =>
     path.replace(/(-?\d+(?:\.\d+)?)/g, (_, n) => String(parseFloat(n) * size));
@@ -171,6 +163,13 @@ export function PatternCanvas({
             userSelect: 'none',
           }}
         />
+      )}
+
+      {/* Empty hint overlay */}
+      {pieces.length === 0 && !referenceImageUrl && (
+        <div style={{ ...styles.emptyOverlay, width: size, height: size }}>
+          <span style={styles.emptyHint}>← グリッドを設定して「生成」を押してください</span>
+        </div>
       )}
 
       {/* SVG piece layer */}
@@ -294,13 +293,14 @@ function pieceCenterY(piece: EditablePiece, totalRows: number): number {
 }
 
 const styles: Record<string, React.CSSProperties> = {
-  container: {
+  emptyOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    border: '1px solid #ddd',
-    borderRadius: 6,
-    background: '#fafafa',
+    pointerEvents: 'none',
   },
   emptyHint: {
     color: '#999',
