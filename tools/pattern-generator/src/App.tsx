@@ -128,12 +128,67 @@ export function App() {
     setDrawing((prev) => {
       if (!prev.closed) return prev;
       const seg = prev.segments[segIdx];
-      const updated: SegmentType =
-        seg.kind === 'L' ? { kind: 'A', sagitta: 0.1 } : { kind: 'L' };
+      const n = prev.vertices.length;
+      const from = prev.vertices[segIdx];
+      const to = prev.vertices[(segIdx + 1) % n];
+      const mx = (from.x + to.x) / 2;
+      const my = (from.y + to.y) / 2;
+      const dx = to.x - from.x;
+      const dy = to.y - from.y;
+      const len = Math.hypot(dx, dy) || 1;
+      // 左法線（弦の左方向）
+      const nx = -dy / len;
+      const ny = dx / len;
+      const clamp01 = (value: number) => Math.max(0, Math.min(1, value));
+      // 短い辺で過大オフセットにならないよう辺長に追従
+      const offset = Math.min(0.1, len * 0.25);
+
+      let updated: SegmentType;
+      if (seg.kind === 'L') {
+        // L → Q: 制御点を弦の中点から左法線方向にオフセット
+        updated = {
+          kind: 'Q',
+          cpx: clamp01(mx + nx * offset),
+          cpy: clamp01(my + ny * offset),
+        };
+      } else if (seg.kind === 'Q') {
+        // Q → C: 次数昇格（形状を保持）
+        // cp1 = P0/3 + 2·CP/3, cp2 = P2/3 + 2·CP/3
+        updated = {
+          kind: 'C',
+          cp1x: from.x / 3 + (2 * seg.cpx) / 3,
+          cp1y: from.y / 3 + (2 * seg.cpy) / 3,
+          cp2x: to.x / 3 + (2 * seg.cpx) / 3,
+          cp2y: to.y / 3 + (2 * seg.cpy) / 3,
+        };
+      } else if (seg.kind === 'C') {
+        // C → A
+        updated = { kind: 'A', sagitta: 0.1 };
+      } else {
+        // A → L
+        updated = { kind: 'L' };
+      }
+
       const newSegments = prev.segments.map((s, i) => (i === segIdx ? updated : s));
       return { ...prev, segments: newSegments };
     });
   }, []);
+
+  const handleUpdateSegmentCP = useCallback(
+    (segIdx: number, cpIdx: 0 | 1, pos: DrawingVertex) => {
+      setDrawing((prev) => {
+        const newSegments = prev.segments.map((s, i) => {
+          if (i !== segIdx) return s;
+          if (s.kind === 'Q' && cpIdx === 0) return { ...s, cpx: pos.x, cpy: pos.y };
+          if (s.kind === 'C' && cpIdx === 0) return { ...s, cp1x: pos.x, cp1y: pos.y };
+          if (s.kind === 'C' && cpIdx === 1) return { ...s, cp2x: pos.x, cp2y: pos.y };
+          return s;
+        });
+        return { ...prev, segments: newSegments };
+      });
+    },
+    [],
+  );
 
   const handleChangeSagitta = useCallback((segIdx: number, sagitta: number) => {
     setDrawing((prev) => {
@@ -346,6 +401,7 @@ export function App() {
               onAddVertex={handleAddVertex}
               onClosePath={handleClosePath}
               onToggleSegment={handleToggleSegment}
+              onUpdateSegmentCP={handleUpdateSegmentCP}
               size={480}
             />
           ) : (

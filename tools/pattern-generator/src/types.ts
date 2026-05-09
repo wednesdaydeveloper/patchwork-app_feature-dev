@@ -58,10 +58,14 @@ export interface DrawingVertex {
  * - A: 円弧。sagitta = 弦中点からアーク中点への符号付き距離
  *   正 → 弦方向の右側に膨らむ（SVG Y軸下向き座標系）
  *   負 → 左側に膨らむ
+ * - Q: 2 次ベジェ曲線（制御点 1 個）
+ * - C: 3 次ベジェ曲線（制御点 2 個）
  */
 export type SegmentType =
   | { kind: 'L' }
-  | { kind: 'A'; sagitta: number };
+  | { kind: 'A'; sagitta: number }
+  | { kind: 'Q'; cpx: number; cpy: number }
+  | { kind: 'C'; cp1x: number; cp1y: number; cp2x: number; cp2y: number };
 
 /** 手描きモードの状態 */
 export interface DrawingState {

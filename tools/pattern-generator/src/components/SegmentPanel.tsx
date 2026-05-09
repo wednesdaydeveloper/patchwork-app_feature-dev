@@ -101,7 +101,7 @@ export function SegmentPanel({
         <div style={styles.instructions}>
           <p style={styles.instLine}>① キャンバスをクリックして頂点を追加</p>
           <p style={styles.instLine}>② 3頂点以上で最初の頂点（青丸）をクリックして閉じる</p>
-          <p style={styles.instLine}>③ 各セグメントの ○ をクリックして直線/円弧を切替</p>
+          <p style={styles.instLine}>③ 各セグメントの ○ をクリックして L→Q→C→A の順に切替</p>
           <p style={styles.instLine}>④「ピースを追加」で確定</p>
           <p style={styles.instTip}>
             💡 よく使うパターン:<br />
@@ -114,6 +114,14 @@ export function SegmentPanel({
     </div>
   );
 }
+
+const SEG_LABELS: Record<string, string> = { L: '直 L', Q: '2次 Q', C: '3次 C', A: '弧 A' };
+
+const SEG_TOGGLE_STYLE: Record<string, React.CSSProperties> = {
+  Q: { background: '#22aa44', color: '#fff', borderColor: '#187730' },
+  C: { background: '#7744cc', color: '#fff', borderColor: '#5530aa' },
+  A: { background: '#ff8c00', color: '#fff', borderColor: '#cc6600' },
+};
 
 function SegmentRow({
   index,
@@ -130,8 +138,7 @@ function SegmentRow({
   onToggle: () => void;
   onChangeSagitta: (s: number) => void;
 }) {
-  const isArc = seg.kind === 'A';
-  const sagitta = isArc ? seg.sagitta : 0;
+  const sagitta = seg.kind === 'A' ? seg.sagitta : 0;
 
   return (
     <div style={segStyles.wrapper}>
@@ -141,11 +148,11 @@ function SegmentRow({
       </span>
       <button
         onClick={onToggle}
-        style={{ ...segStyles.toggle, ...(isArc ? segStyles.toggleArc : {}) }}
+        style={{ ...segStyles.toggle, ...(SEG_TOGGLE_STYLE[seg.kind] ?? {}) }}
       >
-        {isArc ? '弧 A' : '直 L'}
+        {SEG_LABELS[seg.kind] ?? seg.kind}
       </button>
-      {isArc && (
+      {seg.kind === 'A' && (
         <div style={segStyles.sliderRow}>
           <span style={segStyles.sliderLabel}>膨らみ</span>
           <input
@@ -159,6 +166,9 @@ function SegmentRow({
           />
           <span style={segStyles.sliderValue}>{sagitta.toFixed(2)}</span>
         </div>
+      )}
+      {(seg.kind === 'Q' || seg.kind === 'C') && (
+        <span style={segStyles.cpHint}>制御点はキャンバスでドラッグ</span>
       )}
     </div>
   );
@@ -306,5 +316,10 @@ const segStyles: Record<string, React.CSSProperties> = {
     fontSize: 10,
     minWidth: 36,
     color: '#444',
+  },
+  cpHint: {
+    fontSize: 10,
+    color: '#888',
+    fontStyle: 'italic',
   },
 };
