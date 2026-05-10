@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 400 400"
+  width="400" height="400"
+>
+  <title>朝顔 (Morning Glory)</title>
+  <rect width="400" height="400" fill="#ffffff"/>
+  <path
+    id="corner-tl"
+    d="M 0 0 L 100 0 A 100 100 0 0 0 0 100 Z"
+    fill="#e8c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>cornerTopLeft</title>
+  </path>
+  <path
+    id="corner-tr"
+    d="M 300 0 L 400 0 L 400 100 A 100 100 0 0 0 300 0 Z"
+    fill="#f5f0e8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>cornerTopRight</title>
+  </path>
+  <path
+    id="corner-br"
+    d="M 400 300 L 400 400 L 300 400 A 100 100 0 0 0 400 300 Z"
+    fill="#c4bde8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>cornerBottomRight</title>
+  </path>
+  <path
+    id="corner-bl"
+    d="M 100 400 L 0 400 L 0 300 A 100 100 0 0 0 100 400 Z"
+    fill="#b8d4c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>cornerBottomLeft</title>
+  </path>
+  <path
+    id="edge-top-left"
+    d="M 100 0 L 200 0 L 100 100 A 100 100 0 0 1 100 0 Z"
+    fill="#e8dbb8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>edgeTopLeft</title>
+  </path>
+  <path
+    id="edge-top-right"
+    d="M 200 0 L 300 0 A 100 100 0 0 1 300 100 L 200 0 Z"
+    fill="#d4b8c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>edgeTopRight</title>
+  </path>
+  <path
+    id="edge-right-top"
+    d="M 400 100 L 400 200 L 300 100 A 100 100 0 0 1 400 100 Z"
+    fill="#b8c4d4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>edgeRightTop</title>
+  </path>
+  <path
+    id="edge-right-bottom"
+    d="M 400 200 L 400 300 A 100 100 0 0 1 300 300 L 400 200 Z"
+    fill="#d4c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>edgeRightBottom</title>
+  </path>
+  <path
+    id="edge-bottom-right"
+    d="M 300 400 L 200 400 L 300 300 A 100 100 0 0 1 300 400 Z"
+    fill="#c8e0d0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>edgeBottomRight</title>
+  </path>
+  <path
+    id="edge-bottom-left"
+    d="M 200 400 L 100 400 A 100 100 0 0 1 100 300 L 200 400 Z"
+    fill="#e0c8d8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>edgeBottomLeft</title>
+  </path>
+  <path
+    id="edge-left-bottom"
+    d="M 0 300 L 0 200 L 100 300 A 100 100 0 0 1 0 300 Z"
+    fill="#e8c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>edgeLeftBottom</title>
+  </path>
+  <path
+    id="edge-left-top"
+    d="M 0 200 L 0 100 A 100 100 0 0 1 100 100 L 0 200 Z"
+    fill="#f5f0e8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>edgeLeftTop</title>
+  </path>
+  <path
+    id="petal-top"
+    d="M 100 100 A 100 100 0 0 1 300 100 A 100 100 0 0 1 100 100 Z"
+    fill="#c4bde8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>petalTop</title>
+  </path>
+  <path
+    id="petal-right"
+    d="M 300 100 A 100 100 0 0 1 300 300 A 100 100 0 0 1 300 100 Z"
+    fill="#b8d4c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>petalRight</title>
+  </path>
+  <path
+    id="petal-bottom"
+    d="M 300 300 A 100 100 0 0 1 100 300 A 100 100 0 0 1 300 300 Z"
+    fill="#e8dbb8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>petalBottom</title>
+  </path>
+  <path
+    id="petal-left"
+    d="M 100 300 A 100 100 0 0 1 100 100 A 100 100 0 0 1 100 300 Z"
+    fill="#d4b8c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>petalLeft</title>
+  </path>
+  <path
+    id="bg-tl"
+    d="M 100 0 L 200 0 L 200 100 L 100 100 Z"
+    fill="#b8c4d4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>backgroundTopLeft</title>
+  </path>
+  <path
+    id="bg-tr"
+    d="M 200 0 L 300 0 L 300 100 L 200 100 Z"
+    fill="#d4c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>backgroundTopRight</title>
+  </path>
+  <path
+    id="bg-rt"
+    d="M 300 100 L 400 100 L 400 200 L 300 200 Z"
+    fill="#c8e0d0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>backgroundRightTop</title>
+  </path>
+  <path
+    id="bg-rb"
+    d="M 300 200 L 400 200 L 400 300 L 300 300 Z"
+    fill="#e0c8d8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>backgroundRightBottom</title>
+  </path>
+  <path
+    id="bg-br"
+    d="M 200 300 L 300 300 L 300 400 L 200 400 Z"
+    fill="#e8c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>backgroundBottomRight</title>
+  </path>
+  <path
+    id="bg-bl"
+    d="M 100 300 L 200 300 L 200 400 L 100 400 Z"
+    fill="#f5f0e8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>backgroundBottomLeft</title>
+  </path>
+  <path
+    id="bg-lb"
+    d="M 0 200 L 100 200 L 100 300 L 0 300 Z"
+    fill="#c4bde8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>backgroundLeftBottom</title>
+  </path>
+  <path
+    id="bg-lt"
+    d="M 0 100 L 100 100 L 100 200 L 0 200 Z"
+    fill="#b8d4c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>backgroundLeftTop</title>
+  </path>
+</svg>

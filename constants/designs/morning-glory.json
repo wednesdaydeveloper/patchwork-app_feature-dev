@@ -1,0 +1,133 @@
+{
+  "version": "1.0",
+  "design": {
+    "id": "morning-glory",
+    "name": "Morning Glory",
+    "nameJa": "朝顔",
+    "category": "flower",
+    "gridSize": null,
+    "thumbnail": "morning-glory.png",
+    "polygons": [
+      {
+        "id": "corner-tl",
+        "label": "cornerTopLeft",
+        "path": "M 0 0 L 0.25 0 A 0.25 0.25 0 0 0 0 0.25 Z"
+      },
+      {
+        "id": "corner-tr",
+        "label": "cornerTopRight",
+        "path": "M 0.75 0 L 1 0 L 1 0.25 A 0.25 0.25 0 0 0 0.75 0 Z"
+      },
+      {
+        "id": "corner-br",
+        "label": "cornerBottomRight",
+        "path": "M 1 0.75 L 1 1 L 0.75 1 A 0.25 0.25 0 0 0 1 0.75 Z"
+      },
+      {
+        "id": "corner-bl",
+        "label": "cornerBottomLeft",
+        "path": "M 0.25 1 L 0 1 L 0 0.75 A 0.25 0.25 0 0 0 0.25 1 Z"
+      },
+      {
+        "id": "edge-top-left",
+        "label": "edgeTopLeft",
+        "path": "M 0.25 0 L 0.5 0 L 0.25 0.25 A 0.25 0.25 0 0 1 0.25 0 Z"
+      },
+      {
+        "id": "edge-top-right",
+        "label": "edgeTopRight",
+        "path": "M 0.5 0 L 0.75 0 A 0.25 0.25 0 0 1 0.75 0.25 L 0.5 0 Z"
+      },
+      {
+        "id": "edge-right-top",
+        "label": "edgeRightTop",
+        "path": "M 1 0.25 L 1 0.5 L 0.75 0.25 A 0.25 0.25 0 0 1 1 0.25 Z"
+      },
+      {
+        "id": "edge-right-bottom",
+        "label": "edgeRightBottom",
+        "path": "M 1 0.5 L 1 0.75 A 0.25 0.25 0 0 1 0.75 0.75 L 1 0.5 Z"
+      },
+      {
+        "id": "edge-bottom-right",
+        "label": "edgeBottomRight",
+        "path": "M 0.75 1 L 0.5 1 L 0.75 0.75 A 0.25 0.25 0 0 1 0.75 1 Z"
+      },
+      {
+        "id": "edge-bottom-left",
+        "label": "edgeBottomLeft",
+        "path": "M 0.5 1 L 0.25 1 A 0.25 0.25 0 0 1 0.25 0.75 L 0.5 1 Z"
+      },
+      {
+        "id": "edge-left-bottom",
+        "label": "edgeLeftBottom",
+        "path": "M 0 0.75 L 0 0.5 L 0.25 0.75 A 0.25 0.25 0 0 1 0 0.75 Z"
+      },
+      {
+        "id": "edge-left-top",
+        "label": "edgeLeftTop",
+        "path": "M 0 0.5 L 0 0.25 A 0.25 0.25 0 0 1 0.25 0.25 L 0 0.5 Z"
+      },
+      {
+        "id": "petal-top",
+        "label": "petalTop",
+        "path": "M 0.25 0.25 A 0.25 0.25 0 0 1 0.75 0.25 A 0.25 0.25 0 0 1 0.25 0.25 Z"
+      },
+      {
+        "id": "petal-right",
+        "label": "petalRight",
+        "path": "M 0.75 0.25 A 0.25 0.25 0 0 1 0.75 0.75 A 0.25 0.25 0 0 1 0.75 0.25 Z"
+      },
+      {
+        "id": "petal-bottom",
+        "label": "petalBottom",
+        "path": "M 0.75 0.75 A 0.25 0.25 0 0 1 0.25 0.75 A 0.25 0.25 0 0 1 0.75 0.75 Z"
+      },
+      {
+        "id": "petal-left",
+        "label": "petalLeft",
+        "path": "M 0.25 0.75 A 0.25 0.25 0 0 1 0.25 0.25 A 0.25 0.25 0 0 1 0.25 0.75 Z"
+      },
+      {
+        "id": "bg-tl",
+        "label": "backgroundTopLeft",
+        "path": "M 0.25 0 L 0.5 0 L 0.5 0.25 L 0.25 0.25 Z"
+      },
+      {
+        "id": "bg-tr",
+        "label": "backgroundTopRight",
+        "path": "M 0.5 0 L 0.75 0 L 0.75 0.25 L 0.5 0.25 Z"
+      },
+      {
+        "id": "bg-rt",
+        "label": "backgroundRightTop",
+        "path": "M 0.75 0.25 L 1 0.25 L 1 0.5 L 0.75 0.5 Z"
+      },
+      {
+        "id": "bg-rb",
+        "label": "backgroundRightBottom",
+        "path": "M 0.75 0.5 L 1 0.5 L 1 0.75 L 0.75 0.75 Z"
+      },
+      {
+        "id": "bg-br",
+        "label": "backgroundBottomRight",
+        "path": "M 0.5 0.75 L 0.75 0.75 L 0.75 1 L 0.5 1 Z"
+      },
+      {
+        "id": "bg-bl",
+        "label": "backgroundBottomLeft",
+        "path": "M 0.25 0.75 L 0.5 0.75 L 0.5 1 L 0.25 1 Z"
+      },
+      {
+        "id": "bg-lb",
+        "label": "backgroundLeftBottom",
+        "path": "M 0 0.5 L 0.25 0.5 L 0.25 0.75 L 0 0.75 Z"
+      },
+      {
+        "id": "bg-lt",
+        "label": "backgroundLeftTop",
+        "path": "M 0 0.25 L 0.25 0.25 L 0.25 0.5 L 0 0.5 Z"
+      }
+    ]
+  }
+}

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 400 400"
+  width="400" height="400"
+>
+  <title>ナインパッチ (Nine Patch)</title>
+  <rect width="400" height="400" fill="#ffffff"/>
+  <path
+    id="p00"
+    d="M 0 0 L 133.2 0 L 133.2 133.2 L 0 133.2 Z"
+    fill="#e8c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>topLeft</title>
+  </path>
+  <path
+    id="p10"
+    d="M 133.2 0 L 266.8 0 L 266.8 133.2 L 133.2 133.2 Z"
+    fill="#f5f0e8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>topCenter</title>
+  </path>
+  <path
+    id="p20"
+    d="M 266.8 0 L 400 0 L 400 133.2 L 266.8 133.2 Z"
+    fill="#c4bde8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>topRight</title>
+  </path>
+  <path
+    id="p01"
+    d="M 0 133.2 L 133.2 133.2 L 133.2 266.8 L 0 266.8 Z"
+    fill="#b8d4c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>middleLeft</title>
+  </path>
+  <path
+    id="p11"
+    d="M 133.2 133.2 L 266.8 133.2 L 266.8 266.8 L 133.2 266.8 Z"
+    fill="#e8dbb8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>center</title>
+  </path>
+  <path
+    id="p21"
+    d="M 266.8 133.2 L 400 133.2 L 400 266.8 L 266.8 266.8 Z"
+    fill="#d4b8c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>middleRight</title>
+  </path>
+  <path
+    id="p02"
+    d="M 0 266.8 L 133.2 266.8 L 133.2 400 L 0 400 Z"
+    fill="#b8c4d4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>bottomLeft</title>
+  </path>
+  <path
+    id="p12"
+    d="M 133.2 266.8 L 266.8 266.8 L 266.8 400 L 133.2 400 Z"
+    fill="#d4c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>bottomCenter</title>
+  </path>
+  <path
+    id="p22"
+    d="M 266.8 266.8 L 400 266.8 L 400 400 L 266.8 400 Z"
+    fill="#c8e0d0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>bottomRight</title>
+  </path>
+</svg>

@@ -1,0 +1,202 @@
+# extract-pattern
+
+画像からパッチワークのパターンを解析し、`constants/designs/<id>.json` と `assets/designs/<id>.svg` を生成するスキル。
+
+## トリガー
+
+`/extract-pattern` を画像添付で実行。オプション引数は任意。
+
+```
+/extract-pattern [--name="Ohio Star"] [--name-ja="オハイオスター"] [--id="ohio-star"]
+```
+
+---
+
+## ワークフロー
+
+### Step 1: 情報収集
+
+引数または画像テキストから取得。なければ質問する。
+
+| 項目 | 必須 | 説明 |
+|------|------|------|
+| `name` | ○ | 英語名（例: "Morning Glory"） |
+| `nameJa` | ○ | 日本語名（例: "朝顔"） |
+| `id` | △ | ケバブケース（省略時は name から生成） |
+| `category` | △ | 翻訳キー（後述の一覧参照、不明なら null） |
+
+カテゴリ一覧: `"threeGrid"`, `"fourGrid"`, `"twoGrid"`, `"fiveGrid"`, `"star"`, `"flower"`, `"geometric"`, `"other"`
+
+---
+
+### Step 2: 画像解析
+
+以下の順で解析し、結果を箇条書きで示してから Step 3 に進む。
+
+#### 2-1. グリッド構造
+- 見えているグリッド線を数え、N行×M列を特定する
+- 各セルの正規化サイズ = 1/N（例: 4×4 → セル 0.25）
+
+#### 2-2. 対称性の確認
+- **4-fold 回転対称**: 90°回転で一致 → ユニークピースは1/4
+- **2-fold 回転対称**: 180°回転で一致 → ユニークピースは1/2
+- **鏡像対称**: 反転で一致
+- **非対称**: 全ピースを個別に記述
+
+#### 2-3. ピース種別の分類
+各ユニークピース（対称性で削減済み）について:
+- 頂点の個数と位置（グリッド格子点との一致を確認）
+- 辺の種類: 直線（L） or 円弧（A） or ベジェ曲線（Q/C）
+- 円弧の場合: 凸 or 凹、概算半径（セル単位）
+
+---
+
+### Step 3: SVG パス生成
+
+座標系: 左上=(0,0)、右下=(1,1)、全頂点を 0.0〜1.0 の範囲で記述。
+
+#### 直線ピース
+
+```
+M x1 y1 L x2 y2 L x3 y3 ... Z
+```
+
+#### 円弧ピース（A コマンド）
+
+```
+A rx ry 0 large-arc-flag sweep-flag x y
+```
+
+| パラメータ | 四分円弧の場合 |
+|-----------|--------------|
+| `rx ry` | = 円弧半径（例: セル1個分なら 0.25） |
+| `0` | x-rotation は常に 0 |
+| `large-arc-flag` | 0（90°以下）/ 1（90°超） |
+| `sweep-flag` | 1=時計回り、0=反時計回り |
+
+**よく使う四分円弧パターン:**
+
+```
+# 左上コーナー切り欠き（凹む弧）r=0.25
+M 0 0.25 A 0.25 0.25 0 0 1 0.25 0 L 0 0 Z
+
+# 右上コーナー切り欠き（凹む弧）r=0.25
+M 0.75 0 A 0.25 0.25 0 0 1 1 0.25 L 1 0 Z
+
+# 中央に向かって膨らむ弧（左辺から下辺へ、凸）r=0.5
+M 0.5 0 A 0.5 0.5 0 0 0 0 0.5 L 0 0 Z
+
+# 4弁花の1枚（中央付近のレンズ形）
+M 0.5 0.25 A 0.25 0.25 0 0 1 0.75 0.5 A 0.25 0.25 0 0 1 0.5 0.25 Z
+```
+
+#### ベジェ曲線ピース（滑らかな曲線、円弧でない場合）
+
+```
+# Q: 2次ベジェ（制御点1個）
+M x1 y1 Q cx cy x2 y2 Z
+
+# C: 3次ベジェ（制御点2個）
+M x1 y1 C cx1 cy1 cx2 cy2 x2 y2 Z
+```
+
+---
+
+### Step 4: ピース一覧の作成
+
+対称性を利用して全ピースを展開する。
+
+**4-fold 対称の場合の展開例（1ピース→4ピース）:**
+
+```
+元ピース (top-left 象限): [x, y] の頂点
+→ top-right:  [1-y, x]（90°回転）
+→ bottom-right: [1-x, 1-y]（180°回転）
+→ bottom-left: [y, 1-x]（270°回転）
+```
+
+SVG A コマンドの sweep-flag は回転方向に応じて反転させること。
+
+---
+
+### Step 5: JSON 生成・書き込み
+
+フォーマット:
+
+```json
+{
+  "version": "1.0",
+  "design": {
+    "id": "<id>",
+    "name": "<English name>",
+    "nameJa": "<日本語名>",
+    "category": "<category key or null>",
+    "gridSize": null,
+    "thumbnail": "<id>.png",
+    "polygons": [
+      {
+        "id": "<piece-id>",
+        "label": "<translationKey>",
+        "path": "<SVG path data>"
+      }
+    ]
+  }
+}
+```
+
+Write ツールで `constants/designs/<id>.json` に保存する。
+
+**label の命名規則:** 既存の翻訳キーを優先（`topLeft`, `center`, `topTriangle` 等）。新規ラベルが必要な場合は `locales/ja.ts` と `locales/en.ts` の `piece` セクションへの追加が必要であることをレポートに記載する。
+
+---
+
+### Step 6: SVG 生成
+
+JSON 保存後、以下のコマンドを実行する:
+
+```bash
+node tools/pattern-generator/scripts/json-to-svg.mjs constants/designs/<id>.json
+```
+
+出力先: `assets/designs/<id>.svg`（自動決定）
+
+オプション:
+```bash
+# SVGサイズ指定（デフォルト400）
+node tools/pattern-generator/scripts/json-to-svg.mjs <json> --size=600
+
+# カスタムカラー（カンマ区切り）
+node tools/pattern-generator/scripts/json-to-svg.mjs <json> --colors="#e8c4b8,#f5f0e8"
+```
+
+---
+
+### Step 7: レポート出力
+
+```
+## 抽出結果
+
+| 項目 | 内容 |
+|------|------|
+| パターン名 | <nameJa> (<name>) |
+| ピース数 | N 個 |
+| JSON | constants/designs/<id>.json |
+| SVG | assets/designs/<id>.svg |
+
+## ⚠️ 要手動確認
+
+- [ ] <要確認ピース>: 弧の方向（sweep-flag）を pattern-generator で確認
+- [ ] バリデーション: npm run dev（tools/pattern-generator）で検証パネルを確認
+- [ ] サムネイル: npm run register 前に pattern-generator で PNG を生成
+- [ ] 翻訳キー: <新規ラベル> を locales/ja.ts と locales/en.ts に追加
+```
+
+---
+
+## 注意事項
+
+- **ドラフト品質**: 生成されるパスは近似値。面積合計≠1.0 になる場合は AREA_TOLERANCE=1e-3 以内に収めること
+- **弧の向き**: sweep-flag の誤りが最も多い。画像と比較して必ず確認を促す
+- **座標精度**: 小数点4桁（例: `0.2500`）、グリッド点に揃えること
+- **非対称パターン**: 精度が下がる。各ピースに要確認フラグを付ける
+- **locales 更新**: 新規 label キーは必ず `locales/ja.ts` / `locales/en.ts` の `piece` セクションへ追加が必要
