@@ -15,10 +15,11 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
+    "types": ["node"],
     "baseUrl": ".",
     "paths": {
       "@/*": ["../../*"]
     }
   },
-  "include": ["src"]
+  "include": ["src", "vite.config.ts"]
 }
