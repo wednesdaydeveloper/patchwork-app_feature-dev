@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 400 400"
+  width="400" height="400"
+>
+  <title>ピンウィール (Pinwheel)</title>
+  <rect width="400" height="400" fill="#ffffff"/>
+  <path
+    id="tl-outer"
+    d="M 0 0 L 200 0 L 0 200 Z"
+    fill="#e8c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>topLeftOuter</title>
+  </path>
+  <path
+    id="tl-inner"
+    d="M 200 0 L 200 200 L 0 200 Z"
+    fill="#f5f0e8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>topLeftInner</title>
+  </path>
+  <path
+    id="tr-outer"
+    d="M 200 0 L 400 0 L 400 200 Z"
+    fill="#c4bde8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>topRightOuter</title>
+  </path>
+  <path
+    id="tr-inner"
+    d="M 200 0 L 400 200 L 200 200 Z"
+    fill="#b8d4c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>topRightInner</title>
+  </path>
+  <path
+    id="br-outer"
+    d="M 400 200 L 400 400 L 200 400 Z"
+    fill="#e8dbb8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>bottomRightOuter</title>
+  </path>
+  <path
+    id="br-inner"
+    d="M 200 200 L 400 200 L 200 400 Z"
+    fill="#d4b8c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>bottomRightInner</title>
+  </path>
+  <path
+    id="bl-outer"
+    d="M 0 200 L 200 400 L 0 400 Z"
+    fill="#b8c4d4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>bottomLeftOuter</title>
+  </path>
+  <path
+    id="bl-inner"
+    d="M 0 200 L 200 200 L 200 400 Z"
+    fill="#d4c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>bottomLeftInner</title>
+  </path>
+</svg>
