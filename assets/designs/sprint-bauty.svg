@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 400 400"
+  width="400" height="400"
+>
+  <title>Spring Beauty (Spring Beauty)</title>
+  <rect width="400" height="400" fill="#ffffff"/>
+  <path
+    id="82042ccd-b6f2-4f0c-a231-9abc11617de2"
+    d="M 0 0 L 200 0 L 141.421356 64.644661 A 200 200 0 0 0 0 0"
+    fill="#e8c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="616ec899-199e-45b6-a802-189b775d692e"
+    d="M 0 0 A 200 200 0 0 1 141.421356 64.644661 L 64.644661 141.421356 A 200 200 0 0 1 0 0"
+    fill="#f5f0e8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="aff6e844-7a13-403b-8313-b97ab2ef2a37"
+    d="M 0 0 A 200 200 0 0 0 64.644661 141.421356 L 0 200"
+    fill="#c4bde8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="316a7741-790d-4dfb-b4f2-aa9ea5d05d43"
+    d="M 200 0 L 258.578644 64.644661 A 200 200 0 0 0 200 200 A 200 200 0 0 0 141.421356 64.644661"
+    fill="#b8d4c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="54098145-aa4f-498f-afb7-7327c08065a6"
+    d="M 141.421356 64.644661 A 200 200 0 0 1 200 200 A 200 200 0 0 1 64.644661 141.421356"
+    fill="#e8dbb8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="69925cd2-f201-472d-8bb9-ae59e49018bb"
+    d="M 400 0 L 400 200 L 335.355339 141.421356 A 200 200 0 0 0 400 0"
+    fill="#d4b8c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="9d4e9df0-c9c6-40c9-a0ce-6cb11731ef14"
+    d="M 400 0 A 200 200 0 0 1 335.355339 141.421356 L 258.578644 64.644661 A 200 200 0 0 1 400 0"
+    fill="#b8c4d4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="88e944db-66b9-42eb-8cda-0d57be40630a"
+    d="M 400 0 A 200 200 0 0 0 258.578644 64.644661 L 200 0"
+    fill="#d4c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="8a271bb3-86cb-4442-aeb0-f612fbcd2f43"
+    d="M 400 200 L 335.355339 258.578644 A 200 200 0 0 0 200 200 A 200 200 0 0 0 335.355339 141.421356"
+    fill="#c8e0d0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="582bd25e-682f-4656-b628-e550bfe6ab05"
+    d="M 335.355339 141.421356 A 200 200 0 0 1 200 200 A 200 200 0 0 1 258.578644 64.644661"
+    fill="#e0c8d8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="5a548d6e-e661-4b01-a359-e833816db7c4"
+    d="M 400 400 L 200 400 L 258.578644 335.355339 A 200 200 0 0 0 400 400"
+    fill="#e8c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="aad71780-4f04-4a30-930b-c6a1a3507eeb"
+    d="M 400 400 A 200 200 0 0 1 258.578644 335.355339 L 335.355339 258.578644 A 200 200 0 0 1 400 400"
+    fill="#f5f0e8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="b64a8572-44a1-436f-bc75-586d8bcb9c17"
+    d="M 400 400 A 200 200 0 0 0 335.355339 258.578644 L 400 200"
+    fill="#c4bde8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="a30cb805-9016-4257-9fe6-e9a9d8d1c623"
+    d="M 200 400 L 141.421356 335.355339 A 200 200 0 0 0 200 200 A 200 200 0 0 0 258.578644 335.355339"
+    fill="#b8d4c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="1c4fc2df-f771-407b-a42f-a8cf2d90e066"
+    d="M 258.578644 335.355339 A 200 200 0 0 1 200 200 A 200 200 0 0 1 335.355339 258.578644"
+    fill="#e8dbb8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="264cac2f-85ff-4e70-96eb-08bdec021a5e"
+    d="M 0 400 L 0 200 L 64.644661 258.578644 A 200 200 0 0 0 0 400"
+    fill="#d4b8c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="6f3cad2a-a196-4903-9886-c44186d22f8e"
+    d="M 0 400 A 200 200 0 0 1 64.644661 258.578644 L 141.421356 335.355339 A 200 200 0 0 1 0 400"
+    fill="#b8c4d4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="596f8e53-8e6d-429c-a4bf-526de93ad003"
+    d="M 0 400 A 200 200 0 0 0 141.421356 335.355339 L 200 400"
+    fill="#d4c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="175c06a3-005e-45d2-998b-e5d1db1d6e97"
+    d="M 0 200 L 64.644661 141.421356 A 200 200 0 0 0 200 200 A 200 200 0 0 0 64.644661 258.578644"
+    fill="#c8e0d0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="35fc135f-d66b-443a-b0f0-80348aef6873"
+    d="M 64.644661 258.578644 A 200 200 0 0 1 200 200 A 200 200 0 0 1 141.421356 335.355339"
+    fill="#e0c8d8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+</svg>

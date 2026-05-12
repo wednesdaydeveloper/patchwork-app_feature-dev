@@ -6,243 +6,243 @@
   <title>朝顔 (Morning Glory)</title>
   <rect width="400" height="400" fill="#ffffff"/>
   <path
-    id="corner-tl"
-    d="M 0 0 L 100 0 A 100 100 0 0 0 0 100 Z"
+    id="dec5fadc-0dfd-44c4-893a-71a2c9ddee0c"
+    d="M 0 0 L 0 96 A 51.501888 51.501888 0 0 0 66.666667 66.666667 L 0 0"
     fill="#e8c4b8"
     stroke="#2c2c2c"
     stroke-width="0.8"
     stroke-linejoin="round"
   >
-    <title>cornerTopLeft</title>
+    <title>undefined</title>
   </path>
   <path
-    id="corner-tr"
-    d="M 300 0 L 400 0 L 400 100 A 100 100 0 0 0 300 0 Z"
+    id="9527bc85-55ac-4035-844c-8bc9e574c648"
+    d="M 400 0 L 304 0 A 51.501888 51.501888 0 0 0 333.333333 66.666667 L 400 0"
     fill="#f5f0e8"
     stroke="#2c2c2c"
     stroke-width="0.8"
     stroke-linejoin="round"
   >
-    <title>cornerTopRight</title>
+    <title>undefined</title>
   </path>
   <path
-    id="corner-br"
-    d="M 400 300 L 400 400 L 300 400 A 100 100 0 0 0 400 300 Z"
+    id="23bec942-9660-4703-b08a-29d90d522851"
+    d="M 400 400 L 400 304 A 51.501888 51.501888 0 0 0 333.333333 333.333333 L 400 400"
     fill="#c4bde8"
     stroke="#2c2c2c"
     stroke-width="0.8"
     stroke-linejoin="round"
   >
-    <title>cornerBottomRight</title>
+    <title>undefined</title>
   </path>
   <path
-    id="corner-bl"
-    d="M 100 400 L 0 400 L 0 300 A 100 100 0 0 0 100 400 Z"
+    id="caf71eb2-cd38-4baa-9516-78de60b9ce97"
+    d="M 0 400 L 96 400 A 51.501888 51.501888 0 0 0 66.666667 333.333333 L 0 400"
     fill="#b8d4c4"
     stroke="#2c2c2c"
     stroke-width="0.8"
     stroke-linejoin="round"
   >
-    <title>cornerBottomLeft</title>
+    <title>undefined</title>
   </path>
   <path
-    id="edge-top-left"
-    d="M 100 0 L 200 0 L 100 100 A 100 100 0 0 1 100 0 Z"
+    id="5b5edcb0-74e7-482b-9355-358af815ccb1"
+    d="M 66.666667 66.666667 L 0 0 L 96 0 A 51.501888 51.501888 0 0 1 66.666667 66.666667"
     fill="#e8dbb8"
     stroke="#2c2c2c"
     stroke-width="0.8"
     stroke-linejoin="round"
   >
-    <title>edgeTopLeft</title>
+    <title>undefined</title>
   </path>
   <path
-    id="edge-top-right"
-    d="M 200 0 L 300 0 A 100 100 0 0 1 300 100 L 200 0 Z"
+    id="f615fc81-02e6-43eb-9aea-2f584caa0cc3"
+    d="M 333.333333 66.666667 L 400 0 L 400 96 A 51.501888 51.501888 0 0 1 333.333333 66.666667"
     fill="#d4b8c4"
     stroke="#2c2c2c"
     stroke-width="0.8"
     stroke-linejoin="round"
   >
-    <title>edgeTopRight</title>
+    <title>undefined</title>
   </path>
   <path
-    id="edge-right-top"
-    d="M 400 100 L 400 200 L 300 100 A 100 100 0 0 1 400 100 Z"
+    id="b31b26d1-518e-4f17-b703-870dca93bf2b"
+    d="M 333.333333 333.333333 L 400 400 L 304 400 A 51.501888 51.501888 0 0 1 333.333333 333.333333"
     fill="#b8c4d4"
     stroke="#2c2c2c"
     stroke-width="0.8"
     stroke-linejoin="round"
   >
-    <title>edgeRightTop</title>
+    <title>undefined</title>
   </path>
   <path
-    id="edge-right-bottom"
-    d="M 400 200 L 400 300 A 100 100 0 0 1 300 300 L 400 200 Z"
+    id="0e1a0cc3-d0a4-435b-9779-c884b5b37893"
+    d="M 66.666667 333.333333 L 0 400 L 0 304 A 51.501888 51.501888 0 0 1 66.666667 333.333333"
     fill="#d4c4b8"
     stroke="#2c2c2c"
     stroke-width="0.8"
     stroke-linejoin="round"
   >
-    <title>edgeRightBottom</title>
+    <title>undefined</title>
   </path>
   <path
-    id="edge-bottom-right"
-    d="M 300 400 L 200 400 L 300 300 A 100 100 0 0 1 300 400 Z"
+    id="fe08fc90-442f-4388-bc82-a8fb6ff1fd92"
+    d="M 66.666667 66.666667 A 51.501888 51.501888 0 0 0 96 0 L 200 0 L 200 104 A 51.501888 51.501888 0 0 0 133.333333 133.333333 L 66.666667 66.666667"
     fill="#c8e0d0"
     stroke="#2c2c2c"
     stroke-width="0.8"
     stroke-linejoin="round"
   >
-    <title>edgeBottomRight</title>
+    <title>undefined</title>
   </path>
   <path
-    id="edge-bottom-left"
-    d="M 200 400 L 100 400 A 100 100 0 0 1 100 300 L 200 400 Z"
+    id="0ed37fd3-79ff-4489-9bf7-65565273e2ec"
+    d="M 333.333333 66.666667 A 51.501888 51.501888 0 0 0 400 96 L 400 200 L 296 200 A 51.501888 51.501888 0 0 0 266.666667 133.333333 L 333.333333 66.666667"
     fill="#e0c8d8"
     stroke="#2c2c2c"
     stroke-width="0.8"
     stroke-linejoin="round"
   >
-    <title>edgeBottomLeft</title>
+    <title>undefined</title>
   </path>
   <path
-    id="edge-left-bottom"
-    d="M 0 300 L 0 200 L 100 300 A 100 100 0 0 1 0 300 Z"
+    id="06d28373-8bcd-43bd-b722-055c6ab63955"
+    d="M 333.333333 333.333333 A 51.501888 51.501888 0 0 0 304 400 L 200 400 L 200 296 A 51.501888 51.501888 0 0 0 266.666667 266.666667 L 333.333333 333.333333"
     fill="#e8c4b8"
     stroke="#2c2c2c"
     stroke-width="0.8"
     stroke-linejoin="round"
   >
-    <title>edgeLeftBottom</title>
+    <title>undefined</title>
   </path>
   <path
-    id="edge-left-top"
-    d="M 0 200 L 0 100 A 100 100 0 0 1 100 100 L 0 200 Z"
+    id="a1047d8b-656c-41aa-917e-e7ec9bb43ded"
+    d="M 66.666667 333.333333 A 51.501888 51.501888 0 0 0 0 304 L 0 200 L 104 200 A 51.501888 51.501888 0 0 0 133.333333 266.666667 L 66.666667 333.333333"
     fill="#f5f0e8"
     stroke="#2c2c2c"
     stroke-width="0.8"
     stroke-linejoin="round"
   >
-    <title>edgeLeftTop</title>
+    <title>undefined</title>
   </path>
   <path
-    id="petal-top"
-    d="M 100 100 A 100 100 0 0 1 300 100 A 100 100 0 0 1 100 100 Z"
+    id="e13866ce-e46a-4df1-8196-f80a66eb434d"
+    d="M 200 0 L 200 104 A 51.501888 51.501888 0 0 1 266.666667 133.333333 L 333.333333 66.666667 A 51.501888 51.501888 0 0 1 304 0 L 200 0"
     fill="#c4bde8"
     stroke="#2c2c2c"
     stroke-width="0.8"
     stroke-linejoin="round"
   >
-    <title>petalTop</title>
+    <title>undefined</title>
   </path>
   <path
-    id="petal-right"
-    d="M 300 100 A 100 100 0 0 1 300 300 A 100 100 0 0 1 300 100 Z"
+    id="c0d093f9-c620-4a94-a6fc-7e307a0ee971"
+    d="M 400 200 L 296 200 A 51.501888 51.501888 0 0 1 266.666667 266.666667 L 333.333333 333.333333 A 51.501888 51.501888 0 0 1 400 304 L 400 200"
     fill="#b8d4c4"
     stroke="#2c2c2c"
     stroke-width="0.8"
     stroke-linejoin="round"
   >
-    <title>petalRight</title>
+    <title>undefined</title>
   </path>
   <path
-    id="petal-bottom"
-    d="M 300 300 A 100 100 0 0 1 100 300 A 100 100 0 0 1 300 300 Z"
+    id="12cbfd14-d41e-498d-b722-571826b9c603"
+    d="M 200 400 L 200 296 A 51.501888 51.501888 0 0 1 133.333333 266.666667 L 66.666667 333.333333 A 51.501888 51.501888 0 0 1 96 400 L 200 400"
     fill="#e8dbb8"
     stroke="#2c2c2c"
     stroke-width="0.8"
     stroke-linejoin="round"
   >
-    <title>petalBottom</title>
+    <title>undefined</title>
   </path>
   <path
-    id="petal-left"
-    d="M 100 300 A 100 100 0 0 1 100 100 A 100 100 0 0 1 100 300 Z"
+    id="e780d195-7270-4add-9aed-3a90174d2104"
+    d="M 0 200 L 104 200 A 51.501888 51.501888 0 0 1 133.333333 133.333333 L 66.666667 66.666667 A 51.501888 51.501888 0 0 1 0 96 L 0 200"
     fill="#d4b8c4"
     stroke="#2c2c2c"
     stroke-width="0.8"
     stroke-linejoin="round"
   >
-    <title>petalLeft</title>
+    <title>undefined</title>
   </path>
   <path
-    id="bg-tl"
-    d="M 100 0 L 200 0 L 200 100 L 100 100 Z"
+    id="2352f596-7dc3-4c0c-9da2-1979d65f328a"
+    d="M 133.333333 133.333333 L 200 200 L 200 104 A 51.501888 51.501888 0 0 0 133.333333 133.333333"
     fill="#b8c4d4"
     stroke="#2c2c2c"
     stroke-width="0.8"
     stroke-linejoin="round"
   >
-    <title>backgroundTopLeft</title>
+    <title>undefined</title>
   </path>
   <path
-    id="bg-tr"
-    d="M 200 0 L 300 0 L 300 100 L 200 100 Z"
+    id="9a868db2-bcf5-46f7-8ac6-53a56391a87b"
+    d="M 266.666667 133.333333 L 200 200 L 296 200 A 51.501888 51.501888 0 0 0 266.666667 133.333333"
     fill="#d4c4b8"
     stroke="#2c2c2c"
     stroke-width="0.8"
     stroke-linejoin="round"
   >
-    <title>backgroundTopRight</title>
+    <title>undefined</title>
   </path>
   <path
-    id="bg-rt"
-    d="M 300 100 L 400 100 L 400 200 L 300 200 Z"
+    id="aa3486c0-4b8b-4742-896f-4aebd7aeaec9"
+    d="M 266.666667 266.666667 L 200 200 L 200 296 A 51.501888 51.501888 0 0 0 266.666667 266.666667"
     fill="#c8e0d0"
     stroke="#2c2c2c"
     stroke-width="0.8"
     stroke-linejoin="round"
   >
-    <title>backgroundRightTop</title>
+    <title>undefined</title>
   </path>
   <path
-    id="bg-rb"
-    d="M 300 200 L 400 200 L 400 300 L 300 300 Z"
+    id="4d7dcf66-327f-49aa-809f-943b377b43a8"
+    d="M 133.333333 266.666667 L 200 200 L 104 200 A 51.501888 51.501888 0 0 0 133.333333 266.666667"
     fill="#e0c8d8"
     stroke="#2c2c2c"
     stroke-width="0.8"
     stroke-linejoin="round"
   >
-    <title>backgroundRightBottom</title>
+    <title>undefined</title>
   </path>
   <path
-    id="bg-br"
-    d="M 200 300 L 300 300 L 300 400 L 200 400 Z"
+    id="60ae4948-a0c6-4da9-b447-df04a1c01652"
+    d="M 200 104 L 200 200 L 266.666667 133.333333 A 51.501888 51.501888 0 0 0 200 104"
     fill="#e8c4b8"
     stroke="#2c2c2c"
     stroke-width="0.8"
     stroke-linejoin="round"
   >
-    <title>backgroundBottomRight</title>
+    <title>undefined</title>
   </path>
   <path
-    id="bg-bl"
-    d="M 100 300 L 200 300 L 200 400 L 100 400 Z"
+    id="8fa62003-0124-4c00-b167-8c1a42c9dd99"
+    d="M 296 200 L 200 200 L 266.666667 266.666667 A 51.501888 51.501888 0 0 0 296 200"
     fill="#f5f0e8"
     stroke="#2c2c2c"
     stroke-width="0.8"
     stroke-linejoin="round"
   >
-    <title>backgroundBottomLeft</title>
+    <title>undefined</title>
   </path>
   <path
-    id="bg-lb"
-    d="M 0 200 L 100 200 L 100 300 L 0 300 Z"
+    id="70c2ca1d-33ba-44f5-92fa-fd4eb412d2e9"
+    d="M 200 296 L 200 200 L 133.333333 266.666667 A 51.501888 51.501888 0 0 0 200 296"
     fill="#c4bde8"
     stroke="#2c2c2c"
     stroke-width="0.8"
     stroke-linejoin="round"
   >
-    <title>backgroundLeftBottom</title>
+    <title>undefined</title>
   </path>
   <path
-    id="bg-lt"
-    d="M 0 100 L 100 100 L 100 200 L 0 200 Z"
+    id="829a68c2-145d-402e-83b7-be21c46c80d6"
+    d="M 104 200 L 200 200 L 133.333333 133.333333 A 51.501888 51.501888 0 0 0 104 200"
     fill="#b8d4c4"
     stroke="#2c2c2c"
     stroke-width="0.8"
     stroke-linejoin="round"
   >
-    <title>backgroundLeftTop</title>
+    <title>undefined</title>
   </path>
 </svg>

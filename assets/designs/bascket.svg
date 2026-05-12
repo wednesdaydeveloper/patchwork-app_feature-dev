@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 400 400"
+  width="400" height="400"
+>
+  <title>Buscket (Buscket)</title>
+  <rect width="400" height="400" fill="#ffffff"/>
+  <path
+    id="3530425c-4cc2-4a88-9f58-f477b574f296"
+    d="M 0 200 L 100 200 L 100 300"
+    fill="#e8c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="7125a10f-fb5e-4c2d-b5ae-b2f6c9752cd8"
+    d="M 100 0 L 200 100 L 100 100"
+    fill="#f5f0e8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="64b91213-4622-47a5-b3fc-933870d59549"
+    d="M 100 100 L 200 200 L 100 200"
+    fill="#c4bde8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="7e33b565-5529-4426-a7a2-b8ea50815a5b"
+    d="M 100 300 L 200 300 L 200 400"
+    fill="#b8d4c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="a2ffc091-7b96-4123-84a3-4dc9f719e4a9"
+    d="M 200 100 L 300 200 L 200 200"
+    fill="#e8dbb8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="116260ab-f925-455d-bfbb-57a0fa7c77f7"
+    d="M 200 200 L 300 300 L 200 300"
+    fill="#d4b8c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="47940a3d-b66a-4ce6-9807-61dd60809829"
+    d="M 300 200 L 400 300 L 300 300"
+    fill="#b8c4d4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="d9db875f-8c77-4505-9cf9-2bafc526530e"
+    d="M 0 0 L 100 0 L 100 200 L 0 200"
+    fill="#d4c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="e500aca5-8792-400d-b5ab-fa558f8c0e95"
+    d="M 0 200 L 200 400 L 0 400"
+    fill="#c8e0d0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="03fdea72-d607-4419-b127-795f36ff07c4"
+    d="M 100 100 L 200 100 L 200 200"
+    fill="#e0c8d8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="168bf9f1-73bd-4f04-bfa3-4e46d4509a35"
+    d="M 100 200 L 200 200 L 200 300 L 100 300"
+    fill="#e8c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="d7470f4f-67db-4a53-95b1-5bf30305867e"
+    d="M 200 200 L 300 200 L 300 300"
+    fill="#f5f0e8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="bacbd31d-9327-4d08-8c50-7080b54f8aa2"
+    d="M 200 300 L 400 300 L 400 400 L 200 400"
+    fill="#c4bde8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="363beb61-f089-4afe-83b7-f539eec20fc4"
+    d="M 175 75 A 106.066017 106.066017 0 0 1 325 225"
+    fill="#b8d4c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="b8de1632-b458-438a-a852-6603a78bd0f0"
+    d="M 175 75 A 106.066017 106.066017 0 0 1 325 225 L 350 250 A 141.421356 141.421356 0 0 0 150 50"
+    fill="#e8dbb8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="3c1149c6-a949-4cf1-8ed2-2572f54676b8"
+    d="M 350 250 A 141.421356 141.421356 0 0 0 150 50 L 100 0 L 400 0 L 400 300"
+    fill="#d4b8c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+</svg>

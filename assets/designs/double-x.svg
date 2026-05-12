@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 400 400"
+  width="400" height="400"
+>
+  <title>DOUBLE X (DOUBLE X)</title>
+  <rect width="400" height="400" fill="#ffffff"/>
+  <path
+    id="a6bbcc4a-61f3-4944-92ef-2cfe52e9d121"
+    d="M 0 0 L 100 0 L 0 100"
+    fill="#e8c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="a06e4f34-4336-43c3-971d-46bfb83255ec"
+    d="M 100 0 L 100 100 L 0 100"
+    fill="#f5f0e8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="23f27a14-2d82-479d-8cf9-5c411bb77e83"
+    d="M 100 0 L 200 0 L 100 100"
+    fill="#c4bde8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="657b9d36-b646-4e2a-9fbb-0f04ba87e454"
+    d="M 200 0 L 200 200 L 0 200"
+    fill="#b8d4c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="387988d5-f0c6-4138-a682-afe383ec74bc"
+    d="M 0 100 L 100 100 L 0 200"
+    fill="#e8dbb8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="f2f71641-d6fc-44ea-8bcf-33f733f53a74"
+    d="M 200 0 L 300 0 L 200 100"
+    fill="#d4b8c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="295c1eaf-190a-4217-b760-63d3b15ef241"
+    d="M 300 0 L 300 100 L 200 100"
+    fill="#b8c4d4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="c42b8d73-7a55-455b-b760-f784a48203b1"
+    d="M 300 0 L 400 0 L 400 100 L 300 100"
+    fill="#d4c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="59008ba8-6e7a-4067-9f2a-6887aea00381"
+    d="M 200 100 L 300 100 L 300 200 L 200 200"
+    fill="#c8e0d0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="ef1c57ac-f5e9-4aee-911c-cb55e74f1c05"
+    d="M 300 100 L 400 100 L 300 200"
+    fill="#e0c8d8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="8d349887-5635-48ea-b4f7-b972885ce97b"
+    d="M 400 200 L 300 200"
+    fill="#e8c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="5beddbd2-a296-4f7b-9118-b89f21db6e1f"
+    d="M 0 200 L 100 200 L 0 300"
+    fill="#f5f0e8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="69fa309a-5c06-41d7-861b-4db922180ed7"
+    d="M 100 200 L 100 300 L 0 300"
+    fill="#c4bde8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="b8701278-23fb-4533-a2e5-720ac9692ea1"
+    d="M 100 200 L 200 200 L 200 300 L 100 300"
+    fill="#b8d4c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="718c597c-31d7-436b-8000-baeda7315486"
+    d="M 0 300 L 100 300 L 100 400 L 0 400"
+    fill="#e8dbb8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="3dec6a2c-2902-4f60-be87-10db3fd2c754"
+    d="M 100 300 L 200 300 L 100 400"
+    fill="#d4b8c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="23575cfc-beae-4580-9e11-42b465cb8e24"
+    d="M 200 300 L 200 400 L 100 400"
+    fill="#b8c4d4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="04bbfa19-d700-4dab-9d8c-64c1a8c27983"
+    d="M 200 200 L 400 200 L 200 400"
+    fill="#d4c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="13247f28-6706-424a-8028-84707544568a"
+    d="M 300 300 L 400 300 L 300 400"
+    fill="#c8e0d0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="235189bb-9c72-420e-b8db-6ed2cdafbedc"
+    d="M 400 200 L 400 300 L 300 300"
+    fill="#e0c8d8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="59096ac8-6592-4384-9b68-9821af4fd65e"
+    d="M 300 300 L 300 400 L 200 400"
+    fill="#e8c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="1baec0a9-47b0-4bfc-a9fb-0d75e44d7b8b"
+    d="M 400 300 L 400 400 L 300 400"
+    fill="#f5f0e8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="6991053b-565e-416c-bda0-bc0ad5762c34"
+    d="M 400 100 L 400 200 L 300 200"
+    fill="#c4bde8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+</svg>

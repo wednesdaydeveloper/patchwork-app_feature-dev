@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 400 400"
+  width="400" height="400"
+>
+  <title>Dresden Plate (Dresden Plate)</title>
+  <rect width="400" height="400" fill="#ffffff"/>
+  <path
+    id="affd4aff-ce83-40db-b6f9-c79812357b0a"
+    d="M 200 120 A 80 80 0 0 1 200 280 A 80 80 0 0 1 200 120"
+    fill="#e8c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="5b5473ae-c15b-4239-adf1-ce0f8db19a6f"
+    d="M 200 120 L 200 40 A 40 40 0 0 1 251.763809 6.814835 A 40 40 0 0 1 280 61.435935 L 240 130.717968 A 80 80 0 0 0 200 120"
+    fill="#f5f0e8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="356aafe6-c813-4eb1-8367-790027ad5a34"
+    d="M 240 130.717968 L 280 61.435935 A 40 40 0 0 1 341.421356 58.578644 A 40 40 0 0 1 338.564065 120 L 269.282032 160 A 80 80 0 0 0 240 130.717968"
+    fill="#c4bde8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="1f8f25a4-8e00-4c7c-8cfa-36c4ee5accda"
+    d="M 269.282032 160 L 338.564065 120 A 40 40 0 0 1 393.185165 148.236191 A 40 40 0 0 1 360 200 L 280 200 A 80 80 0 0 0 269.282032 160"
+    fill="#b8d4c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="9175325d-a240-4409-8c2c-64b9ee8f2fd4"
+    d="M 280 200 L 360 200 A 40 40 0 0 1 393.185165 251.763809 A 40 40 0 0 1 338.564065 280 L 269.282032 240 A 80 80 0 0 0 280 200"
+    fill="#e8dbb8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="8af0e687-2407-49b1-b02b-00b08930d3bf"
+    d="M 269.282032 240 L 338.564065 280 A 40 40 0 0 1 341.421356 341.421356 A 40 40 0 0 1 280 338.564065 L 240 269.282032 A 80 80 0 0 0 269.282032 240"
+    fill="#d4b8c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="c0ee7ad9-b954-413b-b927-99c5690b45bc"
+    d="M 240 269.282032 L 280 338.564065 A 40 40 0 0 1 251.763809 393.185165 A 40 40 0 0 1 200 360 L 200 280 A 80 80 0 0 0 240 269.282032"
+    fill="#b8c4d4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="9a0e3c5f-59c8-4242-b876-0c0e9feaceb7"
+    d="M 200 280 L 200 360 A 40 40 0 0 1 148.236191 393.185165 A 40 40 0 0 1 120 338.564065 L 160 269.282032 A 80 80 0 0 0 200 280"
+    fill="#d4c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="65f02906-40aa-474c-8d27-01631fc62b96"
+    d="M 160 269.282032 L 120 338.564065 A 40 40 0 0 1 58.578644 341.421356 A 40 40 0 0 1 61.435935 280 L 130.717968 240 A 80 80 0 0 0 160 269.282032"
+    fill="#c8e0d0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="cde93c1a-1491-40d3-8ecb-3dc75ba409d0"
+    d="M 130.717968 240 L 61.435935 280 A 40 40 0 0 1 6.814835 251.763809 A 40 40 0 0 1 40 200 L 120 200 A 80 80 0 0 0 130.717968 240"
+    fill="#e0c8d8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="1a3bd98e-fbb6-4204-8e9c-36d857b7135d"
+    d="M 120 200 L 40 200 A 40 40 0 0 1 6.814835 148.236191 A 40 40 0 0 1 61.435935 120 L 130.717968 160 A 80 80 0 0 0 120 200"
+    fill="#e8c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="6364dd65-5052-4f14-9bee-827f182aa226"
+    d="M 130.717968 160 L 61.435935 120 A 40 40 0 0 1 58.578644 58.578644 A 40 40 0 0 1 120 61.435935 L 160 130.717968 A 80 80 0 0 0 130.717968 160"
+    fill="#f5f0e8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="74246c30-6c55-4f2b-8914-5edc6ac6d918"
+    d="M 160 130.717968 L 120 61.435935 A 40 40 0 0 1 148.236191 6.814835 A 40 40 0 0 1 200 40 L 200 120 A 80 80 0 0 0 160 130.717968"
+    fill="#c4bde8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+</svg>
