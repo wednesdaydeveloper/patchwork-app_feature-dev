@@ -3,7 +3,6 @@ export interface EditablePiece {
   /** 内部管理用の不変ID（UUID）。選択・更新・React keyに使用 */
   internalId: string;
   id: string;
-  label: string;
   /** SVG path data (正規化座標 0.0〜1.0、Z で閉じる) */
   path: string;
   /** グリッド上の対応セル範囲 (merging 用、将来利用) */
@@ -40,7 +39,7 @@ export interface DesignFileOutput {
     category: string;
     gridSize: number | null;
     thumbnail: string;
-    polygons: { id: string; label: string; path: string }[];
+    polygons: { id: string; path: string }[];
   };
 }
 
