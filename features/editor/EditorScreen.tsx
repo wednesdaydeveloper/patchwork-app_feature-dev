@@ -193,14 +193,6 @@ export const EditorScreen = () => {
   const [canvasArea, setCanvasArea] = useState<{ width: number; height: number } | null>(null);
   const canvasSize = canvasArea ? Math.min(canvasArea.width, canvasArea.height) : 0;
 
-  const selectedLabel = useMemo(() => {
-    if (!design || !selectedPolygonId) {
-      return t('editor.selectPiece');
-    }
-    const polygon = design.polygons.find((p) => p.id === selectedPolygonId);
-    return polygon ? t(`piece.${polygon.label}`, { defaultValue: polygon.label }) : '';
-  }, [design, selectedPolygonId, t]);
-
   const selectedFabricId = useMemo(() => {
     if (!selectedPolygonId) return null;
     return pieceSettings.find((s) => s.polygonId === selectedPolygonId)?.fabricImageId ?? null;
@@ -420,7 +412,6 @@ export const EditorScreen = () => {
             }}
           />
         </View>
-        <Text style={styles.label}>{selectedLabel}</Text>
         <View
           style={styles.canvasSlot}
           onLayout={(e: LayoutChangeEvent) => {
@@ -581,11 +572,6 @@ const styles = StyleSheet.create({
   placeholder: {
     fontSize: 14,
     color: '#666',
-  },
-  label: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#374151',
   },
   toolbar: {
     flexDirection: 'row',
