@@ -136,7 +136,6 @@ SVG A コマンドの sweep-flag は回転方向に応じて反転させるこ�
     "polygons": [
       {
         "id": "<piece-id>",
-        "label": "<translationKey>",
         "path": "<SVG path data>"
       }
     ]
@@ -146,32 +145,9 @@ SVG A コマンドの sweep-flag は回転方向に応じて反転させるこ�
 
 Write ツールで `constants/designs/<id>.json` に保存する。
 
-**label の命名規則:** 既存の翻訳キーを優先（`topLeft`, `center`, `topTriangle` 等）。新規ラベルが必要な場合は `locales/ja.ts` と `locales/en.ts` の `piece` セクションへの追加が必要であることをレポートに記載する。
-
 ---
 
-### Step 6: SVG 生成
-
-JSON 保存後、以下のコマンドを実行する:
-
-```bash
-node tools/pattern-generator/scripts/json-to-svg.mjs constants/designs/<id>.json
-```
-
-出力先: `assets/designs/<id>.svg`（自動決定）
-
-オプション:
-```bash
-# SVGサイズ指定（デフォルト400）
-node tools/pattern-generator/scripts/json-to-svg.mjs <json> --size=600
-
-# カスタムカラー（カンマ区切り）
-node tools/pattern-generator/scripts/json-to-svg.mjs <json> --colors="#e8c4b8,#f5f0e8"
-```
-
----
-
-### Step 7: レポート出力
+### Step 6: レポート出力
 
 ```
 ## 抽出結果
@@ -181,14 +157,12 @@ node tools/pattern-generator/scripts/json-to-svg.mjs <json> --colors="#e8c4b8,#f
 | パターン名 | <nameJa> (<name>) |
 | ピース数 | N 個 |
 | JSON | constants/designs/<id>.json |
-| SVG | assets/designs/<id>.svg |
 
 ## ⚠️ 要手動確認
 
-- [ ] <要確認ピース>: 弧の方向（sweep-flag）を pattern-generator で確認
-- [ ] バリデーション: npm run dev（tools/pattern-generator）で検証パネルを確認
-- [ ] サムネイル: npm run register 前に pattern-generator で PNG を生成
-- [ ] 翻訳キー: <新規ラベル> を locales/ja.ts と locales/en.ts に追加
+- [ ] <要確認ピース>: 弧の方向（sweep-flag）を目視で確認
+- [ ] バリデーション: `npx tsc --noEmit` でエラーなし
+- [ ] サムネイル画像: `assets/designs/<id>.png` を手動で用意し `constants/designs/index.ts` に追加
 ```
 
 ---
@@ -199,4 +173,3 @@ node tools/pattern-generator/scripts/json-to-svg.mjs <json> --colors="#e8c4b8,#f
 - **弧の向き**: sweep-flag の誤りが最も多い。画像と比較して必ず確認を促す
 - **座標精度**: 小数点4桁（例: `0.2500`）、グリッド点に揃えること
 - **非対称パターン**: 精度が下がる。各ピースに要確認フラグを付ける
-- **locales 更新**: 新規 label キーは必ず `locales/ja.ts` / `locales/en.ts` の `piece` セクションへ追加が必要
