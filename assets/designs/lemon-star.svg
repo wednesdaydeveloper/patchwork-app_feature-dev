@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 400 400"
+  width="400" height="400"
+>
+  <title>Lemon Star (Lemon Star)</title>
+  <rect width="400" height="400" fill="#ffffff"/>
+  <path
+    id="ba2ff4b6-1956-407e-bc45-9d850f162c68"
+    d="M 0 0 L 0 117.157288 L 117.157288 117.157288 L 117.157288 0"
+    fill="#e8c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="b5d95701-7534-47dd-ae02-f82a37ab0388"
+    d="M 117.157288 0 L 282.842712 0 L 200 82.842712"
+    fill="#f5f0e8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="70a4da45-2944-4e0b-be6e-35ff3becd755"
+    d="M 117.157288 0 L 200 82.842712 L 200 200 L 117.157288 117.157288"
+    fill="#c4bde8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="ace5f2b3-1f23-4517-a0c3-ed99075ffa93"
+    d="M 0 117.157288 L 117.157288 117.157288 L 200 200 L 82.842712 200"
+    fill="#b8d4c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="a8d1f34a-4810-48e3-950a-c7cdcd46fea1"
+    d="M 400 0 L 282.842712 0 L 282.842712 117.157288 L 400 117.157288"
+    fill="#e8dbb8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="52c8c79c-213e-4860-be90-0bc25b66e0ad"
+    d="M 400 117.157288 L 400 282.842712 L 317.157288 200"
+    fill="#d4b8c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="dba28a80-d48a-4ae3-aaae-0c13f09e9438"
+    d="M 400 117.157288 L 317.157288 200 L 200 200 L 282.842712 117.157288"
+    fill="#b8c4d4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="b4c591fd-e3da-477d-8492-db03e9608435"
+    d="M 282.842712 0 L 282.842712 117.157288 L 200 200 L 200 82.842712"
+    fill="#d4c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="3389101e-750f-4f0c-990f-c270e49a7df2"
+    d="M 400 400 L 400 282.842712 L 282.842712 282.842712 L 282.842712 400"
+    fill="#c8e0d0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="f935c3e1-b80d-41bf-8697-30560ff04d3e"
+    d="M 282.842712 400 L 117.157288 400 L 200 317.157288"
+    fill="#e0c8d8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="147f8fca-a14d-4598-a63e-35c77f9c2b87"
+    d="M 282.842712 400 L 200 317.157288 L 200 200 L 282.842712 282.842712"
+    fill="#e8c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="cd2d2c26-af13-4c6a-9e52-780612101d8e"
+    d="M 400 282.842712 L 282.842712 282.842712 L 200 200 L 317.157288 200"
+    fill="#f5f0e8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="b8a9d2b5-bdf9-4cc3-9d38-7374ced40913"
+    d="M 0 400 L 117.157288 400 L 117.157288 282.842712 L 0 282.842712"
+    fill="#c4bde8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="3aab792e-b5a8-4970-a64b-a5e399ea1b63"
+    d="M 0 282.842712 L 0 117.157288 L 82.842712 200"
+    fill="#b8d4c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="fa007dde-5916-405f-9f7e-7422854977bc"
+    d="M 0 282.842712 L 82.842712 200 L 200 200 L 117.157288 282.842712"
+    fill="#e8dbb8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="3e7c1994-332d-428b-a205-4e5448859d95"
+    d="M 117.157288 400 L 117.157288 282.842712 L 200 200 L 200 317.157288"
+    fill="#d4b8c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+</svg>

@@ -159,11 +159,14 @@ export const ja = {
     bottomRightInner: '右下内',
     bottomLeftOuter: '左下外',
     bottomLeftInner: '左下内',
+    generic: 'ピース',
   },
   category: {
     twoGrid: '2 グリッド',
     threeGrid: '3 グリッド',
     fourGrid: '4 グリッド',
+    fiveGrid: '5 グリッド',
+    freeform: '自由形状',
   },
   error: {
     workSaveFailed: 'パッチワークの保存に失敗しました。再試行してください。',

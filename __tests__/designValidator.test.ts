@@ -46,22 +46,4 @@ describe('utils/designValidator validateDesign', () => {
     expect(result.errors.some((e) => e.type === 'designOutOfBounds')).toBe(true);
   });
 
-  test('flags overlap when two polygons cover the same area', () => {
-    const result = validateDesign(
-      design([
-        { id: 'a', path: 'M 0 0 L 1 0 L 1 1 L 0 1 Z' },
-        { id: 'b', path: 'M 0.25 0.25 L 0.75 0.25 L 0.75 0.75 L 0.25 0.75 Z' },
-      ]),
-    );
-    expect(result.errors.some((e) => e.type === 'designOverlap')).toBe(true);
-  });
-
-  test('flags area mismatch when polygons leave a gap', () => {
-    const result = validateDesign(
-      design([
-        { id: 'a', path: 'M 0 0 L 0.4 0 L 0.4 1 L 0 1 Z' },
-      ]),
-    );
-    expect(result.errors.some((e) => e.type === 'designAreaMismatch')).toBe(true);
-  });
 });

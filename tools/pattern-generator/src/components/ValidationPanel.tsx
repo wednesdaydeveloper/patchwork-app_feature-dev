@@ -35,10 +35,6 @@ function formatError(err: ValidationResult['errors'][number]): string {
   switch (err.type) {
     case 'designOutOfBounds':
       return `範囲外: ピース "${err.polygonId}" が [0,1] の外に出ています`;
-    case 'designOverlap':
-      return `重なり: ピース "${err.aId}" と "${err.bId}" が重なっています`;
-    case 'designAreaMismatch':
-      return `面積不一致: 合計 ${err.actual.toFixed(4)} (期待値 ${err.expected.toFixed(4)}) — ピースに隙間がある可能性`;
     case 'designSelfIntersect':
       return `自己交差: ピース "${err.polygonId}" のパスが自己交差しています`;
     default:
