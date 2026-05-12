@@ -4,7 +4,7 @@
     "id": "variable-star",
     "name": "Variable Star",
     "nameJa": "バリアブルスター",
-    "category": "threeGrid",
+    "category": "fourGrid",
     "gridSize": null,
     "thumbnail": "variable-star.png",
     "polygons": [

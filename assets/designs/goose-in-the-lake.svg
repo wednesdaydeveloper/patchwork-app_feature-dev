@@ -1,0 +1,768 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 400 400"
+  width="400" height="400"
+>
+  <title>Goose In The Lake (Goose In The Lake)</title>
+  <rect width="400" height="400" fill="#ffffff"/>
+  <path
+    id="7a133b92-b6cc-4b32-acfd-7d71466d6e3b"
+    d="M 80 0 L 80 80 L 0 80"
+    fill="#e8c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="8a84c671-a4fe-4b60-a7e1-8142d06fecd7"
+    d="M 160 0 L 160 80 L 80 80"
+    fill="#f5f0e8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="ca62d62a-d998-4108-9e82-61f4c61b2bf3"
+    d="M 80 80 L 0 160 L 80 160"
+    fill="#c4bde8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="c6583797-f126-4af6-87f2-0a5cbd651ebb"
+    d="M 106.666667 80 L 133.333333 80 L 133.333333 106.666667 L 106.666667 106.666667"
+    fill="#b8d4c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="72617785-f4de-4b38-b4d9-6edc9582a095"
+    d="M 133.333333 106.666667 L 160 106.666667 L 160 133.333333 L 133.333333 133.333333"
+    fill="#e8dbb8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="d08dff6c-716a-4d81-a5e9-e093d1499e33"
+    d="M 80 106.666667 L 106.666667 106.666667 L 106.666667 133.333333 L 80 133.333333"
+    fill="#d4b8c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="8fa30d87-b768-4564-a285-77db264dda5c"
+    d="M 106.666667 133.333333 L 133.333333 133.333333 L 133.333333 160 L 106.666667 160"
+    fill="#b8c4d4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="9aaa1942-13ab-4dce-92fe-a5ca7f5a7f3a"
+    d="M 160 80 L 240 80 L 240 106.666667 L 160 106.666667"
+    fill="#d4c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="25af0c3e-4b2f-4fd6-badf-26d0f400c262"
+    d="M 160 133.333333 L 240 133.333333 L 240 160 L 160 160"
+    fill="#c8e0d0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="784a1c53-09dd-4290-a466-a8e87b70a273"
+    d="M 160 0 L 240 0 L 240 80 L 160 80"
+    fill="#e0c8d8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="6ad0bdd6-de10-45a3-a294-1c25e0d9a261"
+    d="M 240 106.666667 L 240 133.333333 L 160 133.333333 L 160 106.666667"
+    fill="#e8c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="0910a5f0-e4e7-45bd-a417-5fa7ef2af04c"
+    d="M 133.333333 80 L 160 80 L 160 106.666667 L 133.333333 106.666667"
+    fill="#f5f0e8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="72f5015d-3758-413e-b31c-bcd8d45a0032"
+    d="M 133.333333 133.333333 L 160 133.333333 L 160 160 L 133.333333 160"
+    fill="#c4bde8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="c89a5b61-3c7c-4e1c-bd74-606f1f3062d5"
+    d="M 80 80 L 106.666667 80 L 106.666667 106.666667 L 80 106.666667"
+    fill="#b8d4c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="8af220c7-8857-42ef-abaa-1a3bc56bbdb8"
+    d="M 106.666667 106.666667 L 133.333333 106.666667 L 133.333333 133.333333 L 106.666667 133.333333"
+    fill="#e8dbb8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="992c9c73-6f98-415c-acf8-204077f869bb"
+    d="M 80 133.333333 L 106.666667 133.333333 L 106.666667 160 L 80 160"
+    fill="#d4b8c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="9d7ae7c8-834e-47fc-b32f-5c589fe162d2"
+    d="M 80 0 L 160 0 L 80 80"
+    fill="#b8c4d4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="3c5dbf37-1712-4f7d-a659-43202275b9ee"
+    d="M 0 80 L 80 80 L 0 160"
+    fill="#d4c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="b8ebd7de-9136-404e-93ca-91e0424859e7"
+    d="M 0 0 L 80 0 L 0 80"
+    fill="#c8e0d0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="46697e3c-bebc-4a90-a383-175a94292cc8"
+    d="M 400 80 L 320 80 L 320 0"
+    fill="#e0c8d8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="db59a6ef-767e-45f9-af71-6b1c0b08e858"
+    d="M 400 160 L 320 160 L 320 80"
+    fill="#e8c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="4e22fac6-a95b-4e38-b145-94392b1735ac"
+    d="M 320 80 L 240 0 L 240 80"
+    fill="#f5f0e8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="3bcf550d-a0b8-4006-ba88-509f1a9ec17c"
+    d="M 320 106.666667 L 320 133.333333 L 293.333333 133.333333 L 293.333333 106.666667"
+    fill="#c4bde8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="8feceb58-901d-4e13-bb43-83dfa40e51ea"
+    d="M 293.333333 133.333333 L 293.333333 160 L 266.666667 160 L 266.666667 133.333333"
+    fill="#b8d4c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="ef7fa54a-9e8d-45be-882b-cb6663bf36a2"
+    d="M 293.333333 80 L 293.333333 106.666667 L 266.666667 106.666667 L 266.666667 80"
+    fill="#e8dbb8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="4b12d500-a85c-474f-a161-546d55d7162e"
+    d="M 266.666667 106.666667 L 266.666667 133.333333 L 240 133.333333 L 240 106.666667"
+    fill="#d4b8c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="4ec7f5ec-963b-4ae7-b6b4-94bdfe288f4e"
+    d="M 320 160 L 320 240 L 293.333333 240 L 293.333333 160"
+    fill="#b8c4d4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="b1f1f69b-1d4e-405b-bc4a-ec0640e1477c"
+    d="M 266.666667 160 L 266.666667 240 L 240 240 L 240 160"
+    fill="#d4c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="536d9551-ff8a-47c0-9376-b438215950aa"
+    d="M 400 160 L 400 240 L 320 240 L 320 160"
+    fill="#c8e0d0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="38133a62-7d1c-4ffe-98a2-0ab10aec8edf"
+    d="M 293.333333 240 L 266.666667 240 L 266.666667 160 L 293.333333 160"
+    fill="#e0c8d8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="e6e73d6e-0cbb-4d82-b862-1722cf6107d4"
+    d="M 320 133.333333 L 320 160 L 293.333333 160 L 293.333333 133.333333"
+    fill="#e8c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="0ee89471-a0b9-4112-9edf-60aadb6a09f4"
+    d="M 266.666667 133.333333 L 266.666667 160 L 240 160 L 240 133.333333"
+    fill="#f5f0e8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="eb3f54a6-5db9-414f-b57a-75cb894ee63d"
+    d="M 320 80 L 320 106.666667 L 293.333333 106.666667 L 293.333333 80"
+    fill="#c4bde8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="452dd130-b678-4ebd-8b39-3534b7520885"
+    d="M 293.333333 106.666667 L 293.333333 133.333333 L 266.666667 133.333333 L 266.666667 106.666667"
+    fill="#b8d4c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="6d34e333-88dd-4eaa-a823-a307f4eb95bc"
+    d="M 266.666667 80 L 266.666667 106.666667 L 240 106.666667 L 240 80"
+    fill="#e8dbb8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="2244714a-7d5c-475f-97ab-5b18072bc5b7"
+    d="M 400 80 L 400 160 L 320 80"
+    fill="#d4b8c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="36657119-3357-4367-9a11-d7052b36ab58"
+    d="M 320 0 L 320 80 L 240 0"
+    fill="#b8c4d4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="f9c77018-2ec5-4eb5-9547-87eb1b2311d1"
+    d="M 400 0 L 400 80 L 320 0"
+    fill="#d4c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="3a31dbaa-f633-4207-a82b-2408458b4878"
+    d="M 320 400 L 320 320 L 400 320"
+    fill="#c8e0d0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="09a8e6a1-4bf1-4250-9634-141e4da234b4"
+    d="M 240 400 L 240 320 L 320 320"
+    fill="#e0c8d8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="ad15ab19-2d85-4190-b7e9-41c7179beeee"
+    d="M 320 320 L 400 240 L 320 240"
+    fill="#e8c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="56b58246-4f07-4f3d-9ec8-c8c0bdf9dd4b"
+    d="M 293.333333 320 L 266.666667 320 L 266.666667 293.333333 L 293.333333 293.333333"
+    fill="#f5f0e8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="62faaf45-d96e-4afd-a57d-15817f0ca4f9"
+    d="M 266.666667 293.333333 L 240 293.333333 L 240 266.666667 L 266.666667 266.666667"
+    fill="#c4bde8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="338d4bd4-1d61-40f2-aa5c-95b1e6dd5650"
+    d="M 320 293.333333 L 293.333333 293.333333 L 293.333333 266.666667 L 320 266.666667"
+    fill="#b8d4c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="450436d5-947d-469f-91e3-7123b10609d2"
+    d="M 293.333333 266.666667 L 266.666667 266.666667 L 266.666667 240 L 293.333333 240"
+    fill="#e8dbb8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="225eac5f-697c-4147-91c9-8e42f8dcf52d"
+    d="M 240 320 L 160 320 L 160 293.333333 L 240 293.333333"
+    fill="#d4b8c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="62b47241-8e56-4788-a6e9-6bd2f746235a"
+    d="M 240 266.666667 L 160 266.666667 L 160 240 L 240 240"
+    fill="#b8c4d4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="f4d2583a-ac08-444a-8093-5c775d0ef5b6"
+    d="M 240 400 L 160 400 L 160 320 L 240 320"
+    fill="#d4c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="85425b4c-58e8-44a0-aca5-8cbe1f90fac3"
+    d="M 160 293.333333 L 160 266.666667 L 240 266.666667 L 240 293.333333"
+    fill="#c8e0d0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="40e0210c-1f27-48a7-9ab9-0eb5517888e0"
+    d="M 266.666667 320 L 240 320 L 240 293.333333 L 266.666667 293.333333"
+    fill="#e0c8d8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="3a94b2f6-41cb-49dd-ba77-c64311052019"
+    d="M 266.666667 266.666667 L 240 266.666667 L 240 240 L 266.666667 240"
+    fill="#e8c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="7293f5a4-e759-4257-9f11-176df6765764"
+    d="M 320 320 L 293.333333 320 L 293.333333 293.333333 L 320 293.333333"
+    fill="#f5f0e8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="8bd52d5e-4d0a-499a-9ba0-d409fc609530"
+    d="M 293.333333 293.333333 L 266.666667 293.333333 L 266.666667 266.666667 L 293.333333 266.666667"
+    fill="#c4bde8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="91860e53-147c-478c-86b3-4508262114ce"
+    d="M 320 266.666667 L 293.333333 266.666667 L 293.333333 240 L 320 240"
+    fill="#b8d4c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="7b6dfecd-a3f1-4a35-a75f-a6e1b8ee8a16"
+    d="M 320 400 L 240 400 L 320 320"
+    fill="#e8dbb8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="032ccf9e-86ff-4e44-9ced-890ef57eb867"
+    d="M 400 320 L 320 320 L 400 240"
+    fill="#d4b8c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="b00b21f4-e298-4645-b189-8673bcdcf52b"
+    d="M 400 400 L 320 400 L 400 320"
+    fill="#b8c4d4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="bd0c4a4f-4839-42b1-bcbd-e47e91492637"
+    d="M 0 320 L 80 320 L 80 400"
+    fill="#d4c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="672e9ddc-fe60-4d1b-bc70-c44eba870ac9"
+    d="M 0 240 L 80 240 L 80 320"
+    fill="#c8e0d0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="222951a2-c2ab-4f91-a6fa-925136f3ef0b"
+    d="M 80 320 L 160 400 L 160 320"
+    fill="#e0c8d8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="9b3f00ef-d7ae-46f8-93f8-5322d8d2fd97"
+    d="M 80 293.333333 L 80 266.666667 L 106.666667 266.666667 L 106.666667 293.333333"
+    fill="#e8c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="7ce4799e-1d3d-451e-8858-a7ab2644a439"
+    d="M 106.666667 266.666667 L 106.666667 240 L 133.333333 240 L 133.333333 266.666667"
+    fill="#f5f0e8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="6ba2f8ce-33a6-4420-954a-840da7fe2c74"
+    d="M 106.666667 320 L 106.666667 293.333333 L 133.333333 293.333333 L 133.333333 320"
+    fill="#c4bde8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="50c687cd-0f27-447d-a0e8-e7ab6c108ffa"
+    d="M 133.333333 293.333333 L 133.333333 266.666667 L 160 266.666667 L 160 293.333333"
+    fill="#b8d4c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="29b4f874-8acb-4baa-b8cd-248fda9a65dc"
+    d="M 80 240 L 80 160 L 106.666667 160 L 106.666667 240"
+    fill="#e8dbb8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="848ef87e-8b01-4a3f-90ac-c68f2ae429a9"
+    d="M 133.333333 240 L 133.333333 160 L 160 160 L 160 240"
+    fill="#d4b8c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="0302fac4-ec8c-4460-be5e-669b3af6eecd"
+    d="M 0 240 L 0 160 L 80 160 L 80 240"
+    fill="#b8c4d4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="28578d09-8e51-4a81-9446-22c1712fc7a0"
+    d="M 106.666667 160 L 133.333333 160 L 133.333333 240 L 106.666667 240"
+    fill="#d4c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="70695776-3e02-402f-96da-2cf968ea879d"
+    d="M 80 266.666667 L 80 240 L 106.666667 240 L 106.666667 266.666667"
+    fill="#c8e0d0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="04510b6e-b3fc-4ac1-b8b9-72d6b605271c"
+    d="M 133.333333 266.666667 L 133.333333 240 L 160 240 L 160 266.666667"
+    fill="#e0c8d8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="eef6d828-d35b-4a24-8726-84ee3a909729"
+    d="M 80 320 L 80 293.333333 L 106.666667 293.333333 L 106.666667 320"
+    fill="#e8c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="a8bb0764-5cd2-4c58-8848-4a9d53ba4fa4"
+    d="M 106.666667 293.333333 L 106.666667 266.666667 L 133.333333 266.666667 L 133.333333 293.333333"
+    fill="#f5f0e8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="5f0d72dd-bbaa-4767-9a44-d3efb0ee53c3"
+    d="M 133.333333 320 L 133.333333 293.333333 L 160 293.333333 L 160 320"
+    fill="#c4bde8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="546e076c-2714-4946-b895-467cb6642700"
+    d="M 0 320 L 0 240 L 80 320"
+    fill="#b8d4c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="9375142e-2a64-4f5b-8e0b-a7debf6629c1"
+    d="M 80 400 L 80 320 L 160 400"
+    fill="#e8dbb8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+  <path
+    id="99971ee5-e42d-4ac2-bc15-aa43659bdc4a"
+    d="M 0 400 L 0 320 L 80 400"
+    fill="#d4b8c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  >
+    <title>undefined</title>
+  </path>
+</svg>

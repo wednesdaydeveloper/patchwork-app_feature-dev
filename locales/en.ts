@@ -161,11 +161,14 @@ export const en: Translations = {
     bottomRightInner: 'Bottom-right inner',
     bottomLeftOuter: 'Bottom-left outer',
     bottomLeftInner: 'Bottom-left inner',
+    generic: 'Piece',
   },
   category: {
     twoGrid: '2-grid',
     threeGrid: '3-grid',
     fourGrid: '4-grid',
+    fiveGrid: '5-grid',
+    freeform: 'Freeform',
   },
   error: {
     workSaveFailed: 'Failed to save the patchwork. Please retry.',
