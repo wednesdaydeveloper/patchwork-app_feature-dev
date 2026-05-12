@@ -4,10 +4,7 @@
       "Bash(git reset *)",
       "Bash(npm ls *)",
       "Bash(git -C \"/c/repositories/github/patchwork-app_feature_dev\" log --oneline -5)",
-      "Bash(git -C \"/c/repositories/github/patchwork-app_feature_dev\" add tools/pattern-generator/src/App.tsx tools/pattern-generator/src/components/PieceList.tsx)",
-      "Bash(git -C /c/repositories/github/patchwork-app_feature_dev commit -m ' *)",
-      "Bash(git -C \"/c/repositories/github/patchwork-app_feature_dev\" push origin feat/90-pattern-generator-phase2)",
-      "Bash(git -C \"/c/repositories/github/patchwork-app_feature_dev\" add tools/pattern-generator/src/components/PatternCanvas.tsx)"
+      "Bash(git -C /c/repositories/github/patchwork-app_feature_dev commit -m ' *)"
     ]
   }
 }
