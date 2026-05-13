@@ -7,9 +7,10 @@ import { useTranslation } from 'react-i18next';
 
 import { Stack } from 'expo-router';
 
-import { Provider as JotaiProvider } from 'jotai';
+import { Provider as JotaiProvider, useSetAtom } from 'jotai';
 
 import type { LanguagePreference } from '@/atoms/settings';
+import { loadFabricsAtom } from '@/atoms/fabrics';
 import { NotificationHost } from '@/components/ui/NotificationHost';
 import { useI18n } from '@/hooks/useI18n';
 import { useOrientationLock } from '@/hooks/useOrientationLock';
@@ -24,6 +25,17 @@ function RootStack() {
   useI18n();
   useOrientationLock();
   const { t } = useTranslation();
+  const loadFabrics = useSetAtom(loadFabricsAtom);
+
+  useEffect(() => {
+    void (async () => {
+      await seedInitialFabricsIfNeeded().catch((e) => {
+        logger.warn('layout', 'プリセット布地の初期登録に失敗しました', undefined, e);
+      });
+      await loadFabrics();
+    })();
+  }, [loadFabrics]);
+
   return (
     <>
       <Stack>
@@ -57,9 +69,6 @@ export default function RootLayout() {
         logger.warn('i18n', 'AsyncStorage からの言語設定読み込みに失敗しました。端末ロケールで初期化します。', undefined, e);
         initI18n();
       }
-      await seedInitialFabricsIfNeeded().catch((e) => {
-        logger.warn('layout', 'プリセット布地の初期登録に失敗しました', undefined, e);
-      });
       setI18nReady(true);
     })();
   }, []);

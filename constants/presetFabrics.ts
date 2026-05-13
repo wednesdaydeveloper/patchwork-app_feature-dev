@@ -13,7 +13,7 @@
  * プリセット布地定義のバージョン。
  * 名前・カテゴリ・pxPerMm・画像を変更したら値を上げること。
  */
-export const PRESET_FABRICS_VERSION = 'v2';
+export const PRESET_FABRICS_VERSION = 'v3';
 export interface PresetFabricDef {
   /** DB / ファイルシステムで使う固定 ID。変更すると再シードされない。 */
   id: string;
