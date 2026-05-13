@@ -21,6 +21,7 @@ const sample: FabricImage = {
   category: 'cat-a',
   imagePath: 'file:///a.png',
   pxPerMm: null,
+  isPreset: false,
   createdAt: new Date(0),
 };
 

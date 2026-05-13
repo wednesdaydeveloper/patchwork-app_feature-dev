@@ -13,6 +13,7 @@ describe('utils/db rowToFabric', () => {
       category: '',
       image_path: '/tmp/a.png',
       px_per_mm: null,
+      is_preset: 0,
       created_at: 1_714_836_300_000,
     });
     expect(fabric.createdAt).toBeInstanceOf(Date);
@@ -30,6 +31,7 @@ describe('utils/db rowToFabric', () => {
       category: '',
       image_path: '/tmp/a.png',
       px_per_mm: null,
+      is_preset: 0,
       created_at: '1714836300000' as unknown as number,
     });
     expect(Number.isNaN(fabric.createdAt.getTime())).toBe(false);

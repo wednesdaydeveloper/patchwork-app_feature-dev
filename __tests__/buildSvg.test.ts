@@ -35,6 +35,7 @@ const fabric: FabricImage = {
   category: '',
   imagePath: 'file:///fabric.png',
   pxPerMm: null,
+  isPreset: false,
   createdAt: new Date(0),
 };
 

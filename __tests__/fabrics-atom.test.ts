@@ -35,6 +35,7 @@ function makeFabric(id: string, category: string): FabricImage {
     category,
     imagePath: `file:///${id}.png`,
     pxPerMm: null,
+    isPreset: false,
     createdAt: new Date(0),
   };
 }

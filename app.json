@@ -62,7 +62,8 @@
           "savePhotosPermission": "作成したパッチワーク画像をフォトライブラリに保存します。",
           "isAccessMediaLocationEnabled": false
         }
-      ]
+      ],
+      "expo-asset"
     ],
     "extra": {
       "router": {},

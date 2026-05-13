@@ -185,7 +185,7 @@ export const FabricsScreen = () => {
                   <FabricListItem
                     fabric={fabric}
                     onPress={setEditingFabric}
-                    onDelete={handleDeleteRequest}
+                    onDelete={fabric.isPreset ? undefined : handleDeleteRequest}
                     deleteAccessibilityLabel={t('common.delete')}
                   />
                 </View>
