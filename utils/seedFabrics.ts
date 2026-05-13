@@ -3,7 +3,6 @@ import { Asset } from 'expo-asset';
 import { Directory, File, Paths } from 'expo-file-system';
 
 import { PRESET_FABRICS, PRESET_FABRICS_VERSION } from '@/constants/presetFabrics';
-import type { FabricImage } from '@/types/fabric';
 import { findFabricById, insertFabric, updateFabric } from '@/utils/db';
 import { logger } from '@/utils/logger';
 
@@ -27,21 +26,29 @@ export async function seedInitialFabricsIfNeeded(): Promise<void> {
     dir.create({ intermediates: true, idempotent: true });
   }
 
-  let allSucceeded = true;
+  let imageCopyAllSucceeded = true;
 
   for (const preset of PRESET_FABRICS) {
+    // --- 画像コピー（失敗しても DB 更新は続行） ---
+    const dest = new File(Paths.document, FABRICS_SUBDIR, `${preset.id}.png`);
+    let imageCopied = false;
     try {
       const asset = await Asset.fromModule(preset.asset).downloadAsync();
       if (!asset.localUri) {
         logger.warn('seed', `プリセット布地のアセット URI が取得できませんでした: ${preset.id}`);
-        allSucceeded = false;
-        continue;
+        imageCopyAllSucceeded = false;
+      } else {
+        if (dest.exists) dest.delete();
+        new File(asset.localUri).copy(dest);
+        imageCopied = true;
       }
+    } catch (e) {
+      imageCopyAllSucceeded = false;
+      logger.warn('seed', `プリセット布地の画像コピーに失敗しました: ${preset.id}`, undefined, e);
+    }
 
-      const dest = new File(Paths.document, FABRICS_SUBDIR, `${preset.id}.png`);
-      if (dest.exists) dest.delete();
-      new File(asset.localUri).copy(dest);
-
+    // --- DB 更新（画像コピーの成否に関わらず実施） ---
+    try {
       const existing = await findFabricById(preset.id);
       if (existing) {
         await updateFabric({
@@ -50,8 +57,8 @@ export async function seedInitialFabricsIfNeeded(): Promise<void> {
           category: preset.category,
           pxPerMm: preset.pxPerMm,
         });
-      } else {
-        const fabric: FabricImage = {
+      } else if (imageCopied) {
+        await insertFabric({
           id: preset.id,
           name: preset.name,
           category: preset.category,
@@ -59,18 +66,17 @@ export async function seedInitialFabricsIfNeeded(): Promise<void> {
           pxPerMm: preset.pxPerMm,
           isPreset: true,
           createdAt: new Date(),
-        };
-        await insertFabric(fabric);
+        });
       }
     } catch (e) {
-      allSucceeded = false;
-      logger.error('seed', `プリセット布地の更新に失敗しました: ${preset.id}`, e);
+      imageCopyAllSucceeded = false;
+      logger.error('seed', `プリセット布地の DB 更新に失敗しました: ${preset.id}`, e);
     }
   }
 
-  // 全プリセットの処理に成功した場合のみバージョンを記録する。
-  // 失敗した場合は次回起動時に再試行される。
-  if (allSucceeded) {
+  // 画像コピーが全て成功した場合のみバージョンを記録する。
+  // 失敗した場合は次回起動時に画像コピーを再試行しつつ、DB 更新は済んでいるので pxPerMm は反映済み。
+  if (imageCopyAllSucceeded) {
     await AsyncStorage.setItem(VERSION_KEY, PRESET_FABRICS_VERSION);
   }
 }
