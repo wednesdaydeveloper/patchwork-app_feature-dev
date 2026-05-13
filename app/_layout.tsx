@@ -57,10 +57,10 @@ export default function RootLayout() {
         logger.warn('i18n', 'AsyncStorage からの言語設定読み込みに失敗しました。端末ロケールで初期化します。', undefined, e);
         initI18n();
       }
-      setI18nReady(true);
       await seedInitialFabricsIfNeeded().catch((e) => {
         logger.warn('layout', 'プリセット布地の初期登録に失敗しました', undefined, e);
       });
+      setI18nReady(true);
     })();
   }, []);
 
