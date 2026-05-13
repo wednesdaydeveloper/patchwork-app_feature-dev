@@ -6,6 +6,7 @@ import type { Design } from '@/types/design';
 import type { FabricImage } from '@/types/fabric';
 import type { PieceSetting, Work } from '@/types/work';
 import { computeBbox, samplePath } from '@/utils/path';
+import { cropFabricForPiece, resizeForExport } from '@/utils/imageResize';
 
 import { PAPER_SIZES, type PaperSize } from './paperSize';
 
@@ -28,19 +29,11 @@ function imageSize(uri: string): Promise<{ width: number; height: number }> {
   });
 }
 
-function inferMime(path: string): string {
-  const lower = path.toLowerCase();
-  if (lower.endsWith('.png')) return 'image/png';
-  if (lower.endsWith('.heic')) return 'image/heic';
-  if (lower.endsWith('.webp')) return 'image/webp';
-  return 'image/jpeg';
-}
-
 async function toDataUri(localUri: string): Promise<string> {
   const base64 = await FileSystemLegacy.readAsStringAsync(localUri, {
     encoding: 'base64',
   });
-  return `data:${inferMime(localUri)};base64,${base64}`;
+  return `data:image/jpeg;base64,${base64}`;
 }
 
 function escapeHtml(text: string): string {
@@ -67,9 +60,10 @@ export interface BuildPdfHtmlInput {
 /**
  * 印刷用 PDF の HTML を生成する。
  *
- * - 用紙サイズに合わせた中央配置・正方形のキャンバスを描画
- * - ピース形状を SVG ClipPath でクリップし、布地画像を base64 で埋め込み
- * - 描画式は CLAUDE.md「ピース内画像座標系」に準拠
+ * メモリ効率化:
+ * - 布地画像は最大 1024px にリサイズしてから処理する
+ * - ピースごとに表示領域のみをクロップして base64 エンコードする
+ * - ファブリックのリサイズとピースのクロップを順次処理してピークメモリを抑制する
  */
 export async function buildPdfHtml(input: BuildPdfHtmlInput): Promise<string> {
   const { work, design, fabrics, paperSize, scaleNote } = input;
@@ -79,21 +73,24 @@ export async function buildPdfHtml(input: BuildPdfHtmlInput): Promise<string> {
   const fabricsById = new Map<string, FabricImage>();
   for (const f of fabrics) fabricsById.set(f.id, f);
 
-  // 必要な布地画像のサイズと base64 を収集
   const usedFabricIds = new Set<string>();
   for (const s of work.pieceSettings) usedFabricIds.add(s.fabricImageId);
-  const fabricMeta = new Map<string, { dataUri: string; width: number; height: number }>();
-  await Promise.all(
-    Array.from(usedFabricIds).map(async (id) => {
-      const fabric = fabricsById.get(id);
-      if (!fabric) return;
-      const [size, dataUri] = await Promise.all([
-        imageSize(fabric.imagePath),
-        toDataUri(fabric.imagePath),
-      ]);
-      fabricMeta.set(id, { dataUri, width: size.width, height: size.height });
-    }),
-  );
+
+  // Phase 1: ユニークな布地ごとに順次リサイズ
+  interface ResizedFabric {
+    uri: string;
+    width: number;
+    height: number;
+    ratio: number;
+  }
+  const resizedFabrics = new Map<string, ResizedFabric>();
+  for (const id of usedFabricIds) {
+    const fabric = fabricsById.get(id);
+    if (!fabric) continue;
+    const origSize = await imageSize(fabric.imagePath);
+    const resized = await resizeForExport(fabric.imagePath, origSize.width, origSize.height);
+    resizedFabrics.set(id, { ...resized, ratio: resized.width / origSize.width });
+  }
 
   const settingsByPolygon = new Map<string, PieceSetting>();
   for (const s of work.pieceSettings) settingsByPolygon.set(s.polygonId, s);
@@ -103,42 +100,60 @@ export async function buildPdfHtml(input: BuildPdfHtmlInput): Promise<string> {
     bboxById.set(polygon.id, computeBbox(samplePath(polygon.path)));
   }
 
+  // Phase 2: ピースごとに表示領域をクロップ → エンコード → HTML 生成（順次処理）
   const defsHtml = design.polygons
-    .map((p) => `<clipPath id="clip-${escapeHtml(p.id)}"><path d="${escapeHtml(p.path)}"/></clipPath>`)
+    .map(
+      (p) =>
+        `<clipPath id="clip-${escapeHtml(p.id)}"><path d="${escapeHtml(p.path)}"/></clipPath>`,
+    )
     .join('');
 
-  const piecesHtml = design.polygons
-    .map((polygon) => {
-      const setting = settingsByPolygon.get(polygon.id);
-      const bbox = bboxById.get(polygon.id);
-      if (!setting || !bbox) {
-        return `<path d="${escapeHtml(polygon.path)}" fill="#ffffff" stroke="none"/>`;
-      }
-      const meta = fabricMeta.get(setting.fabricImageId);
-      if (!meta) {
-        return `<path d="${escapeHtml(polygon.path)}" fill="#ffffff" stroke="none"/>`;
-      }
-      const fabric = fabricsById.get(setting.fabricImageId);
-      // 実寸モード: drawScalePerPx = 1 / (pxPerMm * sizeMm)
-      // フォールバック(cover): drawScalePerPx = max(bbox.w/img.w, bbox.h/img.h)
-      const useRealScale = !!fabric && fabric.pxPerMm != null && fabric.pxPerMm > 0;
-      let drawScalePerPx: number;
-      if (useRealScale && fabric && fabric.pxPerMm) {
-        drawScalePerPx = 1 / (fabric.pxPerMm * sizeMm);
-      } else {
-        drawScalePerPx = Math.max(bbox.width / meta.width, bbox.height / meta.height);
-      }
-      const cx = bbox.minX + bbox.width * (0.5 + setting.offsetX);
-      const cy = bbox.minY + bbox.height * (0.5 + setting.offsetY);
-      const rotationDeg = (setting.rotation * 180) / Math.PI;
-      // 画像中心まわりの回転 + ピース座標系への配置
-      return `
-        <g clip-path="url(#clip-${escapeHtml(polygon.id)})">
-          <image href="${meta.dataUri}" x="0" y="0" width="${meta.width}" height="${meta.height}" preserveAspectRatio="xMidYMid slice" transform="translate(${cx}, ${cy}) rotate(${rotationDeg}) scale(${drawScalePerPx}) translate(${-meta.width / 2}, ${-meta.height / 2})"/>
-        </g>
-      `;
-    })
-    .join('');
+  const piecesHtmlParts: string[] = [];
+  for (const polygon of design.polygons) {
+    const setting = settingsByPolygon.get(polygon.id);
+    const bbox = bboxById.get(polygon.id);
+    if (!setting || !bbox) {
+      piecesHtmlParts.push(
+        `<path d="${escapeHtml(polygon.path)}" fill="#ffffff" stroke="none"/>`,
+      );
+      continue;
+    }
+    const fabric = fabricsById.get(setting.fabricImageId);
+    const resized = resizedFabrics.get(setting.fabricImageId);
+    if (!resized) {
+      piecesHtmlParts.push(
+        `<path d="${escapeHtml(polygon.path)}" fill="#ffffff" stroke="none"/>`,
+      );
+      continue;
+    }
+
+    let drawScalePerPx: number;
+    if (fabric && fabric.pxPerMm != null && fabric.pxPerMm > 0) {
+      drawScalePerPx = 1 / (fabric.pxPerMm * resized.ratio * sizeMm);
+    } else {
+      drawScalePerPx = Math.max(bbox.width / resized.width, bbox.height / resized.height);
+    }
+
+    const cx = bbox.minX + bbox.width * (0.5 + setting.offsetX);
+    const cy = bbox.minY + bbox.height * (0.5 + setting.offsetY);
+    const rotationDeg = (setting.rotation * 180) / Math.PI;
+
+    const crop = await cropFabricForPiece(
+      resized.uri, resized.width, resized.height,
+      bbox, cx, cy, drawScalePerPx, rotationDeg,
+    );
+    const dataUri = await toDataUri(crop.uri);
+
+    piecesHtmlParts.push(
+      `<g clip-path="url(#clip-${escapeHtml(polygon.id)})">` +
+      `<image href="${dataUri}" x="0" y="0" ` +
+      `width="${crop.width}" height="${crop.height}" ` +
+      `preserveAspectRatio="xMidYMid slice" ` +
+      `transform="translate(${cx}, ${cy}) rotate(${rotationDeg}) scale(${drawScalePerPx}) ` +
+      `translate(${-crop.centerOffX}, ${-crop.centerOffY})"/>` +
+      `</g>`,
+    );
+  }
 
   const strokesHtml = design.polygons
     .map(
@@ -176,7 +191,7 @@ export async function buildPdfHtml(input: BuildPdfHtmlInput): Promise<string> {
       <div class="canvas-wrap">
         <svg width="${sizeMm}mm" height="${sizeMm}mm" viewBox="0 0 1 1" xmlns="http://www.w3.org/2000/svg">
           <defs>${defsHtml}</defs>
-          ${piecesHtml}
+          ${piecesHtmlParts.join('')}
           ${strokesHtml}
         </svg>
       </div>

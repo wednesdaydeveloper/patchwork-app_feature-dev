@@ -98,9 +98,11 @@ export const ExportScreen = () => {
 
   const handleExportImage = async () => {
     if (isExporting || !offscreenRef.current || !work) return;
-    if (!(await checkStorage())) return;
+    logger.info('export', '[DIAG] handleExportImage: start');
     setIsExporting(true);
     try {
+      if (!(await checkStorage())) return;
+      logger.info('export', '[DIAG] handleExportImage: checkStorage OK, calling captureRef');
       const tmpUri = await captureRef(offscreenRef, {
         format: imageFormat,
         quality: imageFormat === 'jpg' ? 0.9 : 1,
@@ -144,8 +146,10 @@ export const ExportScreen = () => {
 
   const runPdfExport = async (effectiveSizeMm: number) => {
     if (!work || !design) return;
+    logger.info('export', '[DIAG] runPdfExport: start');
     setIsExporting(true);
     try {
+      logger.info('export', '[DIAG] runPdfExport: calling buildPdfHtml');
       const html = await buildPdfHtml({
         work,
         design,
@@ -154,6 +158,7 @@ export const ExportScreen = () => {
         scaleNote: t('exportScreen.scaleNote'),
         effectiveSizeMm,
       });
+      logger.info('export', '[DIAG] runPdfExport: buildPdfHtml done, calling Print.printAsync');
       const paper = PAPER_SIZES[paperSize];
       await Print.printAsync({ html, width: paper.widthPt, height: paper.heightPt });
     } catch (error) {
@@ -177,10 +182,13 @@ export const ExportScreen = () => {
 
   const handleExportSvg = async () => {
     if (isExporting || !work || !design) return;
-    if (!(await checkStorage())) return;
+    logger.info('export', '[DIAG] handleExportSvg: start');
     setIsExporting(true);
     try {
+      if (!(await checkStorage())) return;
+      logger.info('export', '[DIAG] handleExportSvg: checkStorage OK, calling buildSvgString');
       const svg = await buildSvgString({ work, design, fabrics, standalone: true });
+      logger.info('export', '[DIAG] handleExportSvg: buildSvgString done, calling writeAsStringAsync');
       const safeName = (work.name.trim() || 'patchwork').replace(/[\\/:*?"<>|]/g, '_');
       const fileUri = `${FileSystemLegacy.cacheDirectory ?? ''}${safeName}.svg`;
       await FileSystemLegacy.writeAsStringAsync(fileUri, svg, {
@@ -214,7 +222,11 @@ export const ExportScreen = () => {
 
   const handleExportPdf = async () => {
     if (isExporting || !work || !design) return;
-    if (!(await checkStorage())) return;
+    try {
+      if (!(await checkStorage())) return;
+    } catch (error) {
+      logger.warn('export', 'storage check failed', undefined, error);
+    }
     const printableMm = getPaperPrintableSquareMm(paperSize);
     if (work.sizeMm > printableMm) {
       // 用紙印刷可能領域を超えるサイズ → 縮小印刷の確認
@@ -242,7 +254,11 @@ export const ExportScreen = () => {
       });
       return;
     }
-    await runPdfExport(work.sizeMm);
+    try {
+      await runPdfExport(work.sizeMm);
+    } catch (error) {
+      logger.error('export', 'unhandled pdf export error', error);
+    }
   };
 
   if (!work || !design) {

@@ -1,6 +1,6 @@
 import { Image as SvgImage } from 'react-native-svg';
 
-import { useImageSize } from '@/hooks/useImageSize';
+import { useResizedImageUri } from '@/hooks/useResizedImageUri';
 import type { Bbox } from '@/utils/path';
 
 export interface PieceImageProps {
@@ -24,19 +24,20 @@ export interface PieceImageProps {
  * クリッピングは呼び出し側で `<G clipPath="url(...)">` を被せて行う。
  *
  * 描画式（実寸モード、`pxPerMm != null` かつ `sizeMm != null`）:
- *   drawScalePerPx = 1 / (pxPerMm * sizeMm)
+ *   drawScalePerPx = 1 / (pxPerMm * sizeMm * resizeRatio)
  *
  * フォールバック（未キャリブレーション）:
- *   drawScalePerPx = max(bbox.w / imagePx.w, bbox.h / imagePx.h)   // cover
+ *   drawScalePerPx = max(bbox.w / resized.w, bbox.h / resized.h)   // cover
  *
  * SVG transform は画像中心まわりの回転を含む:
  *   translate(centerX, centerY)
  *     rotate(rotationRad → deg)
  *     scale(drawScalePerPx)
- *     translate(-imagePx.w/2, -imagePx.h/2)
+ *     translate(-resized.w/2, -resized.h/2)
  *
- * `<image>` の width/height は自然ピクセル単位で渡し、ラスタライズ精度低下を避ける
- * （0..1 単位の小さな値だと react-native-svg が実質 1px ターゲットに丸める問題への対策）。
+ * `<image>` の width/height はリサイズ後のピクセル単位で渡す。
+ * 元画像が大きい場合は useResizedImageUri により 2048px 以内に縮小し
+ * ネイティブメモリの OOM を防ぐ。
  */
 export const PieceImage = ({
   imageUri,
@@ -47,16 +48,18 @@ export const PieceImage = ({
   sizeMm,
   pxPerMm,
 }: PieceImageProps) => {
-  const size = useImageSize(imageUri);
-  if (!size || size.width === 0 || size.height === 0) {
+  const image = useResizedImageUri(imageUri);
+  if (!image) {
     return null;
   }
 
   let drawScalePerPx: number;
   if (pxPerMm != null && pxPerMm > 0 && sizeMm != null && sizeMm > 0) {
-    drawScalePerPx = 1 / (pxPerMm * sizeMm);
+    // 実寸モード: リサイズ比率で pxPerMm を補正する
+    drawScalePerPx = 1 / (pxPerMm * sizeMm * image.ratio);
   } else {
-    drawScalePerPx = Math.max(bbox.width / size.width, bbox.height / size.height);
+    // cover フォールバック: リサイズ後サイズで bbox を覆う最小倍率
+    drawScalePerPx = Math.max(bbox.width / image.width, bbox.height / image.height);
   }
 
   const centerX = bbox.minX + bbox.width * (0.5 + offsetX);
@@ -65,17 +68,17 @@ export const PieceImage = ({
 
   return (
     <SvgImage
-      href={imageUri}
+      href={image.uri}
       x={0}
       y={0}
-      width={size.width}
-      height={size.height}
+      width={image.width}
+      height={image.height}
       preserveAspectRatio="xMidYMid slice"
       transform={
         `translate(${centerX}, ${centerY}) ` +
         `rotate(${rotationDeg}) ` +
         `scale(${drawScalePerPx}) ` +
-        `translate(${-size.width / 2}, ${-size.height / 2})`
+        `translate(${-image.width / 2}, ${-image.height / 2})`
       }
     />
   );

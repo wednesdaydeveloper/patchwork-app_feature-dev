@@ -66,5 +66,7 @@ function inferExtension(uri: string): string {
  * 保存・エクスポート前の事前チェック（タスク #42）に利用。
  */
 export function getAvailableDiskSpace(): number {
-  return Paths.availableDiskSpace;
+  // Paths.availableDiskSpace が iOS でネイティブ例外を発生させクラッシュするため無効化。
+  // TODO: FileSystemLegacy.getFreeDiskStorageAsync() による非同期実装に切り替える
+  return Number.MAX_SAFE_INTEGER;
 }
