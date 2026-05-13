@@ -27,11 +27,14 @@ export async function seedInitialFabricsIfNeeded(): Promise<void> {
     dir.create({ intermediates: true, idempotent: true });
   }
 
+  let allSucceeded = true;
+
   for (const preset of PRESET_FABRICS) {
     try {
       const asset = await Asset.fromModule(preset.asset).downloadAsync();
       if (!asset.localUri) {
         logger.warn('seed', `プリセット布地のアセット URI が取得できませんでした: ${preset.id}`);
+        allSucceeded = false;
         continue;
       }
 
@@ -60,9 +63,14 @@ export async function seedInitialFabricsIfNeeded(): Promise<void> {
         await insertFabric(fabric);
       }
     } catch (e) {
+      allSucceeded = false;
       logger.error('seed', `プリセット布地の更新に失敗しました: ${preset.id}`, e);
     }
   }
 
-  await AsyncStorage.setItem(VERSION_KEY, PRESET_FABRICS_VERSION);
+  // 全プリセットの処理に成功した場合のみバージョンを記録する。
+  // 失敗した場合は次回起動時に再試行される。
+  if (allSucceeded) {
+    await AsyncStorage.setItem(VERSION_KEY, PRESET_FABRICS_VERSION);
+  }
 }
