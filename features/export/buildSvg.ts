@@ -6,6 +6,7 @@ import type { Design } from '@/types/design';
 import type { FabricImage } from '@/types/fabric';
 import type { PieceSetting, Work } from '@/types/work';
 import { computeBbox, samplePath } from '@/utils/path';
+import { cropFabricForPiece, resizeForExport } from '@/utils/imageResize';
 
 function imageSize(uri: string): Promise<{ width: number; height: number }> {
   return new Promise((resolve, reject) => {
@@ -17,19 +18,11 @@ function imageSize(uri: string): Promise<{ width: number; height: number }> {
   });
 }
 
-function inferMime(path: string): string {
-  const lower = path.toLowerCase();
-  if (lower.endsWith('.png')) return 'image/png';
-  if (lower.endsWith('.heic')) return 'image/heic';
-  if (lower.endsWith('.webp')) return 'image/webp';
-  return 'image/jpeg';
-}
-
 async function toDataUri(localUri: string): Promise<string> {
   const base64 = await FileSystemLegacy.readAsStringAsync(localUri, {
     encoding: 'base64',
   });
-  return `data:${inferMime(localUri)};base64,${base64}`;
+  return `data:image/jpeg;base64,${base64}`;
 }
 
 function escapeXml(text: string): string {
@@ -60,12 +53,10 @@ export interface BuildSvgInput {
 /**
  * パッチワーク 1 作品を `<svg>` 文字列として生成する。
  *
- * - viewBox `0 0 1 1` 固定
- * - 単独モード (standalone=true) では `xmlns` と `width/height` を mm 単位で付与し、
- *   ブラウザや SVG ビューアで実寸表示できるようにする
- * - 布地画像は base64 data URI で埋め込み単一ファイルで完結する
- *
- * 描画式は CLAUDE.md 「ピース内画像座標系」に準拠 (PDF 出力と共通)。
+ * メモリ効率化:
+ * - 布地画像は最大 1024px にリサイズしてから処理する
+ * - ピースごとに表示領域のみをクロップして base64 エンコードする
+ * - ファブリックのリサイズとピースのクロップを順次処理してピークメモリを抑制する
  */
 export async function buildSvgString(input: BuildSvgInput): Promise<string> {
   const { work, design, fabrics, standalone = false } = input;
@@ -77,18 +68,21 @@ export async function buildSvgString(input: BuildSvgInput): Promise<string> {
   const usedFabricIds = new Set<string>();
   for (const s of work.pieceSettings) usedFabricIds.add(s.fabricImageId);
 
-  const fabricMeta = new Map<string, { dataUri: string; width: number; height: number }>();
-  await Promise.all(
-    Array.from(usedFabricIds).map(async (id) => {
-      const fabric = fabricsById.get(id);
-      if (!fabric) return;
-      const [size, dataUri] = await Promise.all([
-        imageSize(fabric.imagePath),
-        toDataUri(fabric.imagePath),
-      ]);
-      fabricMeta.set(id, { dataUri, width: size.width, height: size.height });
-    }),
-  );
+  // Phase 1: ユニークな布地ごとに順次リサイズ（ピーク JS ヒープを抑制）
+  interface ResizedFabric {
+    uri: string;
+    width: number;
+    height: number;
+    ratio: number; // resizedWidth / originalWidth（pxPerMm 補正に使う）
+  }
+  const resizedFabrics = new Map<string, ResizedFabric>();
+  for (const id of usedFabricIds) {
+    const fabric = fabricsById.get(id);
+    if (!fabric) continue;
+    const origSize = await imageSize(fabric.imagePath);
+    const resized = await resizeForExport(fabric.imagePath, origSize.width, origSize.height);
+    resizedFabrics.set(id, { ...resized, ratio: resized.width / origSize.width });
+  }
 
   const settingsByPolygon = new Map<string, PieceSetting>();
   for (const s of work.pieceSettings) settingsByPolygon.set(s.polygonId, s);
@@ -98,36 +92,61 @@ export async function buildSvgString(input: BuildSvgInput): Promise<string> {
     bboxById.set(polygon.id, computeBbox(samplePath(polygon.path)));
   }
 
+  // Phase 2: ピースごとに表示領域をクロップ → エンコード → XML 生成（順次処理）
+  // 同時に保持する base64 文字列は常に 1 ピース分のみ
+  const piecesXmlParts: string[] = [];
+  for (const polygon of design.polygons) {
+    const setting = settingsByPolygon.get(polygon.id);
+    const bbox = bboxById.get(polygon.id);
+    if (!setting || !bbox) {
+      piecesXmlParts.push(
+        `<path d="${escapeXml(polygon.path)}" fill="#ffffff" stroke="none"/>`,
+      );
+      continue;
+    }
+    const fabric = fabricsById.get(setting.fabricImageId);
+    const resized = resizedFabrics.get(setting.fabricImageId);
+    if (!resized) {
+      piecesXmlParts.push(
+        `<path d="${escapeXml(polygon.path)}" fill="#ffffff" stroke="none"/>`,
+      );
+      continue;
+    }
+
+    let drawScalePerPx: number;
+    if (fabric && fabric.pxPerMm != null && fabric.pxPerMm > 0) {
+      // 実寸モード: リサイズで解像度が下がった分だけ pxPerMm を補正
+      drawScalePerPx = 1 / (fabric.pxPerMm * resized.ratio * sizeMm);
+    } else {
+      // cover フォールバック: リサイズ後サイズで bbox を覆う最小倍率
+      drawScalePerPx = Math.max(bbox.width / resized.width, bbox.height / resized.height);
+    }
+
+    const cx = bbox.minX + bbox.width * (0.5 + setting.offsetX);
+    const cy = bbox.minY + bbox.height * (0.5 + setting.offsetY);
+    const rotationDeg = (setting.rotation * 180) / Math.PI;
+
+    const crop = await cropFabricForPiece(
+      resized.uri, resized.width, resized.height,
+      bbox, cx, cy, drawScalePerPx, rotationDeg,
+    );
+    const dataUri = await toDataUri(crop.uri);
+
+    piecesXmlParts.push(
+      `<g clip-path="url(#clip-${escapeXml(polygon.id)})">` +
+      `<image href="${dataUri}" x="0" y="0" ` +
+      `width="${crop.width}" height="${crop.height}" ` +
+      `preserveAspectRatio="xMidYMid slice" ` +
+      `transform="translate(${cx}, ${cy}) rotate(${rotationDeg}) scale(${drawScalePerPx}) ` +
+      `translate(${-crop.centerOffX}, ${-crop.centerOffY})"/>` +
+      `</g>`,
+    );
+  }
+
   const defsXml = design.polygons
     .map(
       (p) => `<clipPath id="clip-${escapeXml(p.id)}"><path d="${escapeXml(p.path)}"/></clipPath>`,
     )
-    .join('');
-
-  const piecesXml = design.polygons
-    .map((polygon) => {
-      const setting = settingsByPolygon.get(polygon.id);
-      const bbox = bboxById.get(polygon.id);
-      if (!setting || !bbox) {
-        return `<path d="${escapeXml(polygon.path)}" fill="#ffffff" stroke="none"/>`;
-      }
-      const meta = fabricMeta.get(setting.fabricImageId);
-      if (!meta) {
-        return `<path d="${escapeXml(polygon.path)}" fill="#ffffff" stroke="none"/>`;
-      }
-      const fabric = fabricsById.get(setting.fabricImageId);
-      const useRealScale = !!fabric && fabric.pxPerMm != null && fabric.pxPerMm > 0;
-      let drawScalePerPx: number;
-      if (useRealScale && fabric && fabric.pxPerMm) {
-        drawScalePerPx = 1 / (fabric.pxPerMm * sizeMm);
-      } else {
-        drawScalePerPx = Math.max(bbox.width / meta.width, bbox.height / meta.height);
-      }
-      const cx = bbox.minX + bbox.width * (0.5 + setting.offsetX);
-      const cy = bbox.minY + bbox.height * (0.5 + setting.offsetY);
-      const rotationDeg = (setting.rotation * 180) / Math.PI;
-      return `<g clip-path="url(#clip-${escapeXml(polygon.id)})"><image href="${meta.dataUri}" x="0" y="0" width="${meta.width}" height="${meta.height}" preserveAspectRatio="xMidYMid slice" transform="translate(${cx}, ${cy}) rotate(${rotationDeg}) scale(${drawScalePerPx}) translate(${-meta.width / 2}, ${-meta.height / 2})"/></g>`;
-    })
     .join('');
 
   const strokesXml = design.polygons
@@ -138,8 +157,8 @@ export async function buildSvgString(input: BuildSvgInput): Promise<string> {
     .join('');
 
   const xmlns = standalone ? ' xmlns="http://www.w3.org/2000/svg"' : '';
-  const dimensions = standalone ? ` width="${sizeMm}mm" height="${sizeMm}mm"` : ` width="${sizeMm}mm" height="${sizeMm}mm"`;
+  const dimensions = ` width="${sizeMm}mm" height="${sizeMm}mm"`;
   const prelude = standalone ? '<?xml version="1.0" encoding="UTF-8"?>\n' : '';
 
-  return `${prelude}<svg${dimensions} viewBox="0 0 1 1"${xmlns}><defs>${defsXml}</defs>${piecesXml}${strokesXml}</svg>`;
+  return `${prelude}<svg${dimensions} viewBox="0 0 1 1"${xmlns}><defs>${defsXml}</defs>${piecesXmlParts.join('')}${strokesXml}</svg>`;
 }

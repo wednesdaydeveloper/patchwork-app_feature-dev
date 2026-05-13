@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { GestureDetector, Gesture } from 'react-native-gesture-handler';
 import Svg, { ClipPath, Defs, G, Image as SvgImage, Path } from 'react-native-svg';
 import { useTranslation } from 'react-i18next';
@@ -212,9 +212,6 @@ export const AdjustOverlay = ({ size }: AdjustOverlayProps) => {
         </GestureDetector>
       </View>
       <View style={styles.actions}>
-        <Text style={styles.hint}>
-          {t(`piece.${polygon.label}`, { defaultValue: polygon.label })}
-        </Text>
         <Button
           label={t('editor.reset')}
           variant="secondary"

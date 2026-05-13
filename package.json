@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "main": "expo-router/entry",
   "scripts": {
-    "start": "expo start --port 19000 --tunnel --clear",
+    "start": "expo start --clear --port 19000 --tunnel",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
@@ -71,6 +71,7 @@
     "expo-asset": "~12.0.13",
     "expo-constants": "~18.0.13",
     "expo-file-system": "~19.0.22",
+    "expo-image-manipulator": "~14.0.8",
     "expo-image-picker": "~17.0.11",
     "expo-linking": "~8.0.12",
     "expo-localization": "~17.0.8",

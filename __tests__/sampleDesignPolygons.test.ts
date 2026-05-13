@@ -9,8 +9,8 @@ const design: Design = {
   gridSize: null,
   thumbnail: '',
   polygons: [
-    { id: 'a', label: 'a', path: 'M 0 0 L 0.5 0 L 0.5 1 L 0 1 Z' },
-    { id: 'b', label: 'b', path: 'M 0.5 0 L 1 0 L 1 1 L 0.5 1 Z' },
+    { id: 'a', path: 'M 0 0 L 0.5 0 L 0.5 1 L 0 1 Z' },
+    { id: 'b', path: 'M 0.5 0 L 1 0 L 1 1 L 0.5 1 Z' },
   ],
 };
 

@@ -24,8 +24,8 @@ const design: Design = {
   gridSize: null,
   thumbnail: '',
   polygons: [
-    { id: 'l', label: 'left', path: 'M 0 0 L 0.5 0 L 0.5 1 L 0 1 Z' },
-    { id: 'r', label: 'right', path: 'M 0.5 0 L 1 0 L 1 1 L 0.5 1 Z' },
+    { id: 'l', path: 'M 0 0 L 0.5 0 L 0.5 1 L 0 1 Z' },
+    { id: 'r', path: 'M 0.5 0 L 1 0 L 1 1 L 0.5 1 Z' },
   ],
 };
 
