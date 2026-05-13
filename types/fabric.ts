@@ -14,5 +14,7 @@ export interface FabricImage {
    * `null` は未キャリブレーション（旧データ・移行前）。実寸描画時はフォールバック処理する。
    */
   pxPerMm: number | null;
+  /** アプリバンドル済みのプリセット布地かどうか。true の場合は削除不可。 */
+  isPreset: boolean;
   createdAt: Date;
 }

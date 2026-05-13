@@ -94,6 +94,14 @@ async function migrate(db: SQLite.SQLiteDatabase): Promise<void> {
       PRAGMA user_version = 4;
     `);
   }
+
+  if (current < 5) {
+    // FabricImage にプリセットフラグを追加。既存行は 0（ユーザー登録）として扱う。
+    await db.execAsync(`
+      ALTER TABLE fabric_images ADD COLUMN is_preset INTEGER NOT NULL DEFAULT 0;
+      PRAGMA user_version = 5;
+    `);
+  }
 }
 
 // ----------------------------------------------------------------------------
@@ -106,6 +114,7 @@ interface FabricImageRow {
   category: string;
   image_path: string;
   px_per_mm: number | null;
+  is_preset: number;
   created_at: number;
 }
 
@@ -116,6 +125,7 @@ export function rowToFabric(row: FabricImageRow): FabricImage {
     category: row.category,
     imagePath: row.image_path,
     pxPerMm: row.px_per_mm,
+    isPreset: row.is_preset === 1,
     // expo-sqlite は INTEGER カラムを数値文字列で返すことがあり、
     // `new Date("1714836300000")` は Invalid Date になるため Number() で強制する。
     createdAt: new Date(Number(row.created_at)),
@@ -132,13 +142,14 @@ function normalizeFabricName(name: string): string {
 export async function insertFabric(fabric: FabricImage): Promise<void> {
   const db = await getDatabase();
   await db.runAsync(
-    'INSERT INTO fabric_images (id, name, category, image_path, px_per_mm, created_at) VALUES (?, ?, ?, ?, ?, ?);',
+    'INSERT INTO fabric_images (id, name, category, image_path, px_per_mm, is_preset, created_at) VALUES (?, ?, ?, ?, ?, ?, ?);',
     [
       fabric.id,
       normalizeFabricName(fabric.name),
       fabric.category,
       fabric.imagePath,
       fabric.pxPerMm,
+      fabric.isPreset ? 1 : 0,
       fabric.createdAt.getTime(),
     ],
   );
@@ -155,7 +166,7 @@ export async function updateFabric(fabric: FabricImage): Promise<void> {
 export async function listFabrics(): Promise<FabricImage[]> {
   const db = await getDatabase();
   const rows = await db.getAllAsync<FabricImageRow>(
-    'SELECT id, name, category, image_path, px_per_mm, created_at FROM fabric_images ORDER BY created_at DESC;',
+    'SELECT id, name, category, image_path, px_per_mm, is_preset, created_at FROM fabric_images ORDER BY created_at DESC;',
   );
   return rows.map(rowToFabric);
 }
@@ -163,7 +174,7 @@ export async function listFabrics(): Promise<FabricImage[]> {
 export async function findFabricById(id: string): Promise<FabricImage | null> {
   const db = await getDatabase();
   const row = await db.getFirstAsync<FabricImageRow>(
-    'SELECT id, name, category, image_path, px_per_mm, created_at FROM fabric_images WHERE id = ?;',
+    'SELECT id, name, category, image_path, px_per_mm, is_preset, created_at FROM fabric_images WHERE id = ?;',
     [id],
   );
   return row ? rowToFabric(row) : null;

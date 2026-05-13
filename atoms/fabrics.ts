@@ -108,6 +108,9 @@ export const removeFabricAtom = atom(
     if (!fabric) {
       return { removed: false, referenced: false };
     }
+    if (fabric.isPreset) {
+      return { removed: false, referenced: false };
+    }
     const referenced = await isFabricReferenced(id);
     if (referenced && !force) {
       return { removed: false, referenced: true };

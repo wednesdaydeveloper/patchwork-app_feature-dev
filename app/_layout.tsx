@@ -15,6 +15,7 @@ import { useI18n } from '@/hooks/useI18n';
 import { useOrientationLock } from '@/hooks/useOrientationLock';
 import { initI18n } from '@/utils/i18n';
 import { logger } from '@/utils/logger';
+import { seedInitialFabricsIfNeeded } from '@/utils/seedFabrics';
 
 // languagePreferenceAtom（atoms/settings.ts）が AsyncStorage に保存するキー
 const LANGUAGE_PREFERENCE_KEY = 'settings.languagePreference';
@@ -57,6 +58,9 @@ export default function RootLayout() {
         initI18n();
       }
       setI18nReady(true);
+      await seedInitialFabricsIfNeeded().catch((e) => {
+        logger.warn('layout', 'プリセット布地の初期登録に失敗しました', undefined, e);
+      });
     })();
   }, []);
 

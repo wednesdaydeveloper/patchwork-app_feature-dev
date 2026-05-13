@@ -172,6 +172,7 @@ export function useFabricRegister(): UseFabricRegisterResult {
           category: pendingCalibration.category,
           imagePath: localUri,
           pxPerMm,
+          isPreset: false,
           createdAt: new Date(),
         };
         await addFabric(fabric);
@@ -201,6 +202,7 @@ export function useFabricRegister(): UseFabricRegisterResult {
             category: trimmedCategory,
             imagePath: localUri,
             pxPerMm: null,
+            isPreset: false,
             createdAt: new Date(),
           };
           await addFabric(fabric);
