@@ -2,21 +2,25 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Asset } from 'expo-asset';
 import { Directory, File, Paths } from 'expo-file-system';
 
-import { PRESET_FABRICS } from '@/constants/presetFabrics';
+import { PRESET_FABRICS, PRESET_FABRICS_VERSION } from '@/constants/presetFabrics';
 import type { FabricImage } from '@/types/fabric';
-import { findFabricById, insertFabric } from '@/utils/db';
+import { findFabricById, insertFabric, updateFabric } from '@/utils/db';
 import { logger } from '@/utils/logger';
 
-const SEED_FLAG_KEY = 'preset_fabrics_seeded_v1';
+const VERSION_KEY = 'preset_fabrics_version';
 const FABRICS_SUBDIR = 'fabrics';
 
 /**
- * アプリ初回起動時にプリセット布地を DB へ登録する。
- * AsyncStorage フラグで二重実行を防ぐ。
+ * プリセット布地を DB へ登録・更新する。
+ *
+ * AsyncStorage に保存したバージョンと `PRESET_FABRICS_VERSION` が一致する場合は何もしない。
+ * 不一致（初回起動 or 定義更新後）の場合は全プリセットを再適用する：
+ * - 画像ファイルを上書きコピー
+ * - DB レコードが存在すれば名前・カテゴリ・pxPerMm を更新、なければ新規挿入
  */
 export async function seedInitialFabricsIfNeeded(): Promise<void> {
-  const seeded = await AsyncStorage.getItem(SEED_FLAG_KEY);
-  if (seeded === 'true') return;
+  const storedVersion = await AsyncStorage.getItem(VERSION_KEY);
+  if (storedVersion === PRESET_FABRICS_VERSION) return;
 
   const dir = new Directory(Paths.document, FABRICS_SUBDIR);
   if (!dir.exists) {
@@ -25,9 +29,6 @@ export async function seedInitialFabricsIfNeeded(): Promise<void> {
 
   for (const preset of PRESET_FABRICS) {
     try {
-      const existing = await findFabricById(preset.id);
-      if (existing) continue;
-
       const asset = await Asset.fromModule(preset.asset).downloadAsync();
       if (!asset.localUri) {
         logger.warn('seed', `プリセット布地のアセット URI が取得できませんでした: ${preset.id}`);
@@ -36,23 +37,32 @@ export async function seedInitialFabricsIfNeeded(): Promise<void> {
 
       const dest = new File(Paths.document, FABRICS_SUBDIR, `${preset.id}.png`);
       if (dest.exists) dest.delete();
-      const source = new File(asset.localUri);
-      source.copy(dest);
+      new File(asset.localUri).copy(dest);
 
-      const fabric: FabricImage = {
-        id: preset.id,
-        name: preset.name,
-        category: preset.category,
-        imagePath: dest.uri,
-        pxPerMm: preset.pxPerMm,
-        isPreset: true,
-        createdAt: new Date(),
-      };
-      await insertFabric(fabric);
+      const existing = await findFabricById(preset.id);
+      if (existing) {
+        await updateFabric({
+          ...existing,
+          name: preset.name,
+          category: preset.category,
+          pxPerMm: preset.pxPerMm,
+        });
+      } else {
+        const fabric: FabricImage = {
+          id: preset.id,
+          name: preset.name,
+          category: preset.category,
+          imagePath: dest.uri,
+          pxPerMm: preset.pxPerMm,
+          isPreset: true,
+          createdAt: new Date(),
+        };
+        await insertFabric(fabric);
+      }
     } catch (e) {
-      logger.error('seed', `プリセット布地の登録に失敗しました: ${preset.id}`, e);
+      logger.error('seed', `プリセット布地の更新に失敗しました: ${preset.id}`, e);
     }
   }
 
-  await AsyncStorage.setItem(SEED_FLAG_KEY, 'true');
+  await AsyncStorage.setItem(VERSION_KEY, PRESET_FABRICS_VERSION);
 }

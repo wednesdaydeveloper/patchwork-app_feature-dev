@@ -86,7 +86,7 @@ export const en: Translations = {
     updateFailed: 'Failed to update the fabric.',
     calibrationTitle: 'Calibration',
     calibrationHint: 'Pinch / drag the image so a known length in the image lines up with the ruler above.',
-    imageWidthMm: 'Image width: {{mm}} mm',
+    pxPerMm: '{{value}} px/mm',
     calibrationSaved: 'Calibration saved.',
     uncalibratedWarning: 'Fabrics marked with ⚠️ are not yet calibrated. Tap a fabric to edit and run calibration.',
     recalibrate: 'Re-run calibration',

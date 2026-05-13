@@ -90,8 +90,8 @@ export const CalibrationScreen = ({
   const savedTranslateX = useSharedValue(0);
   const savedTranslateY = useSharedValue(0);
 
-  // ライブ表示用 mm 幅（ジェスチャ中に間引いて更新）
-  const [displayMmW, setDisplayMmW] = useState(0);
+  // ライブ表示用 px/mm（ジェスチャ中に間引いて更新）
+  const [displayPxPerMm, setDisplayPxPerMm] = useState(0);
 
   // imageSize 確定時に初期 scale を反映（render 中に shared value を書かないため effect で）
   useEffect(() => {
@@ -102,7 +102,7 @@ export const CalibrationScreen = ({
     savedTranslateX.value = 0;
     savedTranslateY.value = 0;
     if (imageSize) {
-      setDisplayMmW((imageSize.width * initialScale) / DP_PER_MM);
+      setDisplayPxPerMm(initialScale > 0 ? DP_PER_MM / initialScale : 0);
     }
   }, [
     initialScale,
@@ -115,11 +115,11 @@ export const CalibrationScreen = ({
     savedTranslateY,
   ]);
   const lastUpdateRef = useRef(0);
-  const reportMmW = useCallback((value: number) => {
+  const reportPxPerMm = useCallback((value: number) => {
     const now = Date.now();
     if (now - lastUpdateRef.current >= LIVE_UPDATE_INTERVAL_MS) {
       lastUpdateRef.current = now;
-      setDisplayMmW(value);
+      setDisplayPxPerMm(value);
     }
   }, []);
 
@@ -127,9 +127,7 @@ export const CalibrationScreen = ({
     .onUpdate((e) => {
       const next = clamp(savedScale.value * e.scale, MIN_SCALE, MAX_SCALE);
       scale.value = next;
-      if (imageSize) {
-        runOnJS(reportMmW)((imageSize.width * next) / DP_PER_MM);
-      }
+      runOnJS(reportPxPerMm)(next > 0 ? DP_PER_MM / next : 0);
     })
     .onEnd(() => {
       savedScale.value = scale.value;
@@ -198,7 +196,7 @@ export const CalibrationScreen = ({
 
         <View style={[styles.footer, { paddingBottom: insets.bottom + 16 }]}>
           <Text style={styles.live}>
-            {t('fabrics.imageWidthMm', { mm: displayMmW.toFixed(1) })}
+            {t('fabrics.pxPerMm', { value: displayPxPerMm.toFixed(2) })}
           </Text>
           <View style={styles.actions}>
             <Button label={t('common.cancel')} variant="secondary" onPress={onCancel} />

@@ -84,7 +84,7 @@ export const ja = {
     updateFailed: '布地の更新に失敗しました。',
     calibrationTitle: 'キャリブレーション',
     calibrationHint: '画像をピンチ／ドラッグして、画像内の既知の長さを上の定規に合わせてください。',
-    imageWidthMm: '画像全幅: {{mm}} mm',
+    pxPerMm: '{{value}} px/mm',
     calibrationSaved: 'キャリブレーションを保存しました。',
     uncalibratedWarning: '⚠️ マーク付きの布地は未キャリブレーションです。布地をタップして編集→キャリブレーションを実施してください。',
     recalibrate: 'キャリブレーションを再実行',
