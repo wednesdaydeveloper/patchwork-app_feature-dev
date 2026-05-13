@@ -98,11 +98,9 @@ export const ExportScreen = () => {
 
   const handleExportImage = async () => {
     if (isExporting || !offscreenRef.current || !work) return;
-    logger.info('export', '[DIAG] handleExportImage: start');
     setIsExporting(true);
     try {
       if (!(await checkStorage())) return;
-      logger.info('export', '[DIAG] handleExportImage: checkStorage OK, calling captureRef');
       const tmpUri = await captureRef(offscreenRef, {
         format: imageFormat,
         quality: imageFormat === 'jpg' ? 0.9 : 1,
@@ -146,10 +144,8 @@ export const ExportScreen = () => {
 
   const runPdfExport = async (effectiveSizeMm: number) => {
     if (!work || !design) return;
-    logger.info('export', '[DIAG] runPdfExport: start');
     setIsExporting(true);
     try {
-      logger.info('export', '[DIAG] runPdfExport: calling buildPdfHtml');
       const html = await buildPdfHtml({
         work,
         design,
@@ -158,7 +154,6 @@ export const ExportScreen = () => {
         scaleNote: t('exportScreen.scaleNote'),
         effectiveSizeMm,
       });
-      logger.info('export', '[DIAG] runPdfExport: buildPdfHtml done, calling Print.printAsync');
       const paper = PAPER_SIZES[paperSize];
       await Print.printAsync({ html, width: paper.widthPt, height: paper.heightPt });
     } catch (error) {
@@ -182,13 +177,10 @@ export const ExportScreen = () => {
 
   const handleExportSvg = async () => {
     if (isExporting || !work || !design) return;
-    logger.info('export', '[DIAG] handleExportSvg: start');
     setIsExporting(true);
     try {
       if (!(await checkStorage())) return;
-      logger.info('export', '[DIAG] handleExportSvg: checkStorage OK, calling buildSvgString');
       const svg = await buildSvgString({ work, design, fabrics, standalone: true });
-      logger.info('export', '[DIAG] handleExportSvg: buildSvgString done, calling writeAsStringAsync');
       const safeName = (work.name.trim() || 'patchwork').replace(/[\\/:*?"<>|]/g, '_');
       const fileUri = `${FileSystemLegacy.cacheDirectory ?? ''}${safeName}.svg`;
       await FileSystemLegacy.writeAsStringAsync(fileUri, svg, {
