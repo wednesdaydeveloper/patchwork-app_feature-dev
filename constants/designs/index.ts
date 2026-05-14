@@ -1,16 +1,32 @@
+import aliceJson from '@/constants/designs/alice.json';
+import arabamaBautyJson from '@/constants/designs/arabama_bauty.json';
+import arabianPlaidJson from '@/constants/designs/arabian-plaid.json';
 import bascketJson from '@/constants/designs/bascket.json';
+import dogJson from '@/constants/designs/dog.json';
 import doubleXJson from '@/constants/designs/double-x.json';
 import dresdenPlateJson from '@/constants/designs/dresden-plate.json';
+import eightPetalJson from '@/constants/designs/eight_petal.json';
+import eightPointStarJson from '@/constants/designs/eight_point_star.json';
+import englishIvyJson from '@/constants/designs/english-ivy.json';
+import eveningStarJson from '@/constants/designs/evening_star.json';
 import gooseInTheLakeJson from '@/constants/designs/goose-in-the-lake.json';
+import iceCreamCornJson from '@/constants/designs/ice_cream_corn.json';
+import innerCityJson from '@/constants/designs/inner_city.json';
 import irisJson from '@/constants/designs/iris.json';
+import lPatchJson from '@/constants/designs/l_patch.json';
 import lemonStarJson from '@/constants/designs/lemon-star.json';
 import mixedTJson from '@/constants/designs/mixed-t.json';
 import morningGloryJson from '@/constants/designs/morning-glory.json';
 import ninePatchJson from '@/constants/designs/nine-patch.json';
 import ohioStarJson from '@/constants/designs/ohio-star.json';
 import pinwheelJson from '@/constants/designs/pinwheel.json';
+import seaStormJson from '@/constants/designs/sea_storm.json';
+import spoolOfThreadJson from '@/constants/designs/spool_of_thread.json';
 import sprintBautyJson from '@/constants/designs/sprint-bauty.json';
+import strawberryBasketJson from '@/constants/designs/strawberry_basket.json';
 import variableStarJson from '@/constants/designs/variable-star.json';
+import walkingTriangleJson from '@/constants/designs/walking-triangle.json';
+import windFanJson from '@/constants/designs/wind_fan.json';
 import winterDahliaJson from '@/constants/designs/winter-dahlia.json';
 import { type Design, designFileSchema } from '@/types/design';
 import { validateDesign } from '@/utils/designValidator';
@@ -31,6 +47,22 @@ const RAW_DESIGN_FILES: unknown[] = [
   ohioStarJson,
   sprintBautyJson,
   winterDahliaJson,
+  aliceJson,
+  arabamaBautyJson,
+  arabianPlaidJson,
+  dogJson,
+  eightPetalJson,
+  eightPointStarJson,
+  englishIvyJson,
+  eveningStarJson,
+  iceCreamCornJson,
+  innerCityJson,
+  lPatchJson,
+  seaStormJson,
+  spoolOfThreadJson,
+  strawberryBasketJson,
+  walkingTriangleJson,
+  windFanJson,
 ];
 
 /**

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 400 400"
+  width="400" height="400"
+>
+  <title>アラバマビューティ (Arabama Beauty)</title>
+  <rect width="400" height="400" fill="#ffffff"/>
+  <path
+    id="68c8f07d-3bfb-43c2-9be1-26423ddcf5f1"
+    d="M 0 0 A 200 200 0 0 1 200 200 A 200 200 0 0 1 0 0 Z"
+    fill="#e8c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="9c151f62-29a9-4371-8877-c71c092e7002"
+    d="M 400 0 A 200 200 0 0 1 200 200 A 200 200 0 0 1 400 0 Z"
+    fill="#f5f0e8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="1be1eeda-e41b-4918-bb77-c560a7d44f63"
+    d="M 400 400 A 200 200 0 0 1 200 200 A 200 200 0 0 1 400 400 Z"
+    fill="#c4bde8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="999ee75b-4c10-40bf-9c2d-e287f5d9fd88"
+    d="M 1.1102230246251565e-16 400 A 200 200 0 0 1 200 200 A 200 200 0 0 1 0 400 Z"
+    fill="#b8d4c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="6c7e699a-a16f-4d67-9c8f-cc79a5e1d573"
+    d="M 226.7949 100 A 188.038 188.038 0 0 1 200 0 A 207.5025 207.5025 0 0 1 173.2051 100 A 181.9409 181.9409 0 0 1 200 200 A 208.8228 208.8228 0 0 1 226.7949 100 Z"
+    fill="#e8dbb8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="cee5df1f-d486-42c3-a914-85e5d3fbab4d"
+    d="M 300 226.7949 A 188.038 188.038 0 0 1 400 200 A 207.5025 207.5025 0 0 1 300 173.2051 A 181.9409 181.9409 0 0 1 200 200 A 208.8228 208.8228 0 0 1 300 226.7949 Z"
+    fill="#d4b8c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="4840d214-80b0-431a-887f-663c73c41ddd"
+    d="M 173.2051 300 A 188.038 188.038 0 0 1 200 400 A 207.5025 207.5025 0 0 1 226.7949 300 A 181.9409 181.9409 0 0 1 200 200 A 208.8228 208.8228 0 0 1 173.2051 300 Z"
+    fill="#b8c4d4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="1410a132-6afb-454f-bd6e-9fa86f1b31c4"
+    d="M 100 173.2051 A 188.038 188.038 0 0 1 0 200 A 207.5025 207.5025 0 0 1 100 226.7949 A 181.9409 181.9409 0 0 1 200 200 A 208.8228 208.8228 0 0 1 100 173.2051 Z"
+    fill="#d4c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="88f9eb0b-e777-47a5-93c0-bd7ab92451d1"
+    d="M 0 0 L 200 0 A 212.046 212.046 0 0 1 173.2051 100 A 199.8357 199.8357 0 0 0 0 0 Z"
+    fill="#c8e0d0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="a3f2bb36-7d63-4493-8172-d8f620037c36"
+    d="M 400 0 L 400 200 A 212.046 212.046 0 0 1 300 173.2051 A 199.8357 199.8357 0 0 0 400 0 Z"
+    fill="#e0d4c8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="b9b5c9bc-fe5e-4054-8052-8af0072963bd"
+    d="M 400 400 L 200 400 A 212.046 212.046 0 0 1 226.7949 300 A 199.8357 199.8357 0 0 0 400 400 Z"
+    fill="#c8c4e0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="e3a734eb-4a00-4019-a0f3-31cff25c7889"
+    d="M 1.1102230246251565e-16 400 L 0 200 A 212.046 212.046 0 0 1 100 226.7949 A 199.8357 199.8357 0 0 0 0 400 Z"
+    fill="#d4e0c8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="41f4ea32-ffeb-4f21-8ead-cb885f7b0e2f"
+    d="M 400 0 A 200.7559 200.7559 0 0 0 226.7949 100 A 185.5666 185.5666 0 0 1 200 0 L 400 0 Z"
+    fill="#e0c8d4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="be151a63-4876-4043-a815-b62129ab687f"
+    d="M 400 400 A 200.7559 200.7559 0 0 0 300 226.7949 A 185.5666 185.5666 0 0 1 400 200 L 400 400 Z"
+    fill="#c4d4e0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="a7331c50-4228-41c3-8141-1604ad9a5b9d"
+    d="M 1.1102230246251565e-16 400 A 200.7559 200.7559 0 0 0 173.2051 300 A 185.5666 185.5666 0 0 1 200 400 L 1.1102230246251565e-16 400 Z"
+    fill="#e8e0c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="a66e61b2-69e3-44b2-96a7-e593a01ef62c"
+    d="M 0 1.7225464241988333e-16 A 200.7559 200.7559 0 0 0 100 173.2051 A 185.5666 185.5666 0 0 1 0 200 L 0 1.7225464241988333e-16 Z"
+    fill="#d0c8e8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+</svg>

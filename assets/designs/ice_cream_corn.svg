@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 400 400"
+  width="400" height="400"
+>
+  <title>アイスクリームコーン (Ice Cream Corn)</title>
+  <rect width="400" height="400" fill="#ffffff"/>
+  <path
+    id="4f46e43b-b724-4a24-af15-de0a697c4d76"
+    d="M 200 0 L 0 0 L 100 200 Z"
+    fill="#e8c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="72c2ab3a-4896-494f-9da2-724932eb131b"
+    d="M 200 0 L 400 0 L 300 200 Z"
+    fill="#f5f0e8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="be1662ef-e7a3-490a-a37c-ebe4186c243d"
+    d="M 300 200 L 200 400 L 100 200 A 141.4214 141.4214 0 0 1 300 200 Z"
+    fill="#c4bde8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="53598e8e-ba8e-46ae-a85d-9ebe60296aab"
+    d="M 0 400 A 141.4214 141.4214 0 0 1 200 400 Z"
+    fill="#b8d4c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="33b11633-b8cf-4ed6-ba49-3dcb1b028906"
+    d="M 200 400 A 141.4214 141.4214 0 0 1 400 400 Z"
+    fill="#e8dbb8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="c6bbc49f-3fc3-4e06-bf05-56682261cb6b"
+    d="M 300 200 L 400 400 L 400 162.963 C 368.749 163.8028 325.7995 171.4913 300 200 Z"
+    fill="#d4b8c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="b56864ba-15b5-4979-8c95-85dc41ababa7"
+    d="M 100 200 L 0 400 L 0 162.963 C 31.251 163.8028 74.2005 171.4913 100 200 Z"
+    fill="#b8c4d4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+</svg>

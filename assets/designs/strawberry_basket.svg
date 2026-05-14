@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 400 400"
+  width="400" height="400"
+>
+  <title>いちごのバスケット (Strawberry Basket)</title>
+  <rect width="400" height="400" fill="#ffffff"/>
+  <path
+    id="affd7d01-a6b4-4588-960a-5f12d8935f69"
+    d="M 66.6667 0 L 133.3333 0 L 133.3333 66.6667 L 66.6667 66.6667 Z"
+    fill="#e8c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="70294424-cfea-4bfd-bb53-85a5494ebb4f"
+    d="M 400 0 L 333.3333 0 L 333.3333 66.6667 Z"
+    fill="#f5f0e8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="5a035ef7-0c85-47d4-abfc-460bf65614b7"
+    d="M 333.3333 66.6667 L 266.6667 66.6667 L 266.6667 133.3333 Z"
+    fill="#c4bde8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="def7c770-2fdb-4e8b-9dc4-77d80a55cbe8"
+    d="M 266.6667 133.3333 L 200 133.3333 L 200 200 Z"
+    fill="#b8d4c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="460c4229-538d-4640-8e6e-eb79728f2e62"
+    d="M 200 200 L 133.3333 200 L 133.3333 266.6667 Z"
+    fill="#e8dbb8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="743d3a6a-cd73-4439-a4f0-4b2b27ec2f61"
+    d="M 133.3333 266.6667 L 66.6667 266.6667 L 66.6667 333.3333 Z"
+    fill="#d4b8c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="72e114bf-3f7e-4dd8-9268-3591bbd7526b"
+    d="M 66.6667 333.3333 L 0 333.3333 L 0 400 Z"
+    fill="#b8c4d4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="b054cad5-873a-4ef0-b2bc-15c21ce72b67"
+    d="M 266.6667 133.3333 L 266.6667 266.6667 L 133.3333 266.6667 Z"
+    fill="#d4c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="2682faac-4bd0-4299-a09d-82898466609f"
+    d="M 266.6667 266.6667 L 266.6667 400 L 400 266.6667 Z"
+    fill="#c8e0d0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="666dd36c-1750-4835-a76a-2d8084d605af"
+    d="M 400 0 L 266.6667 133.3333 Z"
+    fill="#e0d4c8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="2c0789c3-2fbb-45b3-b427-9a696bc5cfde"
+    d="M 0 66.6667 L 66.6667 66.6667 L 66.6667 133.3333 L 0 133.3333 Z"
+    fill="#c8c4e0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="06b886a3-d43f-4a9a-a445-f805bfee0951"
+    d="M 200 0 L 200 66.6667 L 266.6667 66.6667 L 266.6667 0 Z"
+    fill="#d4e0c8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="fe100d6c-9ede-4a39-9bfc-ee56dc99d1bc"
+    d="M 200 66.6667 L 200 133.3333 L 133.3333 133.3333 L 133.3333 66.6667 Z"
+    fill="#e0c8d4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="c14cef8a-2cc0-4dbe-bc39-c9afba7f2111"
+    d="M 133.3333 133.3333 L 66.6667 133.3333 L 66.6667 200 L 133.3333 200 Z"
+    fill="#c4d4e0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="3b6ed0f8-a65f-4af4-90c6-d4a574fbbb97"
+    d="M 66.6667 200 L 0 200 L 0 266.6667 L 66.6667 266.6667 Z"
+    fill="#e8e0c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+</svg>
