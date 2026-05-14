@@ -6,11 +6,10 @@ const { Resvg } = require('@resvg/resvg-js');
 const fs = require('fs');
 const path = require('path');
 
-// ── アプリアイコン（1024×1024, ダークネイビー + Lemon Star パッチワーク） ──
+// ── アプリアイコン（1024×1024, Lemon Star パッチワーク・フルブリード） ──
 const APP_ICON_SVG = `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
-  <rect width="1024" height="1024" fill="#1F2A30"/>
-  <g transform="translate(128 128) scale(1.92)">
+  <g transform="scale(2.56)">
     <path d="M 0 0 L 0 117.157288 L 117.157288 117.157288 L 117.157288 0" fill="#e8c4b8" stroke="#1F2A30" stroke-width="1.3" stroke-linejoin="round"/>
     <path d="M 117.157288 0 L 282.842712 0 L 200 82.842712" fill="#D49AA8" stroke="#1F2A30" stroke-width="1.3" stroke-linejoin="round"/>
     <path d="M 117.157288 0 L 200 82.842712 L 200 200 L 117.157288 117.157288" fill="#c4bde8" stroke="#1F2A30" stroke-width="1.3" stroke-linejoin="round"/>
@@ -28,7 +27,6 @@ const APP_ICON_SVG = `<?xml version="1.0" encoding="UTF-8"?>
     <path d="M 0 282.842712 L 82.842712 200 L 200 200 L 117.157288 282.842712" fill="#e8dbb8" stroke="#1F2A30" stroke-width="1.3" stroke-linejoin="round"/>
     <path d="M 117.157288 400 L 117.157288 282.842712 L 200 200 L 200 317.157288" fill="#d4b8c4" stroke="#1F2A30" stroke-width="1.3" stroke-linejoin="round"/>
   </g>
-  <rect x="128" y="128" width="768" height="768" fill="none" stroke="#1F2A30" stroke-width="12"/>
 </svg>`;
 
 // ── スプラッシュ画像（1242×2688, 温かみのあるオフホワイト背景） ──
