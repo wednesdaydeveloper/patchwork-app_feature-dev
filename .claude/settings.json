@@ -4,7 +4,23 @@
       "Bash(git reset *)",
       "Bash(npm ls *)",
       "Bash(git -C \"/c/repositories/github/patchwork-app_feature_dev\" log --oneline -5)",
-      "Bash(git -C /c/repositories/github/patchwork-app_feature_dev commit -m ' *)"
+      "Bash(git -C /c/repositories/github/patchwork-app_feature_dev commit -m ' *)",
+      "Bash(node -e \"const p = require\\('./package.json'\\); console.log\\('RN:', p.dependencies['react-native']\\); console.log\\('Expo:', p.dependencies['expo']\\); console.log\\('SDK:', p.sdkVersion || 'see app.json'\\)\")",
+      "Bash(node -e \"const p = require\\('./node_modules/react-native-view-shot/package.json'\\); console.log\\('version:', p.version\\); console.log\\('peerDeps:', JSON.stringify\\(p.peerDependencies\\)\\); console.log\\('codegen:', JSON.stringify\\(p.codegenConfig\\)\\)\")",
+      "Bash(node -e \"const src = require\\('fs'\\).readFileSync\\('./node_modules/react-native-view-shot/src/RNViewShot.js','utf8'\\); console.log\\(src.substring\\(0, 2000\\)\\)\")",
+      "Bash(node -e \"const src = require\\('fs'\\).readFileSync\\('./node_modules/react-native-view-shot/src/index.js','utf8'\\); console.log\\(src\\)\")",
+      "Bash(node -e \"try { const fs = require\\('./node_modules/expo-file-system/build/legacy/FileSystem.js'\\); console.log\\('cacheDirectory type:', typeof fs.cacheDirectory\\); console.log\\('documentDirectory type:', typeof fs.documentDirectory\\); } catch\\(e\\) { console.log\\('error:', e.message\\); }\")",
+      "Bash(node -e \"const src = require\\('fs'\\).readFileSync\\('./node_modules/expo-file-system/src/legacy/FileSystem.ts','utf8'\\); const lines = src.split\\('\\\\n'\\); const cacheIdx = lines.findIndex\\(l=>l.includes\\('cacheDirectory'\\)\\); console.log\\(lines.slice\\(Math.max\\(0,cacheIdx-2\\), cacheIdx+5\\).join\\('\\\\n'\\)\\)\")",
+      "Bash(node -e \"const src = require\\('fs'\\).readFileSync\\('./node_modules/expo-file-system/src/legacy/ExponentFileSystemShim.ts','utf8'\\); console.log\\(src\\)\")",
+      "Bash(node -e \"const src = require\\('fs'\\).readFileSync\\('./node_modules/expo-file-system/src/legacy/ExponentFileSystem.ts','utf8'\\); console.log\\(src.substring\\(0, 500\\)\\)\")",
+      "Bash(node -e \"const p = require\\('./app.json'\\); console.log\\(JSON.stringify\\(p.expo?.plugins?.filter\\(Boolean\\) || [], null, 2\\)\\); console.log\\('ios bundleId:', p.expo?.ios?.bundleIdentifier\\); console.log\\('newArchEnabled:', p.expo?.ios?.newArchEnabled\\)\")",
+      "Bash(node -e \"const p = require\\('./app.json'\\); console.log\\('ios:', JSON.stringify\\(p.expo?.ios, null, 2\\)\\); console.log\\('expo.newArchEnabled:', p.expo?.newArchEnabled\\)\")",
+      "Bash(node -e \"const p = require\\('./node_modules/react-native-svg/package.json'\\); console.log\\('version:', p.version\\); console.log\\('codegenConfig:', JSON.stringify\\(p.codegenConfig\\)\\); console.log\\('react-native key:', JSON.stringify\\(p['react-native']\\)?.substring\\(0,200\\)\\)\")",
+      "Bash(node -e \"const src = require\\('fs'\\).readFileSync\\('./node_modules/expo-file-system/src/index.ts','utf8'\\); console.log\\(src\\)\")",
+      "Bash(node -e \"const p = require\\('./node_modules/expo-image-manipulator/package.json'\\); console.log\\(p.version\\); console.log\\(Object.keys\\(p.exports || {}\\).join\\('\\\\n'\\)\\)\")",
+      "Bash(node -e \"const p = require\\('c:/repositories/github/patchwork-app_feature_dev/node_modules/expo-image-manipulator/build/index.js'\\); console.log\\(Object.keys\\(p\\).join\\('\\\\n'\\)\\)\")",
+      "Bash(node -e ' *)",
+      "Bash(node scripts/generate-design-svgs.js)"
     ]
   }
 }
