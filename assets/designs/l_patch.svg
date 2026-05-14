@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 400 400"
+  width="400" height="400"
+>
+  <title>Lパッチ (L Patch)</title>
+  <rect width="400" height="400" fill="#ffffff"/>
+  <path
+    id="0ab9f0d8-484c-4e10-83a5-b1e0e4a0d207"
+    d="M 0 0 L 133.3333 0 L 133.3333 66.6667 L 66.6667 66.6667 L 66.6667 133.3333 L 0 133.3333 Z"
+    fill="#e8c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="4044fee2-5e51-491e-abc2-6bdc1de06187"
+    d="M 400 0 L 266.6667 0 L 266.6667 66.6667 L 333.3333 66.6667 L 333.3333 133.3333 L 400 133.3333 Z"
+    fill="#f5f0e8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="3e63c094-9ba4-4b6b-861d-954b2e609368"
+    d="M 133.3333 0 L 200 0 L 200 133.3333 L 66.6667 133.3333 L 66.6667 66.6667 L 133.3333 66.6667 Z"
+    fill="#c4bde8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="42cb9275-e25c-432e-a020-0865a7046d01"
+    d="M 200 0 L 266.6667 0 L 266.6667 66.6667 L 333.3333 66.6667 L 333.3333 133.3333 L 200 133.3333 Z"
+    fill="#b8d4c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="5bf298ee-207f-444a-8676-1b4efd69d398"
+    d="M 0 133.3333 L 0 266.6667 L 133.3333 266.6667 L 133.3333 200 L 66.6667 200 L 66.6667 133.3333 Z"
+    fill="#e8dbb8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="2f26cc83-122f-4bb2-adac-49a96c1f56b4"
+    d="M 400 133.3333 L 400 266.6667 L 266.6667 266.6667 L 266.6667 200 L 333.3333 200 L 333.3333 133.3333 Z"
+    fill="#d4b8c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="ebc4ea7b-d796-4cb6-a24d-0f6824346dad"
+    d="M 66.6667 133.3333 L 200 133.3333 L 200 266.6667 L 133.3333 266.6667 L 133.3333 200 L 66.6667 200 Z"
+    fill="#b8c4d4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="7ffdc9f9-a137-4317-96fd-0582e611471d"
+    d="M 333.3333 133.3333 L 200 133.3333 L 200 266.6667 L 266.6667 266.6667 L 266.6667 200 L 333.3333 200 Z"
+    fill="#d4c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="1794e0af-6f72-4e94-a763-3235d95ddb54"
+    d="M 66.6667 400 L 0 400 L 0 266.6667 L 133.3333 266.6667 L 133.3333 333.3333 L 66.6667 333.3333 Z"
+    fill="#c8e0d0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="90a0b7a1-30de-44d0-90c3-6594e62970b7"
+    d="M 333.3333 400 L 400 400 L 400 266.6667 L 266.6667 266.6667 L 266.6667 333.3333 L 333.3333 333.3333 Z"
+    fill="#e0d4c8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="e8f060a4-68ec-430c-aaeb-2e0e0298269a"
+    d="M 133.3333 266.6667 L 200 266.6667 L 200 400 L 66.6667 400 L 66.6667 333.3333 L 133.3333 333.3333 Z"
+    fill="#c8c4e0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="de44e838-5ed6-48e1-9ab2-cdd0eaffd47a"
+    d="M 266.6667 266.6667 L 200 266.6667 L 200 400 L 333.3333 400 L 333.3333 333.3333 L 266.6667 333.3333 Z"
+    fill="#d4e0c8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+</svg>

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 400 400"
+  width="400" height="400"
+>
+  <title>アリス (Alice)</title>
+  <rect width="400" height="400" fill="#ffffff"/>
+  <path
+    id="7a4a2068-c0e0-402d-bf7a-c473181a8984"
+    d="M 100 0 L 100 100 L 0 100 A 100 100 0 0 0 100 200 A 100 100 0 0 0 200 100 A 100 100 0 0 0 100 0 Z"
+    fill="#e8c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="64a340da-2503-42a1-b275-debd86e07095"
+    d="M 400 100 L 300 100 L 300 1.5308084989341915e-17 A 100 100 0 0 0 200 100 A 100 100 0 0 0 300 200 A 100 100 0 0 0 400 100 Z"
+    fill="#f5f0e8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="4179db18-32f0-4061-941c-96e4dcfb3cbd"
+    d="M 300 400 L 300 300 L 400 300 A 100 100 0 0 0 300 200 A 100 100 0 0 0 200 300 A 100 100 0 0 0 300 400 Z"
+    fill="#c4bde8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="270ad45e-a8df-46fd-adae-3891d22ededf"
+    d="M 0 300 L 100 300 L 100 400 A 100 100 0 0 0 200 300 A 100 100 0 0 0 100 200 A 100 100 0 0 0 0 300 Z"
+    fill="#b8d4c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="4cae83d1-d89e-492b-9c88-6eff88be3e9a"
+    d="M 100 100 L 100 50 L 50 50 L 50 100 Z"
+    fill="#e8dbb8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="c19c8f59-6ba5-4cce-86f6-e90348669739"
+    d="M 300 100 L 350 100 L 350 50 L 300 50 Z"
+    fill="#d4b8c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="3cc1ff6b-29e7-45f3-809a-ceabb0203ae7"
+    d="M 300 300 L 300 350 L 350 350 L 350 300 Z"
+    fill="#b8c4d4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="43b8a5b4-7e8d-4e30-98ac-a43a1f0f8252"
+    d="M 100 300 L 50 300 L 50 350 L 100 350 Z"
+    fill="#d4c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="14125a37-f99e-45a5-a78a-acbb9a1a52b8"
+    d="M 100 0 L 100 50 L 50 50 L 50 100 L 0 100 L 0 0 Z"
+    fill="#c8e0d0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="6db5abbe-2fdd-4918-b0e0-8326bb50e1de"
+    d="M 400 100 L 350 100 L 350 50 L 300 50 L 300 1.5308084989341915e-17 L 400 0 Z"
+    fill="#e0d4c8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="940af967-8474-43fe-bfda-4cca8013e93e"
+    d="M 300 400 L 300 350 L 350 350 L 350 300 L 400 300 L 400 400 Z"
+    fill="#c8c4e0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="e6a76db9-b8c0-4863-88b6-5eceeb6d07a2"
+    d="M 0 300 L 50 300 L 50 350 L 100 350 L 100 400 L 1.1102230246251565e-16 400 Z"
+    fill="#d4e0c8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="380f109f-5613-44ba-acf4-9168c0c82175"
+    d="M 100 0 L 300 0 A 100 100 0 0 0 200 100 A 100 100 0 0 0 100 0 Z"
+    fill="#e0c8d4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="e7c7c6b7-9899-415c-b7f5-a4a59af4c7cb"
+    d="M 400 100 L 400 300 A 100 100 0 0 0 300 200 A 100 100 0 0 0 400 100 Z"
+    fill="#c4d4e0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="6d42192f-3a3e-458b-8ffb-a83dbbb5af38"
+    d="M 300 400 L 100 400 A 100 100 0 0 0 200 300 A 100 100 0 0 0 300 400 Z"
+    fill="#e8e0c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="18c66999-ca63-4cb4-8a79-c31d92043efc"
+    d="M 0 300 L 0 100 A 100 100 0 0 0 100 200 A 100 100 0 0 0 0 300 Z"
+    fill="#d0c8e8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="05652187-61a5-4a32-abf9-95f7a3e80e94"
+    d="M 200 100 A 100 100 0 0 0 300 200 A 100 100 0 0 0 200 300 A 100 100 0 0 0 100 200 A 100 100 0 0 0 200 100 Z"
+    fill="#e8c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+</svg>

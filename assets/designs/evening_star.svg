@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 400 400"
+  width="400" height="400"
+>
+  <title>イブニングスター (Evening Star)</title>
+  <rect width="400" height="400" fill="#ffffff"/>
+  <path
+    id="9c10458a-d35f-4928-a2bb-82afcb0e35db"
+    d="M 0 100 L 100 100 L 100 200 Z"
+    fill="#e8c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="b785b12b-1d52-4fed-a394-ec8a248a10ac"
+    d="M 100 200 L 0 300 L 100 300 Z"
+    fill="#f5f0e8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="b6a5463b-1115-45f0-82ea-f61071ea676e"
+    d="M 100 100 L 300 100 L 300 300 L 100 300 Z"
+    fill="#c4bde8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="0c7f630b-3511-486d-8e92-859986153cc7"
+    d="M 300 1.5308084989341915e-17 L 300 100 L 200 100 Z"
+    fill="#b8d4c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="4005557f-3c59-4aa1-abd9-6e5a9956720e"
+    d="M 400 300 L 300 300 L 300 200 Z"
+    fill="#e8dbb8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="92024dd7-8d7f-453d-a341-68d22ff3f41b"
+    d="M 100 400 L 100 300 L 200 300 Z"
+    fill="#d4b8c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="727fef30-5f20-4cf2-8523-18914cff85a7"
+    d="M 200 100 L 100 4.592425496802574e-17 L 100 100 Z"
+    fill="#b8c4d4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="9425d731-e94e-4a1d-9e10-12ae8d6f92aa"
+    d="M 300 200 L 400 100 L 300 100 Z"
+    fill="#d4c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="14108785-b095-43a5-900e-0e761a60f2d5"
+    d="M 200 300 L 300 400 L 300 300 Z"
+    fill="#c8e0d0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="d0c2c035-0745-4ec5-8086-7fae519a68e5"
+    d="M 0 0 L 100 0 L 100 100 L 0 100 Z"
+    fill="#e0d4c8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="c30bb230-3c7a-400a-9dc1-1d1e28be5706"
+    d="M 400 0 L 400 100 L 300 100 L 300 1.5308084989341915e-17 Z"
+    fill="#c8c4e0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="6182174f-d426-413a-95e5-098423ee3e4c"
+    d="M 400 400 L 300 400 L 300 300 L 400 300 Z"
+    fill="#d4e0c8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="390cc261-74c5-437f-9688-1e07e72d84bb"
+    d="M 1.1102230246251565e-16 400 L 0 300 L 100 300 L 100 400 Z"
+    fill="#e0c8d4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="0cc96292-0e3f-4faa-9a26-38f90fe2dbbb"
+    d="M 100 0 L 300 0 L 200 100 Z"
+    fill="#c4d4e0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="e08c1ccd-5b0f-4208-adea-7c7aef7c1ad2"
+    d="M 400 100 L 400 300 L 300 200 Z"
+    fill="#e8e0c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="5b09ddfa-c2bd-4176-8c18-88f6a350685e"
+    d="M 300 400 L 100 400 L 200 300 Z"
+    fill="#d0c8e8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="5c7e7b3e-a7d0-417c-b1b9-d29862b3ea07"
+    d="M 0 300 L 0 100 L 100 200 Z"
+    fill="#e8c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+</svg>

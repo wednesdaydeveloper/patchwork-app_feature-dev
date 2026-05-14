@@ -1,0 +1,528 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 400 400"
+  width="400" height="400"
+>
+  <title>シーストーム (Sea Storm)</title>
+  <rect width="400" height="400" fill="#ffffff"/>
+  <path
+    id="e0599330-80a1-4bcc-b07d-c197c6741c3f"
+    d="M 0 0 L 0 50 L 50 0 Z"
+    fill="#e8c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="e9573209-e2ce-470a-97fa-709891242cf8"
+    d="M 50 0 L 100 0 L 100 50 Z"
+    fill="#f5f0e8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="e34dd58a-8ef7-4d15-8f60-6139ffef9137"
+    d="M 100 50 L 100 100 L 50 100 Z"
+    fill="#c4bde8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="f3ee1441-5da5-4422-aad0-a3b0ce43b6aa"
+    d="M 0 50 L 50 100 L 0 100 Z"
+    fill="#b8d4c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="a8e5ca3e-e7ff-41e7-a626-e937e05c144f"
+    d="M 25 25 L 25 75 L 75 75 L 75 25 Z"
+    fill="#e8dbb8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="f4c5399e-2d8d-4091-a968-6719e049b197"
+    d="M 400 0 L 350 7.654042494670958e-18 L 400 50 Z"
+    fill="#d4b8c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="a32bd4f0-81eb-48d3-a708-598172b1731a"
+    d="M 400 400 L 400 350 L 350 400 Z"
+    fill="#b8c4d4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="8d636f03-03ab-4c79-9a6f-95e7e67e8a92"
+    d="M 1.1102230246251565e-16 400 L 50 400 L 0 350 Z"
+    fill="#d4c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="0013c88e-dde5-49d3-b667-5934b2bdde77"
+    d="M 400 50 L 400 100 L 350 100 Z"
+    fill="#c8e0d0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="e358b0ba-9e6b-4367-80e5-05c58c13be9f"
+    d="M 350 400 L 300 400 L 300 350 Z"
+    fill="#e0d4c8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="5d40e8ca-a42c-40f9-b1ef-b21829f98d79"
+    d="M 0 350 L 0 300 L 50 300 Z"
+    fill="#c8c4e0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="73fca124-6405-4947-a39c-80b10aacbb94"
+    d="M 350 100 L 300 100 L 300 50 Z"
+    fill="#d4e0c8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="4d0ea6b2-c22c-484a-9436-ba1483a0e5b2"
+    d="M 300 350 L 300 300 L 350 300 Z"
+    fill="#e0c8d4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="a22de9da-6412-4649-8ca5-e2d5dcda8212"
+    d="M 50 300 L 100 300 L 100 350 Z"
+    fill="#c4d4e0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="0a390791-5764-43bd-afcc-e85ab510597e"
+    d="M 350 7.654042494670958e-18 L 300 50 L 300 1.5308084989341915e-17 Z"
+    fill="#e8e0c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="b7e9a080-c8be-44b5-bba3-5c542790f47d"
+    d="M 400 350 L 350 300 L 400 300 Z"
+    fill="#d0c8e8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="076d3e04-8afb-45c0-a25f-c61a7b1fbf1c"
+    d="M 50 400 L 100 350 L 100 400 Z"
+    fill="#e8c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="96e43e2a-2d4c-4e78-a26b-0507cb8d098a"
+    d="M 375 25 L 325 25 L 325 75 L 375 75 Z"
+    fill="#f5f0e8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="015f6d55-f050-4514-8eb6-c2ba34c41206"
+    d="M 375 375 L 375 325 L 325 325 L 325 375 Z"
+    fill="#c4bde8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="419d1d1e-67a5-48e4-a174-290ba1db2cdd"
+    d="M 25 375 L 75 375 L 75 325 L 25 325 Z"
+    fill="#b8d4c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="52529c82-ce25-4526-9b7d-dceeb456cb7e"
+    d="M 100 50 L 200 0 L 300 50 L 200 100 Z"
+    fill="#e8dbb8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="75898eee-9abb-4a7e-b300-3ad1192ce980"
+    d="M 350 100 L 400 200 L 350 300 L 300 200 Z"
+    fill="#d4b8c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="3fc449b4-719c-4bc8-902a-f7bbbed90ad8"
+    d="M 300 350 L 200 400 L 100 350 L 200 300 Z"
+    fill="#b8c4d4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="beb59945-b843-4aa2-a2c1-676192751f28"
+    d="M 50 300 L 0 200 L 50 100 L 100 200 Z"
+    fill="#d4c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="fdd98ef2-b04c-4e69-af44-5ce0d1c79871"
+    d="M 100 100 L 200 100 L 100 200 Z"
+    fill="#c8e0d0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="0d696a8e-a15d-45f7-848f-7a72c8ae7b84"
+    d="M 300 100 L 300 200 L 200 100 Z"
+    fill="#e0d4c8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="073d0309-b713-40ed-9d29-768848631efb"
+    d="M 300 300 L 200 300 L 300 200 Z"
+    fill="#c8c4e0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="912e6445-a5df-4401-8b37-6f10b19f3e47"
+    d="M 100 300 L 100 200 L 200 300 Z"
+    fill="#d4e0c8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="0b7a0534-e138-46b7-be92-41913b175a83"
+    d="M 150 150 L 250 150 L 250 250 L 150 250 Z"
+    fill="#e0c8d4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="80c9b3f9-9562-4801-83ab-4ca57f621ff0"
+    d="M 50 0 L 25 25 L 75 25 Z"
+    fill="#c4d4e0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="f0d35834-ff68-4c49-8add-85e75de7f719"
+    d="M 75 25 L 100 50 L 75 75 Z"
+    fill="#e8e0c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="e0822455-8d94-48a8-81c1-ae251e504bec"
+    d="M 75 75 L 50 100 L 25 75 Z"
+    fill="#d0c8e8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="abeebaab-c346-44d8-8b1f-73291ce48943"
+    d="M 25 25 L 25 75 L 0 50 Z"
+    fill="#e8c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="5d5b745e-ab65-4049-8508-6b5996298050"
+    d="M 400 50 L 375 25 L 375 75 Z"
+    fill="#f5f0e8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="ade08ac6-63e3-4837-9a82-6a4e28e027e1"
+    d="M 350 400 L 375 375 L 325 375 Z"
+    fill="#c4bde8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="4dbc8e50-1b8b-43bd-bf42-067ebd63a1bf"
+    d="M 0 350 L 25 375 L 25 325 Z"
+    fill="#b8d4c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="5cf4c1fd-5c06-4fe3-aa0e-f8ece055ae30"
+    d="M 375 75 L 350 100 L 325 75 Z"
+    fill="#e8dbb8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="1a05375c-7596-4642-8edf-e80380245f22"
+    d="M 325 375 L 300 350 L 325 325 Z"
+    fill="#d4b8c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="a129e006-1a09-4a3d-a77e-e49ef06057f9"
+    d="M 25 325 L 50 300 L 75 325 Z"
+    fill="#b8c4d4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="805cc19e-e6a8-4bc3-87d8-43c42b86ffe7"
+    d="M 325 75 L 300 50 L 325 25 Z"
+    fill="#d4c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="180b6478-7df8-4747-a9d8-f5f094015f71"
+    d="M 325 325 L 350 300 L 375 325 Z"
+    fill="#c8e0d0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="5dfc4151-8cef-463b-8f4a-9e7d3df5b12e"
+    d="M 75 325 L 100 350 L 75 375 Z"
+    fill="#e0d4c8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="3df7cfaa-6062-4385-87e5-9a247ee755ba"
+    d="M 375 25 L 325 25 L 350 7.654042494670958e-18 Z"
+    fill="#c8c4e0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="ea218a7c-2287-4c4e-8dfc-921726d695e1"
+    d="M 375 375 L 375 325 L 400 350 Z"
+    fill="#d4e0c8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="e493dec7-fab5-4136-b74f-cc951a7b8f95"
+    d="M 25 375 L 75 375 L 50 400 Z"
+    fill="#e0c8d4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="bec9addf-c916-430d-9c3a-0c66f5d7d76f"
+    d="M 100 0 L 200 0 L 100 50 Z"
+    fill="#c4d4e0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="f2d92997-cf75-464c-b852-f2ac58cd077f"
+    d="M 400 100 L 400 200 L 350 100 Z"
+    fill="#e8e0c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="227ab265-d919-4238-b20b-3f9e8c895d23"
+    d="M 300 400 L 200 400 L 300 350 Z"
+    fill="#d0c8e8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="849a316b-fcfb-430c-8d20-2718cc39d798"
+    d="M 0 300 L 0 200 L 50 300 Z"
+    fill="#e8c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="5ba87dfc-22ee-482c-a838-28f39dde2ec2"
+    d="M 200 0 L 300 0 L 300 50 Z"
+    fill="#f5f0e8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="99daa520-13b7-4a4d-a663-d93c91009b72"
+    d="M 400 200 L 400 300 L 350 300 Z"
+    fill="#c4bde8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="94875dcb-2999-40d7-a9f9-ea4a2f37fa44"
+    d="M 200 400 L 100 400 L 100 350 Z"
+    fill="#b8d4c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="a66e3f36-d3f4-4168-bbc1-60922713b999"
+    d="M 0 200 L 0 100 L 50 100 Z"
+    fill="#e8dbb8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="6d609f3c-a892-40c8-9673-6c716f94edd7"
+    d="M 100 50 L 100 100 L 200 100 Z"
+    fill="#d4b8c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="b52ba4d5-3080-44e7-b4d4-f92bfbe8f736"
+    d="M 350 100 L 300 100 L 300 200 Z"
+    fill="#b8c4d4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="12106acc-f8f6-4dce-8a9e-8dce04130e5b"
+    d="M 300 350 L 300 300 L 200 300 Z"
+    fill="#d4c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="2e075e80-73cd-4f25-a9f2-c6abbb9cf83e"
+    d="M 50 300 L 100 300 L 100 200 Z"
+    fill="#c8e0d0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="fdd7f1ef-bcc1-45d1-8faa-723876ab7f85"
+    d="M 300 50 L 300 100 L 200 100 Z"
+    fill="#e0d4c8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="cdd1cf81-09c1-4c90-a3a9-9ebe6397e9c5"
+    d="M 350 300 L 300 300 L 300 200 Z"
+    fill="#c8c4e0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="6e6dd9dd-aa91-4eb3-bd6b-750392afdd00"
+    d="M 100 350 L 100 300 L 200 300 Z"
+    fill="#d4e0c8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="cd2b6ba8-7a7f-4322-97af-56f414213a6b"
+    d="M 50 100 L 100 100 L 100 200 Z"
+    fill="#e0c8d4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="87e847a5-5461-459d-9798-e3dc61ad0690"
+    d="M 200 100 L 150 150 L 250 150 Z"
+    fill="#c4d4e0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="f43dfdc4-ba6b-46aa-8df3-cb8c61d37887"
+    d="M 300 200 L 250 150 L 250 250 Z"
+    fill="#e8e0c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="b7d2ac57-6e2b-40f7-a090-d4afd38887ee"
+    d="M 200 300 L 250 250 L 150 250 Z"
+    fill="#d0c8e8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="11f7fb91-b707-41b4-9432-61e9667b9241"
+    d="M 100 200 L 150 250 L 150 150 Z"
+    fill="#e8c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+</svg>

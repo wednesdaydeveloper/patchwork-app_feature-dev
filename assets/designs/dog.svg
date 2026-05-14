@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 400 400"
+  width="400" height="400"
+>
+  <title>犬 (Dog)</title>
+  <rect width="400" height="400" fill="#ffffff"/>
+  <path
+    id="12586563-2bdb-46a3-a312-2530ae8a4267"
+    d="M 0 400 L 66.6667 400 L 66.6667 333.3333 L 0 333.3333 Z"
+    fill="#e8c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="446bf514-8278-47df-ac73-73816d125edc"
+    d="M 400 400 L 333.3333 400 L 333.3333 333.3333 L 400 333.3333 Z"
+    fill="#f5f0e8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="d81e9032-819f-43a8-85cc-a7c8af0bffe4"
+    d="M 66.6667 333.3333 L 66.6667 400 L 133.3333 400 L 133.3333 333.3333 Z"
+    fill="#c4bde8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="b5c0dd27-391f-4efa-9ed8-54b7033ffd95"
+    d="M 333.3333 333.3333 L 333.3333 400 L 266.6667 400 L 266.6667 333.3333 Z"
+    fill="#b8d4c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="ade0aa3f-c083-4eda-b359-d973076fee37"
+    d="M 133.3333 333.3333 L 133.3333 400 L 200 400 L 200 333.3333 Z"
+    fill="#e8dbb8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="d95bc44e-d3af-4a71-95ce-b7bdc3eafdaa"
+    d="M 266.6667 333.3333 L 266.6667 400 L 200 400 L 200 333.3333 Z"
+    fill="#d4b8c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="fecaf471-b221-46c6-8247-a5bbe00ca877"
+    d="M 66.6667 266.6667 L 66.6667 333.3333 L 133.3333 333.3333 L 133.3333 266.6667 Z"
+    fill="#b8c4d4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="ef30f594-bb71-424f-b604-b59657a14faa"
+    d="M 266.6667 266.6667 L 266.6667 333.3333 L 333.3333 333.3333 L 333.3333 266.6667 Z"
+    fill="#d4c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="5cca54c7-3c10-45cd-b3da-ce454d343404"
+    d="M 0 133.3333 L 133.3333 133.3333 L 133.3333 33.3333 L 0 33.3333 Z"
+    fill="#c8e0d0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="a3b1e905-9e2d-44d3-b536-1963bc9bc593"
+    d="M 133.3333 0 L 100 33.3333 L 133.3333 33.3333 Z"
+    fill="#e0d4c8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="a660e69f-f1c3-4fc9-add6-d6c29b2a2f81"
+    d="M 66.6667 133.3333 L 100 133.3333 L 66.6667 166.6667 Z"
+    fill="#c8c4e0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="b2f33b18-e388-49c2-a371-6ffcf59afba3"
+    d="M 133.3333 133.3333 L 66.6667 200 L 66.6667 266.6667 L 333.3333 266.6667 L 333.3333 133.3333 Z"
+    fill="#d4e0c8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="98ea5f51-3439-4f28-8c61-e9bfdbcbb602"
+    d="M 333.3333 133.3333 L 400 66.6667 L 400 133.3333 L 333.3333 200 Z"
+    fill="#e0c8d4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="c6c5937c-8340-4275-8679-7b9f61d639be"
+    d="M 100 133.3333 L 66.6667 166.6667 L 66.6667 200 L 133.3333 133.3333 Z"
+    fill="#c4d4e0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+</svg>

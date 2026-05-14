@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 400 400"
+  width="400" height="400"
+>
+  <title>八つの花弁 (Eight Petal)</title>
+  <rect width="400" height="400" fill="#ffffff"/>
+  <path
+    id="1ffa2693-1d8e-42d7-b552-f1df22da1483"
+    d="M 100 0 A 100 100 0 0 1 200 100 L 200 200 A 100 100 0 0 1 100 100 L 100 0 Z"
+    fill="#e8c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="21504f4a-22d7-46ce-9c0f-3f61405e3579"
+    d="M 400 100 A 100 100 0 0 1 300 200 L 200 200 A 100 100 0 0 1 300 100 L 400 100 Z"
+    fill="#f5f0e8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="e0af99f9-8e33-41e5-9e49-767e9883fb8d"
+    d="M 300 400 A 100 100 0 0 1 200 300 L 200 200 A 100 100 0 0 1 300 300 L 300 400 Z"
+    fill="#c4bde8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="4c826b1d-d28c-41b4-aab6-f0958dbd0508"
+    d="M 0 300 A 100 100 0 0 1 100 200 L 200 200 A 100 100 0 0 1 100 300 L 0 300 Z"
+    fill="#b8d4c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="4f0f14ec-0fe7-4c23-8533-9a10a1a7f476"
+    d="M 200 200 L 200 100 A 100 100 0 0 1 300 0 L 300 100 A 100 100 0 0 0 200 200 Z"
+    fill="#e8dbb8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="b9dd2e39-8ce9-4d8b-864b-9dffbba5b933"
+    d="M 200 200 L 300 200 A 100 100 0 0 1 400 300 L 300 300 A 100 100 0 0 0 200 200 Z"
+    fill="#d4b8c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="d2117bcc-335b-4d5d-a558-f93e9d15369f"
+    d="M 200 200 L 200 300 A 100 100 0 0 1 100 400 L 100 300 A 100 100 0 0 0 200 200 Z"
+    fill="#b8c4d4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="7e6eebbc-978b-4b17-9327-c944d4d72037"
+    d="M 200 200 L 100 200 A 100 100 0 0 1 0 100 L 100 100 A 100 100 0 0 0 200 200 Z"
+    fill="#d4c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="7786dfa3-524f-4901-a745-119458c3c466"
+    d="M 0 0 L 100 0 L 100 100 L 0 100 Z"
+    fill="#c8e0d0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="61efeabb-abcf-4c37-b951-8bd92cd0da17"
+    d="M 400 0 L 400 100 L 300 100 L 300 1.5308084989341915e-17 Z"
+    fill="#e0d4c8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="91d6ae40-445a-42f3-81e4-23dc188efa2e"
+    d="M 400 400 L 300 400 L 300 300 L 400 300 Z"
+    fill="#c8c4e0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="d0fae110-8dee-45a1-8a21-590411fe55a9"
+    d="M 1.1102230246251565e-16 400 L 0 300 L 100 300 L 100 400 Z"
+    fill="#d4e0c8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="ccdc6e87-d557-4c3b-b93e-bf953618201e"
+    d="M 100 0 L 300 0 A 100 100 0 0 0 200 100 A 100 100 0 0 0 100 0 Z"
+    fill="#e0c8d4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="93012464-7931-4aca-8acd-11704cafd621"
+    d="M 400 100 L 400 300 A 100 100 0 0 0 300 200 A 100 100 0 0 0 400 100 Z"
+    fill="#c4d4e0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="0294fee2-da85-47ef-95aa-16035612ff4d"
+    d="M 300 400 L 100 400 A 100 100 0 0 0 200 300 A 100 100 0 0 0 300 400 Z"
+    fill="#e8e0c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="d686b704-7430-4aa1-881b-da26ca773e9d"
+    d="M 0 300 L 0 100 A 100 100 0 0 0 100 200 A 100 100 0 0 0 0 300 Z"
+    fill="#d0c8e8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+</svg>

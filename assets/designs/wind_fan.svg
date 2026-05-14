@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 400 400"
+  width="400" height="400"
+>
+  <title>ウィンドファン (Wind Fan)</title>
+  <rect width="400" height="400" fill="#ffffff"/>
+  <path
+    id="c4c891bd-24a6-4a10-a2de-55fd14ff2a1c"
+    d="M 400 233.3333 A 143.3721 143.3721 0 0 0 200 200 A 143.3721 143.3721 0 0 1 233.3333 0 L 400 0 L 400 233.3333 Z"
+    fill="#e8c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="45f9bccf-91b6-4d3e-8307-f0fd8b907333"
+    d="M 166.6667 400 A 143.3721 143.3721 0 0 0 200 200 A 143.3721 143.3721 0 0 1 400 233.3333 L 400 400 L 166.6667 400 Z"
+    fill="#f5f0e8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="2ad7cfe2-15b7-45a2-9f11-e14423228d87"
+    d="M 0 166.6667 A 143.3721 143.3721 0 0 0 200 200 A 143.3721 143.3721 0 0 1 166.6667 400 L 1.1102230246251565e-16 400 L 0 166.6667 Z"
+    fill="#c4bde8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="f76c0716-2935-45ed-abcb-f24f7b1cafee"
+    d="M 233.3333 2.5513474982236532e-17 A 143.3721 143.3721 0 0 0 200 200 A 143.3721 143.3721 0 0 1 0 166.6667 L 0 1.7225464241988333e-16 L 233.3333 2.5513474982236532e-17 Z"
+    fill="#b8d4c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+</svg>

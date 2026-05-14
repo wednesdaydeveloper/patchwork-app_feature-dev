@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 400 400"
+  width="400" height="400"
+>
+  <title>インナーシティ (Inner City)</title>
+  <rect width="400" height="400" fill="#ffffff"/>
+  <path
+    id="cd3864dc-ce77-44f3-8066-e32b3394dbd9"
+    d="M 350 400 L 400 375 L 400 400 Z"
+    fill="#e8c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="faf68336-bb60-4532-a583-3f5edc38a3b8"
+    d="M 0 33.3333 L 0 0 L 66.6667 0 Z"
+    fill="#f5f0e8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="f32e73f7-70c6-46c5-9751-bef468e84ea6"
+    d="M 66.6667 0 L 133.3333 33.3333 L 200 0 Z"
+    fill="#c4bde8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="f9ecac15-bcc7-4b72-9b0d-1ab318fc422e"
+    d="M 200 0 L 133.3333 33.3333 L 133.3333 100 L 200 133.3333 Z"
+    fill="#b8d4c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="f53c458e-2aed-4376-ba74-368ad17e3ca7"
+    d="M 133.3333 33.3333 L 133.3333 100 L 66.6667 133.3333 L 0 100 Z"
+    fill="#e8dbb8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="4142fa88-e121-42e4-a83c-37cc0c8a891f"
+    d="M 400 33.3333 L 400 0 L 333.3333 0 Z"
+    fill="#d4b8c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="fd669163-c3e5-42aa-86ef-6907e0ce9788"
+    d="M 333.3333 0 L 266.6667 33.3333 L 200 0 Z"
+    fill="#b8c4d4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="0d4526ef-90f3-4aa4-bbae-727637097f3a"
+    d="M 200 0 L 266.6667 33.3333 L 266.6667 100 L 200 133.3333 Z"
+    fill="#d4c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="5ffaa328-7cbd-440f-9691-bbfcf85603c6"
+    d="M 266.6667 33.3333 L 266.6667 100 L 333.3333 133.3333 L 400 100 Z"
+    fill="#c8e0d0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="477e1f29-0b9b-428b-92c9-ed0febacc54f"
+    d="M 133.3333 33.3333 L 66.6667 0 L 0 33.3333 L 0 100 Z"
+    fill="#e0d4c8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="f83b4377-6395-4b73-a424-3e56bdf9f3d4"
+    d="M 266.6667 33.3333 L 333.3333 0 L 400 33.3333 L 400 100 Z"
+    fill="#c8c4e0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="9aa49063-65ab-4378-8938-ed2a90327f97"
+    d="M 66.6667 133.3333 L 133.3333 100 L 200 133.3333 L 200 200 Z"
+    fill="#d4e0c8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="c4297db8-fa2d-40cc-b03a-c3328b1bec9c"
+    d="M 333.3333 133.3333 L 266.6667 100 L 200 133.3333 L 200 200 Z"
+    fill="#e0c8d4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="be8a7d3b-82ac-4eb6-8f11-97a0a56ad828"
+    d="M 0 100 L 66.6667 133.3333 L 66.6667 200 L 0 233.3333 Z"
+    fill="#c4d4e0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="d2076dc5-ea6c-4ec0-a050-e4053bdee9f4"
+    d="M 400 100 L 333.3333 133.3333 L 333.3333 200 L 400 233.3333 Z"
+    fill="#e8e0c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="8b8eff89-1044-405b-8537-a6deeb9048d9"
+    d="M 66.6667 133.3333 L 66.6667 200 L 133.3333 233.3333 L 200 200 Z"
+    fill="#d0c8e8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="2b65c32c-cdb7-43f6-becd-9afcdde2bbe0"
+    d="M 333.3333 133.3333 L 333.3333 200 L 266.6667 233.3333 L 200 200 Z"
+    fill="#e8c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="97c7bd39-3138-4624-8bfa-4709549d2e47"
+    d="M 200 200 L 133.3333 233.3333 L 133.3333 300 L 200 333.3333 Z"
+    fill="#f5f0e8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="bafd9e76-321a-45a3-8811-4a052529464c"
+    d="M 200 200 L 266.6667 233.3333 L 266.6667 300 L 200 333.3333 Z"
+    fill="#c4bde8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="edd381a5-fad7-49de-815c-1bc8e5e1cc40"
+    d="M 133.3333 233.3333 L 66.6667 200 L 0 233.3333 L 0 300 Z"
+    fill="#b8d4c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="e00fda43-69ea-4af1-b1e5-54916d71aff7"
+    d="M 266.6667 233.3333 L 333.3333 200 L 400 233.3333 L 400 300 Z"
+    fill="#e8dbb8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="ad91c990-5ec4-4caf-9298-dd735511dd09"
+    d="M 133.3333 233.3333 L 133.3333 300 L 66.6667 333.3333 L 0 300 Z"
+    fill="#d4b8c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="67acbecb-e973-4a50-ae5c-257c0c5c2113"
+    d="M 266.6667 233.3333 L 266.6667 300 L 333.3333 333.3333 L 400 300 Z"
+    fill="#b8c4d4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="713daca9-b779-4078-bf42-662af3743f1f"
+    d="M 0 300 L 66.6667 333.3333 L 66.6667 400 L 0 400 Z"
+    fill="#d4c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="c53bd812-089b-4777-accc-16b9025212ab"
+    d="M 400 300 L 333.3333 333.3333 L 333.3333 400 L 400 400 Z"
+    fill="#c8e0d0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="2ed8681b-ff3c-4429-97e6-f5386fe4da0e"
+    d="M 66.6667 333.3333 L 200 400 L 66.6667 400 Z"
+    fill="#e0d4c8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="553b3d1b-1fa9-4060-be3d-bc798bc4c902"
+    d="M 333.3333 333.3333 L 200 400 L 333.3333 400 Z"
+    fill="#c8c4e0"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="b1b34b9d-d0e1-4528-af6f-bd693b9709e3"
+    d="M 66.6667 333.3333 L 133.3333 300 L 200 333.3333 L 200 400 Z"
+    fill="#d4e0c8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="9f8fef94-be56-42d5-a376-9784c218802d"
+    d="M 333.3333 333.3333 L 266.6667 300 L 200 333.3333 L 200 400 Z"
+    fill="#e0c8d4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+</svg>

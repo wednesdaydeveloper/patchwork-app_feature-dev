@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 400 400"
+  width="400" height="400"
+>
+  <title>イングリッシュアイビー (English Ivy)</title>
+  <rect width="400" height="400" fill="#ffffff"/>
+  <path
+    id="6f1e47f8-fafc-49a8-9fa6-077788fb99ca"
+    d="M 333.3333 0 L 400 66.6667 L 333.3333 66.6667 Z"
+    fill="#e8c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="8a302cd8-97ae-4b1d-b2a4-4e6dc19c60e3"
+    d="M 266.6667 0 L 333.3333 66.6667 L 266.6667 66.6667 Z"
+    fill="#f5f0e8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="a67c2137-2bc7-41c1-8327-de5900dbffe5"
+    d="M 333.3333 66.6667 L 400 133.3333 L 333.3333 133.3333 Z"
+    fill="#c4bde8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="c2eb2a9c-f291-4c9b-bb6b-e61cb8c4a2e7"
+    d="M 200 0 L 400 200 L 200 200 Z"
+    fill="#b8d4c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="b7559725-b05e-479a-8d49-edcb140c635e"
+    d="M 0 333.3333 L 66.6667 400 L 0 400 Z"
+    fill="#e8dbb8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="4dcaf1c5-a303-48e6-ac8b-da91f2169b65"
+    d="M 200 200 L 66.6667 66.6667 L 0 66.6667 L 66.6667 133.3333 L 0 133.3333 L 66.6667 200 L 200 200 Z"
+    fill="#d4b8c4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="4d375eb7-3756-43cb-869a-1ac318827063"
+    d="M 200 200 L 333.3333 333.3333 L 333.3333 400 L 266.6667 333.3333 L 266.6667 400 L 200 333.3333 L 200 200 Z"
+    fill="#b8c4d4"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+  <path
+    id="4b39312d-56b4-4214-a880-15fa7003e8ed"
+    d="M 200 200 L 185.1852 200 L 25.9259 359.2593 L 40.7407 374.0741 L 200 214.8148 Z"
+    fill="#d4c4b8"
+    stroke="#2c2c2c"
+    stroke-width="0.8"
+    stroke-linejoin="round"
+  />
+</svg>
