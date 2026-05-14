@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Dimensions, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { captureRef } from 'react-native-view-shot';
 import { useTranslation } from 'react-i18next';
 
@@ -50,6 +50,8 @@ export const ExportScreen = () => {
   const [paperSize, setPaperSize] = useState<PaperSize>('A4');
   const [imageFormat, setImageFormat] = useState<'png' | 'jpg'>('png');
   const offscreenRef = useRef<View>(null);
+  const imageButtonRef = useRef<View>(null);
+  const svgButtonRef = useRef<View>(null);
   const checkStorage = useStorageGuard();
   const { kind: deviceKind } = useDeviceSize();
   const isTablet = deviceKind === 'tablet';
@@ -96,6 +98,21 @@ export const ExportScreen = () => {
   const previewMax = isTablet ? screenWidth - 360 - HORIZONTAL_PADDING * 2 : 360;
   const previewSize = Math.min(screenWidth - HORIZONTAL_PADDING * 2, previewMax);
 
+  // iPad では UIActivityViewController をポップオーバーとして表示するため、
+  // anchor（起点座標）が必須。指定しないと iOS がクラッシュする。
+  const measureAnchor = (
+    ref: React.RefObject<View | null>,
+  ): Promise<{ x: number; y: number; width: number; height: number } | undefined> =>
+    new Promise((resolve) => {
+      if (!ref.current || Platform.OS !== 'ios') {
+        resolve(undefined);
+        return;
+      }
+      ref.current.measureInWindow((x, y, width, height) => {
+        resolve({ x, y, width, height });
+      });
+    });
+
   const handleExportImage = async () => {
     if (isExporting || !offscreenRef.current || !work) return;
     setIsExporting(true);
@@ -121,10 +138,12 @@ export const ExportScreen = () => {
       }
       const mimeType = imageFormat === 'jpg' ? 'image/jpeg' : 'image/png';
       const UTI = imageFormat === 'jpg' ? 'public.jpeg' : 'public.png';
+      const anchor = await measureAnchor(imageButtonRef);
       await Sharing.shareAsync(fileUri, {
         mimeType,
         dialogTitle: t('exportScreen.image'),
         UTI,
+        anchor,
       });
       // Sharing.shareAsync はキャンセル時も resolve するため成功トーストは出さない (#89)
     } catch (error) {
@@ -191,10 +210,12 @@ export const ExportScreen = () => {
         showToast({ message: t('error.exportSvgFailed'), variant: 'error' });
         return;
       }
+      const anchor = await measureAnchor(svgButtonRef);
       await Sharing.shareAsync(fileUri, {
         mimeType: 'image/svg+xml',
         dialogTitle: t('exportScreen.svg'),
         UTI: 'public.svg-image',
+        anchor,
       });
       // Sharing.shareAsync はキャンセル時も resolve するため成功トーストは出さない (#89)
     } catch (error) {
@@ -309,21 +330,25 @@ export const ExportScreen = () => {
               );
             })}
           </View>
-          <Button
-            label={t('exportScreen.image')}
-            disabled={isExporting}
-            onPress={() => {
-              void handleExportImage();
-            }}
-          />
-          <Button
-            label={t('exportScreen.svg')}
-            variant="secondary"
-            disabled={isExporting}
-            onPress={() => {
-              void handleExportSvg();
-            }}
-          />
+          <View ref={imageButtonRef}>
+            <Button
+              label={t('exportScreen.image')}
+              disabled={isExporting}
+              onPress={() => {
+                void handleExportImage();
+              }}
+            />
+          </View>
+          <View ref={svgButtonRef}>
+            <Button
+              label={t('exportScreen.svg')}
+              variant="secondary"
+              disabled={isExporting}
+              onPress={() => {
+                void handleExportSvg();
+              }}
+            />
+          </View>
         </View>
 
         <View style={styles.section}>
